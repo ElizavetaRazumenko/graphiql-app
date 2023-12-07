@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import PrivateRoute from './routes/PrivateRoute';
 import Main from './pages/Main';
+import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: '/main',
     element: <PrivateRoute page={<Main />} />,
+  },
+  {
+    path: '/*',
+    element: <NotFound />,
   },
 ]);
 
