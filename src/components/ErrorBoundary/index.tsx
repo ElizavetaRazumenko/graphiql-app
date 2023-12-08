@@ -22,7 +22,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <Typography>Oops! Something went wrong</Typography>;
+      return <Typography variant="h1">Oops! Something went wrong</Typography>;
     }
 
     return this.props.children;
