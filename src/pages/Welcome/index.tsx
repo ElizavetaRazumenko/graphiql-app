@@ -1,8 +1,13 @@
 import { Wrapper } from '../../components/Wrapper';
 import { Button, Typography } from '@mui/material';
 import { Subtitle } from '../../components/Subtitle';
+import { useState } from 'react';
 
 const Welcome = () => {
+  const [isHasError, setIsHasError] = useState<boolean>(false);
+  if (isHasError) {
+    throw Error('Application error');
+  }
   return (
     <Wrapper>
       <Typography variant="h1">
@@ -14,12 +19,7 @@ const Welcome = () => {
         all difficulties and problems. And now we are proud to present our
         project to your attention. Enjoy!
       </Subtitle>
-      <Button
-        variant="contained"
-        onClick={() => {
-          alert('Hello World!');
-        }}
-      >
+      <Button variant="contained" onClick={() => setIsHasError(true)}>
         Submit
       </Button>
     </Wrapper>

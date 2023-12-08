@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import './App.css';
 import Welcome from './pages/Welcome';
 import Login from './pages/Login';
@@ -6,27 +6,39 @@ import Registration from './pages/Registration';
 import PrivateRoute from './routes/PrivateRoute';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
+import ErrorBoundary from './components/ErrorBoundary';
+
+const ErrorBoundaryLayout = () => (
+  <ErrorBoundary>
+    <Outlet />
+  </ErrorBoundary>
+);
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Welcome />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/registration',
-    element: <Registration />,
-  },
-  {
-    path: '/main',
-    element: <PrivateRoute page={<Main />} />,
-  },
-  {
-    path: '/*',
-    element: <NotFound />,
+    element: <ErrorBoundaryLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Welcome />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/registration',
+        element: <Registration />,
+      },
+      {
+        path: '/main',
+        element: <PrivateRoute page={<Main />} />,
+      },
+      {
+        path: '/*',
+        element: <NotFound />,
+      },
+    ],
   },
 ]);
 
