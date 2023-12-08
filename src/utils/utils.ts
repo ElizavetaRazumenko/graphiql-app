@@ -42,7 +42,7 @@ export const localization = {
         "Nous sommes très heureux d'avoir participé à ce cours et avons atteint la finale. L'unité d'équipe, la persévérance et la détermination nous ont aidés à surmonter toutes les difficultés et toutes les problèmes. Et maintenant, nous sommes fiers de présenter notre projet à votre attention. Apprécier!",
       subscription_2:
         "Notre projet a été rédigé à l'aide de React + Vite et répond à tous les critères spécifiés dans les conditions pour accomplir cette tâche",
-      subscription_3: 'And now a little about the team member:',
+      subscription_3: "Et maintenant un peu sur le membre de l'équipe:",
       about_member_1: {
         info: 'info about member1',
       },
