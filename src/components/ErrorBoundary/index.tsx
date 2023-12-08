@@ -1,5 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import styles from './styles.module.css';
+import { Outlet } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 interface Props {
   children?: ReactNode;
@@ -21,11 +22,17 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <h1 className={styles.error_title}>Oops! Something went wrong</h1>;
+      return <Typography>Oops! Something went wrong</Typography>;
     }
 
     return this.props.children;
   }
 }
 
-export default ErrorBoundary;
+const LayoutWithErrorHandling = () => (
+  <ErrorBoundary>
+    <Outlet />
+  </ErrorBoundary>
+);
+
+export default LayoutWithErrorHandling;
