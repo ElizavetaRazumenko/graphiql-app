@@ -1,8 +1,10 @@
 import { Box, Stack } from '@mui/material';
 import { Link } from '../Link';
-import { FooterContainer } from '../FooterContainer';
+import { FooterContainer } from './styled/FooterContainer';
 import { Wrapper } from '../Wrapper';
 import logo from '../../assets/rs_school_logo.png';
+import { GithubLinks } from './styled/GithubLinks';
+import { CourseLink } from './styled/CourseLink';
 
 const Footer = () => {
   return (
@@ -13,15 +15,8 @@ const Footer = () => {
           justifyContent="space-between"
           alignItems="center"
           gap={8}
-          flexWrap="wrap"
         >
-          <Stack
-            direction="row"
-            gap={8}
-            flexWrap="wrap"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <GithubLinks>
             <Link
               href="https://github.com/ElizavetaRazumenko"
               title="ElizavetaRazumenko"
@@ -37,19 +32,13 @@ const Footer = () => {
             >
               Github
             </Link>
-          </Stack>
-          <Stack
-            direction="row"
-            gap={5}
-            alignItems="center"
-            flexWrap="wrap"
-            justifyContent="center"
-          >
+          </GithubLinks>
+          <CourseLink>
             <Link>2023</Link>
             <Link href="https://rs.school/react/" title="Logo">
               <Box component="img" alt="Logo" src={logo} />
             </Link>
-          </Stack>
+          </CourseLink>
         </Stack>
       </Wrapper>
     </FooterContainer>
