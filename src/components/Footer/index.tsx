@@ -18,15 +18,21 @@ const Footer = () => {
         >
           <GithubLinks>
             <FooterLink
+              target="_blank"
               href="https://github.com/ElizavetaRazumenko"
               title="ElizavetaRazumenko"
             >
               Github
             </FooterLink>
-            <FooterLink href="https://github.com/vpyadus" title="vpyadus">
+            <FooterLink
+              target="_blank"
+              href="https://github.com/vpyadus"
+              title="vpyadus"
+            >
               Github
             </FooterLink>
             <FooterLink
+              target="_blank"
               href="https://github.com/AlexeiIsProgrammer"
               title="AlexeiIsProgrammer"
             >
@@ -35,7 +41,11 @@ const Footer = () => {
           </GithubLinks>
           <CourseLinkContainer>
             <FooterLink>2023</FooterLink>
-            <FooterLink href="https://rs.school/react/" title="Logo">
+            <FooterLink
+              target="_blank"
+              href="https://rs.school/react/"
+              title="Logo"
+            >
               <Box component="img" alt="Logo" src={logo} />
             </FooterLink>
           </CourseLinkContainer>
