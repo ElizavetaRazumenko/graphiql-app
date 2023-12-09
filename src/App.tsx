@@ -5,7 +5,7 @@ import Registration from './pages/Registration';
 import PrivateRoute from './routes/PrivateRoute';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
-import LayoutWithErrorHandling from './components/ErrorBoundary';
+import LayoutWithErrorHandling from './components/LayoutWithErrorHandling';
 
 const router = createBrowserRouter([
   {
