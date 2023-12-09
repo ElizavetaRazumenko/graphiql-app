@@ -7,12 +7,10 @@ export const GithubLinks = styled(Stack)<MaterialStackProps>(
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
-    [theme.breakpoints.down('md')]: {
+    gap: '50px',
+    [theme.breakpoints.down('sm')]: {
       gap: '15px',
       flexDirection: 'column',
-    },
-    [theme.breakpoints.up('md')]: {
-      gap: '50px',
     },
   }),
 );
