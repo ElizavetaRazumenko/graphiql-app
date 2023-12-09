@@ -1,15 +1,15 @@
 import { Box, Stack } from '@mui/material';
 import { FooterLink } from './styled/FooterLink';
 import { FooterContainer } from './styled/FooterContainer';
-import { Wrapper } from '../Wrapper';
 import logo from '../../assets/rs_school_logo.png';
 import { GithubLinks } from './styled/GithubLinks';
 import { CourseLink } from './styled/CourseLink';
+import { FooterWrapper } from './styled/FooterWrapper';
 
 const Footer = () => {
   return (
-    <FooterContainer>
-      <Wrapper>
+    <FooterWrapper>
+      <FooterContainer>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -40,8 +40,8 @@ const Footer = () => {
             </FooterLink>
           </CourseLink>
         </Stack>
-      </Wrapper>
-    </FooterContainer>
+      </FooterContainer>
+    </FooterWrapper>
   );
 };
 
