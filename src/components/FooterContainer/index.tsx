@@ -4,4 +4,5 @@ import { Box } from '@mui/material';
 
 export const FooterContainer = styled(Box)<MaterialContainerProps>(() => ({
   background: '#fff',
+  padding: '20px 0',
 }));
