@@ -1,11 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer';
 import ErrorBoundary from '../ErrorBoundary';
+import { MainWrapper } from './styled';
 
 const LayoutWithErrorHandling = () => {
   return (
     <ErrorBoundary>
-      <Outlet />
+      <MainWrapper>
+        <Outlet />
+      </MainWrapper>
       <Footer />
     </ErrorBoundary>
   );

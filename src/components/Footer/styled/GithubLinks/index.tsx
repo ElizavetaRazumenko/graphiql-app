@@ -9,8 +9,11 @@ export const GithubLinks = styled(Stack)<MaterialStackProps>(
     alignItems: 'center',
     gap: '50px',
     [theme.breakpoints.down('sm')]: {
-      gap: '15px',
+      gap: '10px',
       flexDirection: 'column',
+    },
+    [theme.breakpoints.up('sm')]: {
+      gap: '30px',
     },
   }),
 );

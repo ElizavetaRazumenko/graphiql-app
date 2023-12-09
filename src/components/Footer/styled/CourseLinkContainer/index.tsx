@@ -5,13 +5,14 @@ export const CourseLinkContainer = styled(Stack)<MaterialStackProps>(
   ({ theme }: { theme: Theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap-reverse',
     justifyContent: 'center',
-    [theme.breakpoints.down('md')]: {
+    gap: '60px',
+    [theme.breakpoints.down('sm')]: {
       gap: '15px',
+      flexDirection: 'column',
     },
-    [theme.breakpoints.up('md')]: {
-      gap: '60px',
+    [theme.breakpoints.down('md')]: {
+      gap: '30px',
     },
   }),
 );

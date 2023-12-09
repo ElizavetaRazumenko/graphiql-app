@@ -1,8 +1,13 @@
-import { ContainerProps as MaterialContainerProps } from '@mui/material/Container';
+import { StackProps as MaterialStackProps } from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 
-export const FooterContainer = styled(Box)<MaterialContainerProps>(() => ({
+export const FooterContainer = styled(Stack)<MaterialStackProps>(() => ({
   maxWidth: '1140px',
   margin: '0 auto',
+  padding: '0px 30px',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  gap: '8px',
 }));
