@@ -1,7 +1,7 @@
 import Stack, { StackProps as MaterialStackProps } from '@mui/material/Stack';
 import { Theme, styled } from '@mui/material/styles';
 
-export const CourseLink = styled(Stack)<MaterialStackProps>(
+export const CourseLinkContainer = styled(Stack)<MaterialStackProps>(
   ({ theme }: { theme: Theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
