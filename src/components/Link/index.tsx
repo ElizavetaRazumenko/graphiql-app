@@ -6,4 +6,5 @@ import { styled } from '@mui/material/styles';
 export const Link = styled(MaterialLink)<MaterialLinkProps>(() => ({
   textDecoration: 'none',
   color: '#000',
+  fontSize: '16px',
 }));
