@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import Footer from '../Footer';
 
 interface Props {
   children?: ReactNode;
@@ -32,6 +33,7 @@ class ErrorBoundary extends Component<Props, State> {
 const LayoutWithErrorHandling = () => (
   <ErrorBoundary>
     <Outlet />
+    <Footer />
   </ErrorBoundary>
 );
 
