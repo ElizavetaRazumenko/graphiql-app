@@ -9,7 +9,7 @@ export const FooterLink = styled(MaterialLink)<MaterialLinkProps>(
     color: '#000',
     fontSize: '24px',
     transition: '.2s ease',
-    ':hover': {
+    '&:hover': {
       textShadow: '0px 0px 2px #000',
     },
     [theme.breakpoints.down('sm')]: {
@@ -19,7 +19,7 @@ export const FooterLink = styled(MaterialLink)<MaterialLinkProps>(
       fontSize: '16px',
     },
     [theme.breakpoints.up('md')]: {
-      fontSize: '24px',
+      fontSize: '22px',
     },
   }),
 );
