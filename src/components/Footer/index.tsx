@@ -15,7 +15,13 @@ const Footer = () => {
           gap={8}
           flexWrap="wrap"
         >
-          <Stack direction="row" spacing={8}>
+          <Stack
+            direction="row"
+            gap={8}
+            flexWrap="wrap"
+            justifyContent="center"
+            alignItems="center"
+          >
             <Link
               href="https://github.com/ElizavetaRazumenko"
               title="ElizavetaRazumenko"
@@ -32,7 +38,13 @@ const Footer = () => {
               Github
             </Link>
           </Stack>
-          <Stack direction="row" spacing={5} alignItems="center">
+          <Stack
+            direction="row"
+            gap={5}
+            alignItems="center"
+            flexWrap="wrap"
+            justifyContent="center"
+          >
             <Link>2023</Link>
             <Link href="https://rs.school/react/" title="Logo">
               <Box component="img" alt="Logo" src={logo} />
