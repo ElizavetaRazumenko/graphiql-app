@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
 import { FooterLink } from './styled/FooterLink';
 import { FooterContainer } from './styled/FooterContainer';
-import logo from '../../assets/rs_school_logo.png';
 import { GithubLinks } from './styled/GithubLinks';
 import { CourseLinkContainer } from './styled/CourseLinkContainer';
 import { FooterWrapper } from './styled/FooterWrapper';
+import logo from '../../assets/rs_school_logo.png';
+import { Logo } from './styled/Logo';
 
 const Footer = () => {
   return (
@@ -40,7 +40,7 @@ const Footer = () => {
             href="https://rs.school/react/"
             title="Logo"
           >
-            <Box component="img" alt="Logo" src={logo} />
+            <Logo src={logo} />
           </FooterLink>
         </CourseLinkContainer>
       </FooterContainer>
