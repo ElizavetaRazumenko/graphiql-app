@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { Link } from '../Link';
+import { FooterLink } from './styled/FooterLink';
 import { FooterContainer } from './styled/FooterContainer';
 import { Wrapper } from '../Wrapper';
 import logo from '../../assets/rs_school_logo.png';
@@ -17,27 +17,27 @@ const Footer = () => {
           gap={8}
         >
           <GithubLinks>
-            <Link
+            <FooterLink
               href="https://github.com/ElizavetaRazumenko"
               title="ElizavetaRazumenko"
             >
               Github
-            </Link>
-            <Link href="https://github.com/vpyadus" title="vpyadus">
+            </FooterLink>
+            <FooterLink href="https://github.com/vpyadus" title="vpyadus">
               Github
-            </Link>
-            <Link
+            </FooterLink>
+            <FooterLink
               href="https://github.com/AlexeiIsProgrammer"
               title="AlexeiIsProgrammer"
             >
               Github
-            </Link>
+            </FooterLink>
           </GithubLinks>
           <CourseLink>
-            <Link>2023</Link>
-            <Link href="https://rs.school/react/" title="Logo">
+            <FooterLink>2023</FooterLink>
+            <FooterLink href="https://rs.school/react/" title="Logo">
               <Box component="img" alt="Logo" src={logo} />
-            </Link>
+            </FooterLink>
           </CourseLink>
         </Stack>
       </Wrapper>

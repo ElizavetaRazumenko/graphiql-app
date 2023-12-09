@@ -3,7 +3,7 @@ import MaterialLink, {
 } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
-export const Link = styled(MaterialLink)<MaterialLinkProps>(() => ({
+export const FooterLink = styled(MaterialLink)<MaterialLinkProps>(() => ({
   textDecoration: 'none',
   color: '#000',
   fontSize: '16px',
