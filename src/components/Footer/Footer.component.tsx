@@ -6,7 +6,7 @@ import { FooterWrapper } from './styled';
 import logo from '../../assets/rs_school_logo.png';
 import { Logo } from './styled';
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <FooterWrapper>
       <FooterContainer>
@@ -47,5 +47,3 @@ const Footer = () => {
     </FooterWrapper>
   );
 };
-
-export default Footer;
