@@ -11,6 +11,10 @@ export let appTheme: Theme = createTheme({
       contrastText: '#000',
       light: '#878080',
     },
+    secondary: {
+      main: '#191c3f',
+      contrastText: '#fff',
+    },
   },
   typography: {
     fontFamily: 'Michroma',
@@ -40,6 +44,7 @@ appTheme = createTheme(appTheme, {
         body: {
           backgroundImage: `url(${bgPicture})`,
           backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
           color: appTheme.palette.primary.main,
         },
         '#root': { height: '100vh', display: 'flex', flexDirection: 'column' },

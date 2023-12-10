@@ -7,12 +7,15 @@ export const Wrapper = styled(MaterialContainer)<MaterialContainerProps>(
   ({ theme }: { theme: Theme }) => ({
     [theme.breakpoints.down('sm')]: {
       maxWidth: '200px',
+      padding: '32px 0',
     },
     [theme.breakpoints.up('sm')]: {
       maxWidth: '400px',
+      padding: '20px 0',
     },
     [theme.breakpoints.up('md')]: {
       maxWidth: '700px',
+      padding: '20px 0',
     },
   }),
 );
