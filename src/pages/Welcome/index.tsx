@@ -19,6 +19,36 @@ const Welcome = () => {
         all difficulties and problems. And now we are proud to present our
         project to your attention. Enjoy!
       </Subtitle>
+      <Subtitle variant="subtitle1">
+        We are very pleased to have taken part in this course and reached the
+        finals. Team unity, perseverance and determination helped us overcome
+        all difficulties and problems. And now we are proud to present our
+        project to your attention. Enjoy!
+      </Subtitle>
+      <Subtitle variant="subtitle1">
+        We are very pleased to have taken part in this course and reached the
+        finals. Team unity, perseverance and determination helped us overcome
+        all difficulties and problems. And now we are proud to present our
+        project to your attention. Enjoy!
+      </Subtitle>
+      <Subtitle variant="subtitle1">
+        We are very pleased to have taken part in this course and reached the
+        finals. Team unity, perseverance and determination helped us overcome
+        all difficulties and problems. And now we are proud to present our
+        project to your attention. Enjoy!
+      </Subtitle>
+      <Subtitle variant="subtitle1">
+        We are very pleased to have taken part in this course and reached the
+        finals. Team unity, perseverance and determination helped us overcome
+        all difficulties and problems. And now we are proud to present our
+        project to your attention. Enjoy!
+      </Subtitle>
+      <Subtitle variant="subtitle1">
+        We are very pleased to have taken part in this course and reached the
+        finals. Team unity, perseverance and determination helped us overcome
+        all difficulties and problems. And now we are proud to present our
+        project to your attention. Enjoy!
+      </Subtitle>
       <Button variant="contained" onClick={() => setIsHasError(true)}>
         Submit
       </Button>
