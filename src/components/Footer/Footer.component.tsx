@@ -1,10 +1,10 @@
-import { FooterLink } from './styled/FooterLink';
-import { FooterContainer } from './styled/FooterContainer';
-import { GithubLinks } from './styled/GithubLinks';
-import { CourseLinkContainer } from './styled/CourseLinkContainer';
-import { FooterWrapper } from './styled/FooterWrapper';
+import { FooterLink } from './styled';
+import { FooterContainer } from './styled';
+import { GithubLinks } from './styled';
+import { CourseLinkContainer } from './styled';
+import { FooterWrapper } from './styled';
 import logo from '../../assets/rs_school_logo.png';
-import { Logo } from './styled/Logo';
+import { Logo } from './styled';
 
 const Footer = () => {
   return (
