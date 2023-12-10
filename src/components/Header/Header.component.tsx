@@ -3,7 +3,6 @@ import {
   Container,
   Link,
   Toolbar,
-  Typography,
   useScrollTrigger,
 } from '@mui/material';
 import { ReactElement, cloneElement, useState } from 'react';
@@ -17,6 +16,7 @@ const SlideScroll = ({ children }: { children: ReactElement }) => {
     elevation: trigger ? 4 : 0,
     color: trigger ? 'secondary' : 'primary',
     sx: {
+      borderBottom: 'solid white 2px',
       padding: trigger ? '6px' : '16px',
       transition: '0.6s',
     },
@@ -32,7 +32,9 @@ const Header = () => {
         <AppBar>
           <Container>
             <ToolbarContainer>
-              <Typography>GraphiQL</Typography>
+              <Link href="/" color="inherit">
+                GraphiQL
+              </Link>
               <HeaderLinksContainer>
                 {!isAuthenticated && (
                   <>

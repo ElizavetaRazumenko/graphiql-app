@@ -16,14 +16,6 @@ export const ToolbarContainer = styled(MaterialToolbar)<MaterialToolbarProps>(
     '&.MuiToolbar-root': {
       minHeight: '32px',
     },
-    '& p': {
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '14px',
-      },
-      [theme.breakpoints.up('sm')]: {
-        fontSize: '18px',
-      },
-    },
     '& a': {
       textDecoration: 'none',
       '&:hover': {
