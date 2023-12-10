@@ -42,7 +42,7 @@ appTheme = createTheme(appTheme, {
           backgroundSize: 'cover',
           color: appTheme.palette.primary.main,
         },
-        '#root': { height: '100vh' },
+        '#root': { height: '100vh', display: 'flex', flexDirection: 'column' },
       },
     },
   },

@@ -1,5 +1,4 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Outlet } from 'react-router-dom';
 import { Typography } from '@mui/material';
 
 interface Props {
@@ -10,7 +9,7 @@ interface State {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+export default class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
   };
@@ -28,11 +27,3 @@ class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-
-const LayoutWithErrorHandling = () => (
-  <ErrorBoundary>
-    <Outlet />
-  </ErrorBoundary>
-);
-
-export default LayoutWithErrorHandling;
