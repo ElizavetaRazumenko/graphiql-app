@@ -33,6 +33,7 @@ export const Footer = () => {
             Github
           </FooterLink>
         </GithubLinks>
+
         <CourseLinkContainer>
           <FooterLink>2023</FooterLink>
           <FooterLink
