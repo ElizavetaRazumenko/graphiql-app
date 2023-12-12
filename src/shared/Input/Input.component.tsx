@@ -1,9 +1,9 @@
 import { InputAdornment, TextField } from '@mui/material';
 import { TextFieldProps as MaterialTextFieldProps } from '@mui/material/TextField';
 import { styled, Theme } from '@mui/material/styles';
-import convertImg from '../../assets/convert.png';
-import passImg from '../../assets/pass.png';
-import userImg from '../../assets/user.png';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import LockIcon from '@mui/icons-material/Lock';
 
 export type InputIconType = 'email' | 'pass' | 'user';
 
@@ -11,22 +11,20 @@ export type InputProps = MaterialTextFieldProps & {
   icon: InputIconType;
 };
 
-const iconToImgMap: Record<InputIconType, string> = {
-  email: convertImg,
-  pass: passImg,
-  user: userImg,
+const iconToSVGMap: Record<InputIconType, JSX.Element> = {
+  email: <EmailIcon color="primary" fontSize="large" />,
+  pass: <LockIcon color="primary" fontSize="large" />,
+  user: <PersonIcon color="primary" fontSize="large" />,
 };
 
 const TextFieldWithAdornment = (props: InputProps) => {
   const { icon } = props;
-  const iconImg: string = iconToImgMap[icon];
+  const svgIcon: JSX.Element = iconToSVGMap[icon];
   return (
     <TextField
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start">
-            <img src={iconImg} />
-          </InputAdornment>
+          <InputAdornment position="start">{svgIcon}</InputAdornment>
         ),
       }}
       {...props}
@@ -49,9 +47,6 @@ const Input = styled(TextFieldWithAdornment)<InputProps>(
     },
     '& .MuiInputBase-root': {
       color: theme.palette.primary.main,
-    },
-    '& img': {
-      objectFit: 'contain',
     },
     '& .MuiInputAdornment-root': {
       justifyContent: 'center',
