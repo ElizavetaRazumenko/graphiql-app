@@ -38,10 +38,10 @@ const Header = () => {
               <HeaderLinksContainer>
                 {!isAuthenticated && (
                   <>
-                    <Link href="#" color="inherit">
+                    <Link href="/auth?action=login" color="inherit">
                       Login
                     </Link>
-                    <Link href="#" color="inherit">
+                    <Link href="/auth?action=register" color="inherit">
                       Register
                     </Link>
                   </>

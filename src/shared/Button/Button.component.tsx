@@ -3,15 +3,17 @@ import MaterialButton, {
 } from '@mui/material/Button';
 import { styled, Theme } from '@mui/material/styles';
 
-export const Button = styled(MaterialButton)<MaterialButtonProps>(
+const Button = styled(MaterialButton)<MaterialButtonProps>(
   ({ theme }: { theme: Theme }) => ({
     borderRadius: '20px',
     textTransform: 'none',
+    paddingLeft: '46px',
+    paddingRight: '46px',
     [theme.breakpoints.down('sm')]: {
       fontSize: '16px',
     },
     [theme.breakpoints.up('sm')]: {
-      fontSize: '24px',
+      fontSize: '20px',
     },
     '&:hover': {
       color: theme.palette.primary.light,
@@ -19,3 +21,5 @@ export const Button = styled(MaterialButton)<MaterialButtonProps>(
     },
   }),
 );
+
+export default Button;
