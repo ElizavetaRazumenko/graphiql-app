@@ -1,16 +1,14 @@
+import { styled, Theme } from '@mui/material/styles';
+
 import MaterialTypography, {
   TypographyProps as MaterialTypographyProps,
 } from '@mui/material/Typography';
-import { Theme, styled } from '@mui/material/styles';
 
-export const WelcomeSubtitle = styled(
+export const PersonDescription = styled(
   MaterialTypography,
 )<MaterialTypographyProps>(({ theme }: { theme: Theme }) => ({
-  padding: '0',
-  textAlign: 'left',
-  marginBottom: '35px',
   fontSize: '24px',
   [theme.breakpoints.down('sm')]: {
-    fontSize: '14px',
+    fontSize: '12px',
   },
 }));
