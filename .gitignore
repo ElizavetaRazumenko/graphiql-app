@@ -27,3 +27,6 @@ coverage
 
 # Local Netlify folder
 .netlify
+
+# DOTENV file
+.env
