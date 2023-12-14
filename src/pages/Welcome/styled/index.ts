@@ -5,3 +5,5 @@ export * from './PersonCard';
 export * from './PersonImage';
 export * from './PersonDescription';
 export * from './PersonImageWrapper';
+export * from './PersonInfo';
+export * from './PersonName';
