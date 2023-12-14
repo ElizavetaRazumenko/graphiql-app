@@ -9,7 +9,7 @@ export const WelcomeSubtitle = styled(
   padding: '0',
   textAlign: 'left',
   marginBottom: '35px',
-  fontSize: '24px',
+  fontSize: '22px',
   [theme.breakpoints.down('sm')]: {
     fontSize: '14px',
   },

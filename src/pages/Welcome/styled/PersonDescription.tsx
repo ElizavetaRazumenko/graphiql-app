@@ -7,7 +7,8 @@ import MaterialTypography, {
 export const PersonDescription = styled(
   MaterialTypography,
 )<MaterialTypographyProps>(({ theme }: { theme: Theme }) => ({
-  fontSize: '24px',
+  fontSize: '20px',
+  lineHeight: '1.7em',
   [theme.breakpoints.down('sm')]: {
     fontSize: '12px',
   },
