@@ -3,16 +3,19 @@ import ErrorBoundary from '../ErrorBoundary';
 import { Footer } from '../Footer';
 import { MainWrapper } from './styled';
 import { Header } from '../Header';
+import LocalizationContext from '../../context/localizationContext';
 
 const LayoutWithErrorHandling = () => {
   return (
-    <ErrorBoundary>
-      <Header />
-      <MainWrapper>
-        <Outlet />
-      </MainWrapper>
-      <Footer />
-    </ErrorBoundary>
+    <LocalizationContext>
+      <ErrorBoundary>
+        <Header />
+        <MainWrapper>
+          <Outlet />
+        </MainWrapper>
+        <Footer />
+      </ErrorBoundary>
+    </LocalizationContext>
   );
 };
 

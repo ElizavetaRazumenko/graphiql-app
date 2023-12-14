@@ -1,4 +1,6 @@
-export const localization = {
+import { Localization } from './types';
+
+const localization: Localization = {
   english: {
     welcomePage: {
       title: 'Welcome to our final project GraphiQL',
@@ -8,13 +10,16 @@ export const localization = {
         'Our project was written using React + Vite and meets all the criteria specified in the conditions for completing this task',
       subscription_3: 'And now a little about the team member:',
       about_member_1: {
-        info: 'info about member1',
+        name: 'Name',
+        description: 'info about member1',
       },
       about_member_2: {
-        info: 'info about member2',
+        name: 'Name',
+        description: 'info about member2',
       },
       about_member_3: {
-        info: 'info about member3',
+        name: 'Name',
+        description: 'info about member3',
       },
     },
     loginPage: {
@@ -22,7 +27,7 @@ export const localization = {
       password: 'Password',
       submit: 'Submit',
     },
-    RegistrationPage: {
+    registrationPage: {
       name: 'Name',
       email: 'Email',
       password: 'Password',
@@ -34,6 +39,9 @@ export const localization = {
       variables: 'Variables',
       headers: 'Headers',
     },
+    errorBoundary: {
+      errorMessage: 'Oops! Something went wrong',
+    },
   },
   french: {
     welcomePage: {
@@ -44,13 +52,16 @@ export const localization = {
         "Notre projet a été rédigé à l'aide de React + Vite et répond à tous les critères spécifiés dans les conditions pour accomplir cette tâche",
       subscription_3: "Et maintenant un peu sur le membre de l'équipe:",
       about_member_1: {
-        info: 'info about member1',
+        name: 'Name',
+        description: 'info about member1',
       },
       about_member_2: {
-        info: 'info about member2',
+        name: 'Name',
+        description: 'info about member2',
       },
       about_member_3: {
-        info: 'info about member3',
+        name: 'Name',
+        description: 'info about member3',
       },
     },
     loginPage: {
@@ -58,7 +69,7 @@ export const localization = {
       password: 'Password',
       submit: 'Soumettre',
     },
-    RegistrationPage: {
+    registrationPage: {
       name: 'Nome',
       email: 'Email',
       password: 'Password',
@@ -70,5 +81,10 @@ export const localization = {
       variables: 'Variables',
       headers: 'Headers',
     },
+    errorBoundary: {
+      errorMessage: "Oops! Quelque chose s'est mal passé",
+    },
   },
 };
+
+export default localization;
