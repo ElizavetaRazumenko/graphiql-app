@@ -7,7 +7,6 @@ export const WelcomeSubtitle = styled(
   MaterialTypography,
 )<MaterialTypographyProps>(({ theme }: { theme: Theme }) => ({
   padding: '0',
-  textAlign: 'left',
   marginBottom: '35px',
   fontSize: '22px',
   [theme.breakpoints.down('sm')]: {
