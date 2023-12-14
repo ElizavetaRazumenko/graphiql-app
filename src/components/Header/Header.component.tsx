@@ -4,10 +4,13 @@ import {
   Link,
   Toolbar,
   useScrollTrigger,
+  ButtonGroup,
+  Box,
 } from '@mui/material';
 import { ReactElement, cloneElement, useState } from 'react';
 import { ToolbarContainer } from './styled/ToolbarContainer';
 import { HeaderLinksContainer } from './styled/HeaderLinksContainer';
+import { ButtonLanguage } from './styled/Button';
 
 const SlideScroll = ({ children }: { children: ReactElement }) => {
   const trigger = useScrollTrigger();
@@ -32,9 +35,20 @@ const Header = () => {
         <AppBar>
           <Container>
             <ToolbarContainer>
-              <Link href="/" color="inherit">
-                GraphiQL
-              </Link>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Link href="/" color="inherit">
+                  GraphiQL
+                </Link>
+                <ButtonGroup
+                  variant="contained"
+                  aria-label="outlined primary button group"
+                  sx={{ marginLeft: '25px' }}
+                >
+                  <ButtonLanguage>EN</ButtonLanguage>
+                  <ButtonLanguage>FR</ButtonLanguage>
+                </ButtonGroup>
+              </Box>
+
               <HeaderLinksContainer>
                 {!isAuthenticated && (
                   <>
