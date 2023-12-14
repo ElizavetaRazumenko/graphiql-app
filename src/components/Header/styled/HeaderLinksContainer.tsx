@@ -8,7 +8,6 @@ export const HeaderLinksContainer = styled(Stack)<MaterialStackProps>(
     [theme.breakpoints.down('sm')]: {
       gap: '5px',
       flexDirection: 'column',
-      alignItems: 'flex-end',
     },
   }),
 );

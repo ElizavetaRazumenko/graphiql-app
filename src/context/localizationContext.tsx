@@ -3,7 +3,7 @@ import { AvailableLanguages, PageTextData } from './types';
 import localization from './localization';
 
 interface LocalizationContextType {
-  currentLanguage: string;
+  currentLanguage: AvailableLanguages;
   currentLocalization: PageTextData;
   setCurrentLanguage: React.Dispatch<React.SetStateAction<AvailableLanguages>>;
 }
