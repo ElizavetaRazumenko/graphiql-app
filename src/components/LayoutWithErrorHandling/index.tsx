@@ -7,15 +7,15 @@ import LocalizationContext from '../../context/localizationContext';
 
 const LayoutWithErrorHandling = () => {
   return (
-    <ErrorBoundary>
-      <LocalizationContext>
+    <LocalizationContext>
+      <ErrorBoundary>
         <Header />
         <MainWrapper>
           <Outlet />
         </MainWrapper>
         <Footer />
-      </LocalizationContext>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </LocalizationContext>
   );
 };
 

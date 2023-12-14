@@ -1,4 +1,4 @@
-Ticket link: [link] 
-Description: text 
-Screenshot:[link] 
+Ticket link: [link]
+Description: text
+Screenshot:[link]
 Affected area: -

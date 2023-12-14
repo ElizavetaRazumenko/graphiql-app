@@ -1,9 +1,8 @@
-export interface Localization {
-  english: PageTextData;
-  french: PageTextData;
-}
+export type AvailableLanguages = 'english' | 'french';
 
-interface PageTextData {
+export type Localization = Record<AvailableLanguages, PageTextData>;
+
+export interface PageTextData {
   welcomePage: {
     title: string;
     subscription_1: string;
@@ -16,6 +15,7 @@ interface PageTextData {
   loginPage: LoginPageData;
   registrationPage: RegistrationPage;
   mainPage: MainPage;
+  errorBoundary: ErrorBoundary;
 }
 
 interface MemberInfo {
@@ -38,4 +38,8 @@ interface MainPage {
   queryEditor: string;
   variables: string;
   headers: string;
+}
+
+interface ErrorBoundary {
+  errorMessage: string;
 }

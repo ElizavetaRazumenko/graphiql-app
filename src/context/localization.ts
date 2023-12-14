@@ -1,4 +1,4 @@
-import { Localization } from '../context/types';
+import { Localization } from './types';
 
 const localization: Localization = {
   english: {
@@ -39,6 +39,9 @@ const localization: Localization = {
       variables: 'Variables',
       headers: 'Headers',
     },
+    errorBoundary: {
+      errorMessage: 'Oops! Something went wrong',
+    },
   },
   french: {
     welcomePage: {
@@ -77,6 +80,9 @@ const localization: Localization = {
       queryEditor: 'Query editor',
       variables: 'Variables',
       headers: 'Headers',
+    },
+    errorBoundary: {
+      errorMessage: "Oops! Quelque chose s'est mal passé",
     },
   },
 };
