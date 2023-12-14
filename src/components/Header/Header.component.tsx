@@ -4,13 +4,13 @@ import {
   Link,
   Toolbar,
   useScrollTrigger,
-  ButtonGroup,
-  Box,
+  Stack,
 } from '@mui/material';
-import { ReactElement, cloneElement, useState } from 'react';
+import { ReactElement, cloneElement, useState, useContext } from 'react';
 import { ToolbarContainer } from './styled/ToolbarContainer';
 import { HeaderLinksContainer } from './styled/HeaderLinksContainer';
 import { ButtonLanguage } from './styled/Button';
+import { localizationContext } from '../../context/localizationContext';
 
 const SlideScroll = ({ children }: { children: ReactElement }) => {
   const trigger = useScrollTrigger();
@@ -29,34 +29,59 @@ const SlideScroll = ({ children }: { children: ReactElement }) => {
 const Header = () => {
   const [isAuthenticated] = useState<boolean>(false);
 
+  const {
+    currentLanguage,
+    setCurrentLanguage,
+    currentLocalization: {
+      header: { login, registration },
+    },
+  } = useContext(localizationContext);
+
+  const switchToEnglish = () => {
+    setCurrentLanguage('english');
+  };
+
+  const switchToFrench = () => {
+    setCurrentLanguage('french');
+  };
+
   return (
     <>
       <SlideScroll>
         <AppBar>
           <Container>
             <ToolbarContainer>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Stack direction="row" spacing={3}>
                 <Link href="/" color="inherit">
                   GraphiQL
                 </Link>
-                <ButtonGroup
-                  variant="contained"
-                  aria-label="outlined primary button group"
-                  sx={{ marginLeft: '25px' }}
-                >
-                  <ButtonLanguage>EN</ButtonLanguage>
-                  <ButtonLanguage>FR</ButtonLanguage>
-                </ButtonGroup>
-              </Box>
+
+                <Stack direction="row" spacing={1}>
+                  <ButtonLanguage
+                    value="en"
+                    selected={currentLanguage === 'english'}
+                    onChange={switchToEnglish}
+                  >
+                    EN
+                  </ButtonLanguage>
+                  <ButtonLanguage
+                    value="fr"
+                    selected={currentLanguage === 'french'}
+                    onChange={switchToFrench}
+                  >
+                    FR
+                  </ButtonLanguage>
+                </Stack>
+              </Stack>
 
               <HeaderLinksContainer>
                 {!isAuthenticated && (
                   <>
                     <Link href="/auth?action=login" color="inherit">
-                      Login
+                      {login}
                     </Link>
                     <Link href="/auth?action=register" color="inherit">
-                      Register
+                      {registration}
                     </Link>
                   </>
                 )}

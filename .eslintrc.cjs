@@ -12,10 +12,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', '@typescript-eslint', 'react', 'react-hooks'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react-refresh/only-export-components': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'comma-dangle': ['error', 'only-multiline'],
     'react/prop-types': 'off',
