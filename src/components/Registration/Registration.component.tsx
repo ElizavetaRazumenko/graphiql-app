@@ -2,29 +2,44 @@ import { Box, Stack } from '@mui/material';
 import { AuthDialog } from '../../shared/AuthDialog';
 import { Input } from '../../shared/Input';
 import { Button } from '../../shared/Button';
+import { useContext } from 'react';
+import { localizationContext } from '../../context/localizationContext';
 
 const Registration = () => {
+  const {
+    currentLocalization: {
+      registrationPage: {
+        title,
+        name,
+        email,
+        password,
+        passwordRepeat,
+        submit,
+      },
+    },
+  } = useContext(localizationContext);
+
   return (
-    <AuthDialog title="Registration">
+    <AuthDialog title={title}>
       <Box component="form">
         <Stack gap={4}>
-          <Input placeholder="Name" variant="outlined" icon="user" />
-          <Input placeholder="Email" variant="outlined" icon="email" />
+          <Input placeholder={name} variant="outlined" icon="user" />
+          <Input placeholder={email} variant="outlined" icon="email" />
           <Input
-            placeholder="Password"
+            placeholder={password}
             variant="outlined"
             type="password"
             icon="pass"
           />
           <Input
-            placeholder="Repeat"
+            placeholder={passwordRepeat}
             variant="outlined"
             type="password"
             icon="pass"
           />
         </Stack>
         <Button type="submit" variant="contained">
-          Submit
+          {submit}
         </Button>
       </Box>
     </AuthDialog>

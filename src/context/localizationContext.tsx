@@ -2,7 +2,8 @@ import { ReactNode, createContext, useState } from 'react';
 import { AvailableLanguages, PageTextData } from './types';
 import localization from './localization';
 
-interface LocalizationContextType {
+export interface LocalizationContextType {
+  currentLanguage: AvailableLanguages;
   currentLocalization: PageTextData;
   setCurrentLanguage: React.Dispatch<React.SetStateAction<AvailableLanguages>>;
 }
@@ -11,13 +12,16 @@ interface LocalizationContextProps {
   children: ReactNode;
 }
 
-const localizationContext = createContext<LocalizationContextType | null>(null);
+export const localizationContext = createContext<LocalizationContextType>(
+  {} as LocalizationContextType,
+);
 
 const LocalizationContext = (props: LocalizationContextProps) => {
   const [currentLanguage, setCurrentLanguage] =
     useState<AvailableLanguages>('english');
 
   const value = {
+    currentLanguage,
     currentLocalization: localization[currentLanguage],
     setCurrentLanguage,
   };
