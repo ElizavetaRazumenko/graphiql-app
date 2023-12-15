@@ -1,5 +1,9 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Typography } from '@mui/material';
+import {
+  LocalizationContextType,
+  localizationContext,
+} from '../../context/localizationContext';
 
 interface Props {
   children?: ReactNode;
@@ -10,6 +14,8 @@ interface State {
 }
 
 export default class ErrorBoundary extends Component<Props, State> {
+  static contextType = localizationContext;
+
   public state: State = {
     hasError: false,
   };
@@ -21,7 +27,12 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <Typography variant="h1">Oops! Something went wrong</Typography>;
+      const {
+        currentLocalization: {
+          errorBoundary: { errorMessage },
+        },
+      } = this.context as LocalizationContextType;
+      return <Typography variant="h1">{errorMessage}</Typography>;
     }
 
     return this.props.children;

@@ -2,7 +2,7 @@ import { ReactNode, createContext, useState } from 'react';
 import { AvailableLanguages, PageTextData } from './types';
 import localization from './localization';
 
-interface LocalizationContextType {
+export interface LocalizationContextType {
   currentLanguage: AvailableLanguages;
   currentLocalization: PageTextData;
   setCurrentLanguage: React.Dispatch<React.SetStateAction<AvailableLanguages>>;
