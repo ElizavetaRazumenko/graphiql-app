@@ -72,7 +72,6 @@ const Registration = () => {
           <Stack gap={3}>
             <Input
               placeholder={name}
-              variant="outlined"
               icon="user"
               {...register('name')}
               error={Boolean(errors.name)}
@@ -80,7 +79,6 @@ const Registration = () => {
             />
             <Input
               placeholder={email}
-              variant="outlined"
               icon="email"
               {...register('email')}
               error={Boolean(errors.email)}
@@ -88,7 +86,6 @@ const Registration = () => {
             />
             <Input
               placeholder={password}
-              variant="outlined"
               type="password"
               icon="pass"
               {...register('password')}
@@ -97,7 +94,6 @@ const Registration = () => {
             />
             <Input
               placeholder={passwordRepeat}
-              variant="outlined"
               type="password"
               icon="pass"
               {...register('passwordConfirm')}
@@ -110,7 +106,7 @@ const Registration = () => {
           </Button>
         </Box>
       </AuthDialog>
-      <Spinner open={Boolean(loading)} />
+      <Spinner open={loading} />
       <ErrorSnackbar open={Boolean(error)} message={error?.message} />
     </>
   );
