@@ -16,7 +16,7 @@ export const AuthDialogBody = styled(Box)<MaterialBoxProps>(
     '& form': {
       display: 'flex',
       flexDirection: 'column',
-      gap: '36px',
+      gap: '24px',
       alignItems: 'center',
     },
   }),

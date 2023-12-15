@@ -2,9 +2,9 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   getAuth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signOut,
   Auth,
+  UserCredential,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -12,6 +12,8 @@ import {
   addDoc,
   Firestore,
 } from 'firebase/firestore';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { AuthActionHook } from 'react-firebase-hooks/auth/dist/auth/types';
 
 const firebaseConfig: Record<string, string> = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -37,24 +39,35 @@ export const logInWithEmailAndPassword = async (
   }
 };
 
-export const registerWithEmailAndPassword = async (
+export type RegisterCallback = (
   name: string,
   email: string,
   password: string,
-) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
-      name,
-      authProvider: 'local',
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
+) => Promise<void>;
+
+export const useRegisterWithEmailAndPassword =
+  (): AuthActionHook<RegisterCallback> => {
+    const [createUserWithEmailAndPassword, user, loading, error] =
+      useCreateUserWithEmailAndPassword(auth);
+    const registerWithEmailAndPassword: RegisterCallback = async (
+      name: string,
+      email: string,
+      password: string,
+    ): Promise<void> => {
+      const res: UserCredential | undefined =
+        await createUserWithEmailAndPassword(email, password);
+      if (res) {
+        await addDoc(collection(db, 'users'), {
+          uid: res.user.uid,
+          name,
+          authProvider: 'local',
+          email,
+        });
+      }
+    };
+
+    return [registerWithEmailAndPassword, user, loading, error];
+  };
 
 export const logout = () => {
   signOut(auth);

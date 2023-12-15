@@ -4,8 +4,33 @@ import { Input } from '../../shared/Input';
 import { Button } from '../../shared/Button';
 import { useContext } from 'react';
 import { localizationContext } from '../../context/localizationContext';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useRegisterWithEmailAndPassword } from '../../firebase';
+import registrationFormSchema from '../../validationSchemas/registrationFormSchema';
+import { useNavigate } from 'react-router-dom';
+import { Spinner } from '../../shared/Spinner';
+import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
+import { useEffect } from 'react';
+
+export type RegisterFormFields = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
 
 const Registration = () => {
+  const [registerWithEmailAndPassword, user, loading, error] =
+    useRegisterWithEmailAndPassword();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/main');
+    }
+  }, [user]);
+
   const {
     currentLocalization: {
       registrationPage: {
@@ -19,30 +44,75 @@ const Registration = () => {
     },
   } = useContext(localizationContext);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<RegisterFormFields>({
+    mode: 'onChange',
+    resolver: yupResolver(registrationFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    },
+  });
+
+  const onSubmitHandler: SubmitHandler<RegisterFormFields> = (
+    data: RegisterFormFields,
+  ): void => {
+    registerWithEmailAndPassword(data.name, data.email, data.password);
+  };
+
   return (
-    <AuthDialog title={title}>
-      <Box component="form">
-        <Stack gap={4}>
-          <Input placeholder={name} variant="outlined" icon="user" />
-          <Input placeholder={email} variant="outlined" icon="email" />
-          <Input
-            placeholder={password}
-            variant="outlined"
-            type="password"
-            icon="pass"
-          />
-          <Input
-            placeholder={passwordRepeat}
-            variant="outlined"
-            type="password"
-            icon="pass"
-          />
-        </Stack>
-        <Button type="submit" variant="contained">
-          {submit}
-        </Button>
-      </Box>
-    </AuthDialog>
+    <>
+      <AuthDialog title={title}>
+        <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
+          <Stack gap={3}>
+            <Input
+              placeholder={name}
+              variant="outlined"
+              icon="user"
+              {...register('name')}
+              error={Boolean(errors.name)}
+              helperText={errors.name?.message ?? '\u00A0'}
+            />
+            <Input
+              placeholder={email}
+              variant="outlined"
+              icon="email"
+              {...register('email')}
+              error={Boolean(errors.email)}
+              helperText={errors.email?.message ?? '\u00A0'}
+            />
+            <Input
+              placeholder={password}
+              variant="outlined"
+              type="password"
+              icon="pass"
+              {...register('password')}
+              error={Boolean(errors.password)}
+              helperText={errors.password?.message ?? '\u00A0'}
+            />
+            <Input
+              placeholder={passwordRepeat}
+              variant="outlined"
+              type="password"
+              icon="pass"
+              {...register('passwordConfirm')}
+              error={Boolean(errors.passwordConfirm)}
+              helperText={errors.passwordConfirm?.message ?? '\u00A0'}
+            />
+          </Stack>
+          <Button type="submit" variant="contained" disabled={!isValid}>
+            {submit}
+          </Button>
+        </Box>
+      </AuthDialog>
+      <Spinner open={Boolean(loading)} />
+      <ErrorSnackbar open={Boolean(error)} message={error?.message} />
+    </>
   );
 };
 
