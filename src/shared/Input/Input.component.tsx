@@ -24,6 +24,7 @@ const TextFieldWithAdornment = forwardRef(
     const svgIcon: JSX.Element = iconToSVGMap[icon];
     return (
       <TextField
+        variant="outlined"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">{svgIcon}</InputAdornment>

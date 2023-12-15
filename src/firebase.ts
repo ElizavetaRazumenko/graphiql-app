@@ -1,11 +1,5 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  Auth,
-  UserCredential,
-} from 'firebase/auth';
+import { getAuth, signOut, Auth, UserCredential } from 'firebase/auth';
 import {
   getFirestore,
   collection,
@@ -27,17 +21,6 @@ const firebaseConfig: Record<string, string> = {
 const app: FirebaseApp = initializeApp(firebaseConfig);
 export const auth: Auth = getAuth(app);
 export const db: Firestore = getFirestore(app);
-
-export const logInWithEmailAndPassword = async (
-  email: string,
-  password: string,
-) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 export type RegisterCallback = (
   name: string,
