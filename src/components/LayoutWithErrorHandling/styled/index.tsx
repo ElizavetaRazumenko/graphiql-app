@@ -3,5 +3,5 @@ import { styled } from '@mui/material/styles';
 
 export const MainWrapper = styled(MaterialBox)<MaterialBoxProps>(() => ({
   flex: '1 0 auto',
-  margin: '0 auto',
+  // margin: '0 auto',
 }));

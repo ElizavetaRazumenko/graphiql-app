@@ -5,7 +5,7 @@ import { styled, Theme } from '@mui/material/styles';
 
 export const WelcomeWrapper = styled(MaterialContainer)<MaterialContainerProps>(
   ({ theme }: { theme: Theme }) => ({
-    margin: '150px 0 320px',
+    margin: '150px auto 320px auto',
     [theme.breakpoints.down('sm')]: {
       margin: '50px 0',
       padding: '0 20px',

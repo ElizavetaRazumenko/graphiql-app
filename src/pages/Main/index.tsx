@@ -22,7 +22,9 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import DoneIcon from '@mui/icons-material/Done';
 
 import { Input } from '../../shared/Input';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { DocumentationModal } from '../../components/DocumentationModal';
+import { QueryResultContainer } from './styled/QueryResultContainer';
 
 const Main = () => {
   const [isSubWindowOpened, setSubWindowOpened] = useState<{
@@ -32,7 +34,26 @@ const Main = () => {
     content: 'variables',
     opened: true,
   });
+
   const [isInputOpened, setIsInputOpened] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const queryEditRef = useRef<HTMLTextAreaElement>(null);
+  const queryJSONRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (queryEditRef.current) {
+      queryEditRef.current.style.height =
+        queryEditRef.current.scrollHeight + 'px';
+    }
+  }, [queryEditRef.current]);
+
+  useEffect(() => {
+    if (queryJSONRef.current) {
+      queryJSONRef.current.style.height =
+        queryJSONRef.current.scrollHeight + 'px';
+    }
+  }, [queryJSONRef.current]);
 
   const changeOpenedWindowHandle = (content?: 'variables' | 'headers') => {
     if (!content || content === isSubWindowOpened.content) {
@@ -77,15 +98,19 @@ const Main = () => {
             {isInputOpened && (
               <ChangeEndpointInput direction="row" spacing="5px">
                 <Input placeholder="Your endpoint" icon="endpoint" />
-                <DoneIcon sx={{ fontSize: 40, cursor: 'pointer' }} />
+                <DoneIcon
+                  onClick={() => setIsInputOpened(!isInputOpened)}
+                  sx={{ fontSize: 40, cursor: 'pointer' }}
+                />
               </ChangeEndpointInput>
             )}
             <PlayButton>
               <PlayCircleIcon sx={{ fontSize: 40 }} />
             </PlayButton>
           </QueryButtons>
-          <QueryEdit>
-            {`# Welcome to GraphiQL
+          <QueryEdit
+            ref={queryEditRef}
+            defaultValue={`# Welcome to GraphiQL
 #
 # GraphiQL is an in-browser tool for writing, validating, and
 # testing GraphQL queries.
@@ -116,10 +141,10 @@ const Main = () => {
 #    Auto Complete:  Ctrl-Space (or just start typing)
 #
 `}
-          </QueryEdit>
+          ></QueryEdit>
         </QueryEditor>
         <QueryFooter>
-          <QueryFooterLinks direction="row" spacing="100px">
+          <QueryFooterLinks direction="row">
             <Link onClick={() => changeOpenedWindowHandle('variables')}>
               Variables
             </Link>
@@ -129,26 +154,14 @@ const Main = () => {
 
             <ArrowButton
               onClick={() => changeOpenedWindowHandle()}
-              opened={isSubWindowOpened.opened}
+              opened={isSubWindowOpened.opened.toString()}
             >
               <KeyboardArrowDownRoundedIcon sx={{ fontSize: 40 }} />
             </ArrowButton>
           </QueryFooterLinks>
-          <QueryFooterWindow opened={isSubWindowOpened.opened}>
-            {`
-{
-  "locations": [
-    {
-      "line": 32,
-      "column": 1
-    }
-  ]
-}`}
-          </QueryFooterWindow>
-        </QueryFooter>
-      </QueryEditorWrapper>
-      <QueryResult>
-        {`{
+          <QueryFooterWindow
+            opened={isSubWindowOpened.opened.toString()}
+            defaultValue={`{
   "errors": [
     {
       "message": "Syntax Error: Unexpected <EOF>",
@@ -161,10 +174,37 @@ const Main = () => {
     }
   ]
 }`}
-      </QueryResult>
-      <DocumentationButton>
-        <MenuRoundedIcon />
-      </DocumentationButton>
+          ></QueryFooterWindow>
+        </QueryFooter>
+      </QueryEditorWrapper>
+      {!isModalOpen && (
+        <QueryResultContainer>
+          <QueryResult
+            readOnly
+            ref={queryJSONRef}
+            defaultValue={`{
+  "errors": [
+    {
+      "message": "Syntax Error: Unexpected <EOF>",
+      "locations": [
+        {
+          "line": 32,
+          "column": 1
+        }
+      ]
+    }
+  ]
+}`}
+          ></QueryResult>
+          <DocumentationButton onClick={() => setIsModalOpen(true)}>
+            <MenuRoundedIcon />
+          </DocumentationButton>
+        </QueryResultContainer>
+      )}
+      <DocumentationModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </MainWrapper>
   );
 };

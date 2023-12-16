@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 export const DocumentationButton = styled(MaterialButton)<MaterialButtonProps>(
   () => ({
     position: 'absolute',
+    top: '0px',
     right: '0px',
 
     padding: '5px',
