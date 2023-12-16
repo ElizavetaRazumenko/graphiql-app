@@ -25,7 +25,39 @@ import { Input } from '../../shared/Input';
 import { useState } from 'react';
 
 const Main = () => {
+  const [isSubWindowOpened, setSubWindowOpened] = useState<{
+    opened: boolean;
+    content: 'variables' | 'headers';
+  }>({
+    content: 'variables',
+    opened: true,
+  });
   const [isInputOpened, setIsInputOpened] = useState(false);
+
+  const changeOpenedWindowHandle = (content?: 'variables' | 'headers') => {
+    if (!content || content === isSubWindowOpened.content) {
+      setSubWindowOpened({
+        ...isSubWindowOpened,
+        opened: !isSubWindowOpened.opened,
+      });
+    } else {
+      if (isSubWindowOpened.opened) {
+        if (content !== isSubWindowOpened.content) {
+          setSubWindowOpened({
+            ...isSubWindowOpened,
+            content,
+          });
+        }
+      } else {
+        if (content !== isSubWindowOpened.content) {
+          setSubWindowOpened({
+            opened: !isSubWindowOpened.opened,
+            content,
+          });
+        }
+      }
+    }
+  };
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
@@ -88,14 +120,31 @@ const Main = () => {
         </QueryEditor>
         <QueryFooter>
           <QueryFooterLinks direction="row" spacing="100px">
-            <Link>Variables</Link>
-            <Link>Headers</Link>
+            <Link onClick={() => changeOpenedWindowHandle('variables')}>
+              Variables
+            </Link>
+            <Link onClick={() => changeOpenedWindowHandle('headers')}>
+              Headers
+            </Link>
 
-            <ArrowButton>
+            <ArrowButton
+              onClick={() => changeOpenedWindowHandle()}
+              opened={isSubWindowOpened.opened}
+            >
               <KeyboardArrowDownRoundedIcon sx={{ fontSize: 40 }} />
             </ArrowButton>
           </QueryFooterLinks>
-          <QueryFooterWindow></QueryFooterWindow>
+          <QueryFooterWindow opened={isSubWindowOpened.opened}>
+            {`
+{
+  "locations": [
+    {
+      "line": 32,
+      "column": 1
+    }
+  ]
+}`}
+          </QueryFooterWindow>
         </QueryFooter>
       </QueryEditorWrapper>
       <QueryResult>
