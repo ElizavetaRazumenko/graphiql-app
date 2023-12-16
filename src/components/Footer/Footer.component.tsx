@@ -1,48 +1,44 @@
-import { FooterLink } from './styled';
 import { FooterContainer } from './styled';
 import { GithubLinks } from './styled';
 import { CourseLinkContainer } from './styled';
 import { FooterWrapper } from './styled';
 import logo from '../../assets/rs_school_logo.png';
 import { Logo } from './styled';
+import { Link } from '../../shared/Link';
 
 export const Footer = () => {
   return (
     <FooterWrapper>
       <FooterContainer>
         <GithubLinks>
-          <FooterLink
+          <Link
             target="_blank"
             href="https://github.com/ElizavetaRazumenko"
             title="ElizavetaRazumenko"
           >
             Github
-          </FooterLink>
-          <FooterLink
+          </Link>
+          <Link
             target="_blank"
             href="https://github.com/vpyadus"
             title="vpyadus"
           >
             Github
-          </FooterLink>
-          <FooterLink
+          </Link>
+          <Link
             target="_blank"
             href="https://github.com/AlexeiIsProgrammer"
             title="AlexeiIsProgrammer"
           >
             Github
-          </FooterLink>
+          </Link>
         </GithubLinks>
 
         <CourseLinkContainer>
-          <FooterLink>2023</FooterLink>
-          <FooterLink
-            target="_blank"
-            href="https://rs.school/react/"
-            title="Logo"
-          >
+          <Link>2023</Link>
+          <Link target="_blank" href="https://rs.school/react/" title="Logo">
             <Logo src={logo} />
-          </FooterLink>
+          </Link>
         </CourseLinkContainer>
       </FooterContainer>
     </FooterWrapper>
