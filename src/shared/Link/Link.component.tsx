@@ -9,6 +9,7 @@ const Link = styled(MaterialLink)<MaterialLinkProps>(
     color: '#000',
     fontSize: '24px',
     transition: '.2s ease',
+    cursor: 'pointer',
     '&:hover': {
       textShadow: '0px 0px 2px #000',
     },

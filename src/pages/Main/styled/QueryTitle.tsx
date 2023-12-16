@@ -4,5 +4,11 @@ import MaterialTypography, {
 import { styled } from '@mui/material/styles';
 
 export const QueryTitle = styled(MaterialTypography)<MaterialTypographyProps>(
-  () => ({}),
+  () => ({
+    textAlign: 'center',
+    fontSize: '32px',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    marginBottom: '10px',
+  }),
 );
