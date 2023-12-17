@@ -9,7 +9,7 @@ export const QueryFooterLinks = styled(MaterialStack)<MaterialStackProps>(
     gap: '100px',
 
     '& > .MuiLink-root': {
-      color: '#fff',
+      color: theme.palette.primary.main,
     },
 
     [theme.breakpoints.down('md')]: {

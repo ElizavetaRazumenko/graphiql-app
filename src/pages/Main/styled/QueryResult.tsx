@@ -7,7 +7,7 @@ export const QueryResult = styled('textarea')(
 
     border: 'none',
     background: 'none',
-    color: '#fff',
+    color: theme.palette.primary.main,
     fontSize: '20px',
     outline: 'none',
     resize: 'none',
