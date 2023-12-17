@@ -12,7 +12,7 @@ export const QueryFooterWindow = styled('textarea')<{ opened: string }>(
     background: 'none',
     border: 'none',
     outline: 'none',
-    color: '#fff',
+    color: theme.palette.primary.main,
     width: '100%',
 
     [theme.breakpoints.down('md')]: {
