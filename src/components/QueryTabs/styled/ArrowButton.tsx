@@ -18,11 +18,15 @@ export const ArrowButton = styled(ButtonWithIcon)<
   borderRadius: '50px',
   minWidth: '0px',
   top: '0px',
+  transition: '.3s ease',
 
   [theme.breakpoints.down('md')]: {
+    transition: 'none',
     top: '-40px',
     padding: '0px',
-    left: '50%',
-    transform: 'translateX(-50%)',
+    left: `${opened === 'true' ? '0' : '50%'}`,
+    transform: `rotate(${opened === 'true' ? '0deg' : '180deg'}) translateX(${
+      opened === 'true' ? '0%' : '50%'
+    })`,
   },
 }));

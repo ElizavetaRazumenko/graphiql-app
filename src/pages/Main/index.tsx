@@ -1,6 +1,4 @@
-import { Link } from '../../shared/Link';
 import {
-  ArrowButton,
   ChangeEndpoint,
   ChangeEndpointContainer,
   DocumentationButton,
@@ -10,9 +8,6 @@ import {
   QueryEdit,
   QueryEditor,
   QueryEditorWrapper,
-  QueryFooter,
-  QueryFooterLinks,
-  QueryFooterWindow,
   QueryResult,
   QueryTitle,
 } from './styled';
@@ -22,16 +17,9 @@ import { useEffect, useRef, useState } from 'react';
 import { DocumentationModal } from '../../components/DocumentationModal';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
+import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 
 const Main = () => {
-  const [isOpened, setIsOpened] = useState<{
-    opened: boolean;
-    content: 'variables' | 'headers';
-  }>({
-    content: 'variables',
-    opened: true,
-  });
-
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -55,31 +43,6 @@ const Main = () => {
       resultRef.current.style.height = resultRef.current.scrollHeight + 'px';
     }
   }, [resultRef.current]);
-
-  const changeOpenedWindowHandle = (content?: 'variables' | 'headers') => {
-    if (!content || content === isOpened.content) {
-      setIsOpened({
-        ...isOpened,
-        opened: !isOpened.opened,
-      });
-    } else {
-      if (isOpened.opened) {
-        if (content !== isOpened.content) {
-          setIsOpened({
-            ...isOpened,
-            content,
-          });
-        }
-      } else {
-        if (content !== isOpened.content) {
-          setIsOpened({
-            opened: !isOpened.opened,
-            content,
-          });
-        }
-      }
-    }
-  };
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
@@ -144,28 +107,7 @@ const Main = () => {
 `}
           ></QueryEdit>
         </QueryEditor>
-        <QueryFooter>
-          <QueryFooterLinks direction="row">
-            <Link onClick={() => changeOpenedWindowHandle('variables')}>
-              Variables
-            </Link>
-            <Link onClick={() => changeOpenedWindowHandle('headers')}>
-              Headers
-            </Link>
-
-            <ArrowButton
-              onClick={() => changeOpenedWindowHandle()}
-              opened={isOpened.opened.toString()}
-            />
-          </QueryFooterLinks>
-          <QueryFooterWindow
-            opened={isOpened.opened.toString()}
-            defaultValue={`{
-  "header1": "header",
-  "header2": "corsign"
-}`}
-          ></QueryFooterWindow>
-        </QueryFooter>
+        <QueryTabs />
       </QueryEditorWrapper>
       <QueryResultContainer>
         <QueryResult

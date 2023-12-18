@@ -1,12 +1,10 @@
 import { Theme, styled } from '@mui/material/styles';
 
-export const QueryFooterWindow = styled('textarea')<{ opened: string }>(
-  ({ opened, theme }: { theme: Theme; opened: string }) => ({
+export const QueryFooterWindow = styled('textarea')(
+  ({ theme }: { theme: Theme }) => ({
     margin: '20px 0',
     padding: '0px',
     overflow: 'auto',
-    transition: '.3s ease',
-    height: opened === 'true' ? '200px' : '0px',
     fontSize: '20px',
     resize: 'none',
     background: 'none',
@@ -14,6 +12,7 @@ export const QueryFooterWindow = styled('textarea')<{ opened: string }>(
     outline: 'none',
     color: theme.palette.primary.main,
     width: '100%',
+    height: '100%',
 
     [theme.breakpoints.down('md')]: {
       fontSize: '15px',
