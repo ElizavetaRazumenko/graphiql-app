@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 export const QueryTitle = styled(MaterialTypography)<MaterialTypographyProps>(
   () => ({
     textAlign: 'center',
-    fontSize: '32px',
+    fontSize: '24px',
     fontStyle: 'normal',
     fontWeight: '400',
     marginBottom: '10px',

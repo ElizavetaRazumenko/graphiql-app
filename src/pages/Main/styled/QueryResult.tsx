@@ -16,7 +16,7 @@ export const QueryResult = styled('textarea')(
       fontSize: '15px',
     },
     [theme.breakpoints.down('sm')]: {
-      fontSize: '10px',
+      fontSize: '14px',
     },
   }),
 );

@@ -2,7 +2,7 @@ import { Link } from '../../shared/Link';
 import {
   ArrowButton,
   ChangeEndpoint,
-  ChangeEndpointInput,
+  ChangeEndpointContainer,
   DocumentationButton,
   MainWrapper,
   PlayButton,
@@ -16,18 +16,15 @@ import {
   QueryResult,
   QueryTitle,
 } from './styled';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import DoneIcon from '@mui/icons-material/Done';
 
 import { Input } from '../../shared/Input';
 import { useEffect, useRef, useState } from 'react';
 import { DocumentationModal } from '../../components/DocumentationModal';
 import { QueryResultContainer } from './styled/QueryResultContainer';
+import { Endpoint } from './styled/Endpoint';
 
 const Main = () => {
-  const [isSubWindowOpened, setSubWindowOpened] = useState<{
+  const [isOpened, setIsOpened] = useState<{
     opened: boolean;
     content: 'variables' | 'headers';
   }>({
@@ -38,8 +35,13 @@ const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [endpointValue, setEndpointValue] = useState('');
+
+  const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEndpointValue(e.target.value);
+
   const queryEditRef = useRef<HTMLTextAreaElement>(null);
-  const queryJSONRef = useRef<HTMLTextAreaElement>(null);
+  const resultRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (queryEditRef.current) {
@@ -49,30 +51,29 @@ const Main = () => {
   }, [queryEditRef.current]);
 
   useEffect(() => {
-    if (queryJSONRef.current) {
-      queryJSONRef.current.style.height =
-        queryJSONRef.current.scrollHeight + 'px';
+    if (resultRef.current) {
+      resultRef.current.style.height = resultRef.current.scrollHeight + 'px';
     }
-  }, [queryJSONRef.current]);
+  }, [resultRef.current]);
 
   const changeOpenedWindowHandle = (content?: 'variables' | 'headers') => {
-    if (!content || content === isSubWindowOpened.content) {
-      setSubWindowOpened({
-        ...isSubWindowOpened,
-        opened: !isSubWindowOpened.opened,
+    if (!content || content === isOpened.content) {
+      setIsOpened({
+        ...isOpened,
+        opened: !isOpened.opened,
       });
     } else {
-      if (isSubWindowOpened.opened) {
-        if (content !== isSubWindowOpened.content) {
-          setSubWindowOpened({
-            ...isSubWindowOpened,
+      if (isOpened.opened) {
+        if (content !== isOpened.content) {
+          setIsOpened({
+            ...isOpened,
             content,
           });
         }
       } else {
-        if (content !== isSubWindowOpened.content) {
-          setSubWindowOpened({
-            opened: !isSubWindowOpened.opened,
+        if (content !== isOpened.content) {
+          setIsOpened({
+            opened: !isOpened.opened,
             content,
           });
         }
@@ -89,24 +90,24 @@ const Main = () => {
           <QueryTitle>Query editor</QueryTitle>
           <QueryButtons direction="row">
             <ChangeEndpoint
-              type="button"
               variant="contained"
               onClick={changeInputOpenedHandle}
             >
-              {isInputOpened ? 'Close endpoint' : 'Change endpoint'}
+              {isInputOpened ? 'Hide Endpoint' : 'Change endpoint'}
             </ChangeEndpoint>
-            {isInputOpened && (
-              <ChangeEndpointInput direction="row" spacing="5px">
-                <Input placeholder="Your endpoint" icon="endpoint" />
-                <DoneIcon
-                  onClick={() => setIsInputOpened(!isInputOpened)}
-                  sx={{ fontSize: 40, cursor: 'pointer' }}
+            <ChangeEndpointContainer direction="row" spacing="5px">
+              {isInputOpened ? (
+                <Input
+                  placeholder="Your endpoint"
+                  value={endpointValue}
+                  onChange={changeEndpointHandle}
+                  icon="endpoint"
                 />
-              </ChangeEndpointInput>
-            )}
-            <PlayButton>
-              <PlayCircleIcon sx={{ fontSize: 40 }} />
-            </PlayButton>
+              ) : (
+                <Endpoint>{endpointValue}</Endpoint>
+              )}
+            </ChangeEndpointContainer>
+            <PlayButton onClick={() => setIsInputOpened(false)} />
           </QueryButtons>
           <QueryEdit
             ref={queryEditRef}
@@ -154,35 +155,23 @@ const Main = () => {
 
             <ArrowButton
               onClick={() => changeOpenedWindowHandle()}
-              opened={isSubWindowOpened.opened.toString()}
-            >
-              <KeyboardArrowDownRoundedIcon sx={{ fontSize: 40 }} />
-            </ArrowButton>
+              opened={isOpened.opened.toString()}
+            />
           </QueryFooterLinks>
           <QueryFooterWindow
-            opened={isSubWindowOpened.opened.toString()}
+            opened={isOpened.opened.toString()}
             defaultValue={`{
-  "errors": [
-    {
-      "message": "Syntax Error: Unexpected <EOF>",
-      "locations": [
-        {
-          "line": 32,
-          "column": 1
-        }
-      ]
-    }
-  ]
+  "header1": "header",
+  "header2": "corsign"
 }`}
           ></QueryFooterWindow>
         </QueryFooter>
       </QueryEditorWrapper>
-      {!isModalOpen && (
-        <QueryResultContainer>
-          <QueryResult
-            readOnly
-            ref={queryJSONRef}
-            defaultValue={`{
+      <QueryResultContainer>
+        <QueryResult
+          readOnly
+          ref={resultRef}
+          defaultValue={`{
   "errors": [
     {
       "message": "Syntax Error: Unexpected <EOF>",
@@ -195,12 +184,9 @@ const Main = () => {
     }
   ]
 }`}
-          ></QueryResult>
-          <DocumentationButton onClick={() => setIsModalOpen(true)}>
-            <MenuRoundedIcon />
-          </DocumentationButton>
-        </QueryResultContainer>
-      )}
+        ></QueryResult>
+        <DocumentationButton onClick={() => setIsModalOpen(true)} />
+      </QueryResultContainer>
       <DocumentationModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}

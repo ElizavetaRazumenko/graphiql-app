@@ -7,11 +7,11 @@ export const MainWrapper = styled('div')(({ theme }: { theme: Theme }) => ({
 
   position: 'relative',
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   gap: '100px',
 
-  [theme.breakpoints.down('xl')]: {
-    flexDirection: 'column',
+  [theme.breakpoints.up('md')]: {
+    flexDirection: 'row',
   },
   [theme.breakpoints.down('sm')]: {
     padding: '0 20px',

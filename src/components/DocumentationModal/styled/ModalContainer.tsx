@@ -5,11 +5,10 @@ export const ModalContainer = styled(MaterialBox)<
   MaterialBoxProps & { opened: string }
 >(({ theme, opened }: { theme: Theme; opened: string }) => ({
   borderRadius: '30px',
-  background: '#fff',
+  background: theme.palette.primary.main,
   padding: '100px 25px 80px 65px',
   boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
 
-  border: '1px solid black',
   maxWidth: '450px',
   height: '90vh',
   zIndex: 100,

@@ -13,6 +13,6 @@ export const QueryEdit = styled('textarea')(({ theme }: { theme: Theme }) => ({
     fontSize: '15px',
   },
   [theme.breakpoints.down('sm')]: {
-    fontSize: '10px',
+    fontSize: '14px',
   },
 }));

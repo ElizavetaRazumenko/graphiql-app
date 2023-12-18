@@ -12,4 +12,4 @@ export * from './QueryTitle';
 export * from './PlayButton';
 export * from './ArrowButton';
 export * from './ChangeEndpoint';
-export * from './ChangeEndpointInput';
+export * from './ChangeEndpointContainer';

@@ -1,6 +1,9 @@
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import DocumentationModalProps from './types/types';
 import { CloseModalButton, ModalContainer, ModalList } from './styled';
+
+type DocumentationModalProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const DocumentationModal = ({
   isModalOpen,
@@ -8,13 +11,9 @@ const DocumentationModal = ({
 }: DocumentationModalProps) => {
   return (
     <ModalContainer opened={isModalOpen.toString()}>
-      <CloseModalButton onClick={() => setIsModalOpen(!isModalOpen)}>
-        <CloseRoundedIcon
-          sx={{
-            color: '#000',
-          }}
-        />
-      </CloseModalButton>
+      <CloseModalButton
+        onClick={() => setIsModalOpen(!isModalOpen)}
+      ></CloseModalButton>
       <ModalList>
         A GraphQL schema provides a root type for each kind of operation. Root
         Types query: Root All Schema Types String Int FilmsConnection PageInfo

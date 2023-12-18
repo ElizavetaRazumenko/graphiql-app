@@ -1,9 +1,15 @@
-import MaterialButton, {
-  ButtonProps as MaterialButtonProps,
-} from '@mui/material/Button';
+import { IconButton, IconButtonProps } from '@mui/material';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+
 import { Theme, styled } from '@mui/material/styles';
 
-export const DocumentationButton = styled(MaterialButton)<MaterialButtonProps>(
+const ButtonWithIcon = (props: IconButtonProps) => (
+  <IconButton {...props}>
+    <MenuRoundedIcon sx={{ color: '#fff' }} />
+  </IconButton>
+);
+
+export const DocumentationButton = styled(ButtonWithIcon)<IconButtonProps>(
   ({ theme }: { theme: Theme }) => ({
     position: 'absolute',
     top: '0px',

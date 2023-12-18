@@ -1,10 +1,15 @@
-import MaterialButton, {
-  ButtonProps as MaterialButtonProps,
-} from '@mui/material/Button';
+import { IconButton, IconButtonProps } from '@mui/material';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Theme, styled } from '@mui/material/styles';
 
-export const ArrowButton = styled(MaterialButton)<
-  MaterialButtonProps & { opened: string }
+const ButtonWithIcon = (props: IconButtonProps) => (
+  <IconButton {...props}>
+    <KeyboardArrowDownRoundedIcon sx={{ fontSize: 40, color: '#fff' }} />
+  </IconButton>
+);
+
+export const ArrowButton = styled(ButtonWithIcon)<
+  IconButtonProps & { opened: string }
 >(({ theme, opened }: { theme: Theme; opened: string }) => ({
   transform: `rotate(${opened === 'true' ? '0' : '180'}deg)`,
   position: 'absolute',
