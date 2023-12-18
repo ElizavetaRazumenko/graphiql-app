@@ -18,6 +18,7 @@ import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
 import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
+import { Stack } from '@mui/material';
 
 const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
@@ -51,11 +52,13 @@ const Main = () => {
                   icon="endpoint"
                 />
               ) : (
-                <Endpoint>{endpointValue}</Endpoint>
+                <Endpoint title={endpointValue}>{endpointValue}</Endpoint>
               )}
+            </ChangeEndpointContainer>
+            <Stack direction="row" spacing="20px">
               <PlayButton onClick={() => setIsInputOpened(false)} />
               <PrettifyButton />
-            </ChangeEndpointContainer>
+            </Stack>
           </QueryButtons>
           <QueryTextarea
             defaultValue={`# Welcome to GraphiQL
