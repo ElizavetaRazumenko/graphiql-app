@@ -1,17 +1,15 @@
 import { Theme, styled } from '@mui/material/styles';
 
-export const QueryResult = styled('textarea')(
+export const QueryContent = styled('textarea')(
   ({ theme }: { theme: Theme }) => ({
-    width: '100%',
-    height: '100%',
-
     border: 'none',
     background: 'none',
     color: theme.palette.primary.main,
     fontSize: '20px',
+    width: '100%',
     outline: 'none',
     resize: 'none',
-
+    flex: '1 0 auto',
     [theme.breakpoints.down('md')]: {
       fontSize: '15px',
     },

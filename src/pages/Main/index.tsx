@@ -5,19 +5,18 @@ import {
   MainWrapper,
   PlayButton,
   QueryButtons,
-  QueryEdit,
   QueryEditor,
   QueryEditorWrapper,
-  QueryResult,
   QueryTitle,
 } from './styled';
 
 import { Input } from '../../shared/Input';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { DocumentationModal } from '../../components/DocumentationModal';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
 import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
+import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 
 const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
@@ -27,22 +26,6 @@ const Main = () => {
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setEndpointValue(e.target.value);
-
-  const queryEditRef = useRef<HTMLTextAreaElement>(null);
-  const resultRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (queryEditRef.current) {
-      queryEditRef.current.style.height =
-        queryEditRef.current.scrollHeight + 'px';
-    }
-  }, [queryEditRef.current]);
-
-  useEffect(() => {
-    if (resultRef.current) {
-      resultRef.current.style.height = resultRef.current.scrollHeight + 'px';
-    }
-  }, [resultRef.current]);
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
@@ -72,8 +55,7 @@ const Main = () => {
             </ChangeEndpointContainer>
             <PlayButton onClick={() => setIsInputOpened(false)} />
           </QueryButtons>
-          <QueryEdit
-            ref={queryEditRef}
+          <QueryTextarea
             defaultValue={`# Welcome to GraphiQL
 #
 # GraphiQL is an in-browser tool for writing, validating, and
@@ -105,14 +87,13 @@ const Main = () => {
 #    Auto Complete:  Ctrl-Space (or just start typing)
 #
 `}
-          ></QueryEdit>
+          />
         </QueryEditor>
         <QueryTabs />
       </QueryEditorWrapper>
       <QueryResultContainer>
-        <QueryResult
+        <QueryTextarea
           readOnly
-          ref={resultRef}
           defaultValue={`{
   "errors": [
     {
@@ -126,7 +107,7 @@ const Main = () => {
     }
   ]
 }`}
-        ></QueryResult>
+        ></QueryTextarea>
         <DocumentationButton onClick={() => setIsModalOpen(true)} />
       </QueryResultContainer>
       <DocumentationModal
