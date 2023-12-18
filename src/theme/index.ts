@@ -41,6 +41,23 @@ appTheme = createTheme(appTheme, {
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        '*': {
+          '&::-webkit-scrollbar': {
+            width: '12px',
+            background: appTheme.palette.primary.main,
+            borderRadius: '5px',
+          },
+          '&::-webkit-scrollbar-track': {
+            borderRadius: '5px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: appTheme.palette.primary.dark,
+            borderRadius: '5px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: appTheme.palette.primary.contrastText,
+          },
+        },
         body: {
           backgroundImage: `url(${bgPicture})`,
           backgroundSize: 'cover',

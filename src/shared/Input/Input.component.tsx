@@ -4,9 +4,11 @@ import { styled, Theme } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+
 import { ForwardedRef, forwardRef } from 'react';
 
-export type InputIconType = 'email' | 'pass' | 'user';
+export type InputIconType = 'email' | 'pass' | 'user' | 'endpoint';
 
 export type InputProps = MaterialTextFieldProps & {
   icon: InputIconType;
@@ -16,6 +18,7 @@ const iconToSVGMap: Record<InputIconType, JSX.Element> = {
   email: <EmailIcon color="primary" fontSize="large" />,
   pass: <LockIcon color="primary" fontSize="large" />,
   user: <PersonIcon color="primary" fontSize="large" />,
+  endpoint: <GpsFixedIcon color="primary" fontSize="small" />,
 };
 
 const TextFieldWithAdornment = forwardRef(
