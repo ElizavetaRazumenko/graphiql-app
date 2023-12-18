@@ -5,5 +5,6 @@ export * from './QueryEditor';
 export * from './QueryEditorWrapper';
 export * from './QueryTitle';
 export * from './PlayButton';
+export * from './PrettifyButton';
 export * from './ChangeEndpoint';
 export * from './ChangeEndpointContainer';

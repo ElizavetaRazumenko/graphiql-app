@@ -8,6 +8,7 @@ import {
   QueryEditor,
   QueryEditorWrapper,
   QueryTitle,
+  PrettifyButton,
 } from './styled';
 
 import { Input } from '../../shared/Input';
@@ -41,7 +42,7 @@ const Main = () => {
             >
               {isInputOpened ? 'Hide Endpoint' : 'Change endpoint'}
             </ChangeEndpoint>
-            <ChangeEndpointContainer direction="row" spacing="5px">
+            <ChangeEndpointContainer direction="row" spacing="20px">
               {isInputOpened ? (
                 <Input
                   placeholder="Your endpoint"
@@ -52,8 +53,9 @@ const Main = () => {
               ) : (
                 <Endpoint>{endpointValue}</Endpoint>
               )}
+              <PlayButton onClick={() => setIsInputOpened(false)} />
+              <PrettifyButton />
             </ChangeEndpointContainer>
-            <PlayButton onClick={() => setIsInputOpened(false)} />
           </QueryButtons>
           <QueryTextarea
             defaultValue={`# Welcome to GraphiQL
