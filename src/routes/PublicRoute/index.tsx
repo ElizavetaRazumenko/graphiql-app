@@ -2,22 +2,22 @@ import { Navigate, useOutletContext } from 'react-router-dom';
 import { OutletContext } from '../../shared/types/types';
 import { Spinner } from '../../shared/Spinner';
 
-export type PrivateRouteProps = {
+export type PublicRouteProps = {
   page: JSX.Element;
 };
 
-function PrivateRoute({ page }: PrivateRouteProps) {
+function PublicRoute({ page }: PublicRouteProps) {
   const { isAuthenticated, loading } = useOutletContext<OutletContext>();
   if (isAuthenticated) {
-    return page;
+    return <Navigate to="/main" replace />;
   }
 
   return (
     <>
       <Spinner open={loading} />
-      {!loading && <Navigate to="/" replace />}
+      {!loading && page}
     </>
   );
 }
 
-export default PrivateRoute;
+export default PublicRoute;

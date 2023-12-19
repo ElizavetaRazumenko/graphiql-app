@@ -5,6 +5,7 @@ import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 import LayoutWithErrorHandling from './components/LayoutWithErrorHandling';
 import AuthPage from './pages/AuthPage';
+import PublicRoute from './routes/PublicRoute';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'auth',
-        element: <AuthPage />,
+        element: <PublicRoute page={<AuthPage />} />,
       },
       {
         path: 'main',

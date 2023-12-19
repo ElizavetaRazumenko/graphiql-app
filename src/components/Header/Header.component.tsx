@@ -6,13 +6,19 @@ import {
   useScrollTrigger,
   ToggleButtonGroup,
 } from '@mui/material';
-import { ReactElement, cloneElement, useState, useContext } from 'react';
+import { ReactElement, cloneElement, useContext } from 'react';
 import { ToolbarContainer } from './styled/ToolbarContainer';
 import { HeaderLinksContainer } from './styled/HeaderLinksContainer';
 import { ButtonLanguage } from './styled/ButtonLanguage';
 import { localizationContext } from '../../context/localizationContext';
 import { AvailableLanguages } from '../../context/types';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
+import { logout } from '../../firebase';
+
+type HeaderProps = {
+  isAuthenticated: boolean;
+  loading: boolean;
+};
 
 const SlideScroll = ({ children }: { children: ReactElement }) => {
   const trigger = useScrollTrigger();
@@ -39,9 +45,11 @@ const SlideScroll = ({ children }: { children: ReactElement }) => {
   });
 };
 
-const Header = () => {
-  const [isAuthenticated] = useState<boolean>(false);
+const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isMainPage = location.pathname === '/main';
 
   const {
     currentLanguage,
@@ -61,6 +69,14 @@ const Header = () => {
 
   const onClickRegister = (): void => {
     navigate('/auth?action=register');
+  };
+
+  const onClickMain = (): void => {
+    navigate('/main');
+  };
+
+  const onClickLogout = (): void => {
+    logout();
   };
 
   const handleChangeLanguage = (
@@ -94,7 +110,7 @@ const Header = () => {
               </HeaderLinksContainer>
 
               <HeaderLinksContainer alignItems={'flex-end'}>
-                {!isAuthenticated && (
+                {!isAuthenticated && !loading && (
                   <>
                     <Link href="#" color="inherit" onClick={onClickLogin}>
                       {login}
@@ -104,9 +120,17 @@ const Header = () => {
                     </Link>
                   </>
                 )}
-                {isAuthenticated && (
+                {isAuthenticated && !loading && (
                   <>
-                    <Link href="#" color="inherit">
+                    <Link
+                      href="#"
+                      color="inherit"
+                      onClick={onClickMain}
+                      hidden={isMainPage}
+                    >
+                      Main
+                    </Link>
+                    <Link href="#" color="inherit" onClick={onClickLogout}>
                       Logout
                     </Link>
                   </>
