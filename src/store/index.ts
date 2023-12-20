@@ -3,11 +3,16 @@ import {
   combineReducers,
   configureStore,
 } from '@reduxjs/toolkit';
+import { getQraphQLData } from '../services/graphql';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  [getQraphQLData.reducerPath]: getQraphQLData.reducer,
+});
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(getQraphQLData.middleware),
 });
 
 export function setupStore(
@@ -15,6 +20,8 @@ export function setupStore(
 ) {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(getQraphQLData.middleware),
     preloadedState,
   });
 }

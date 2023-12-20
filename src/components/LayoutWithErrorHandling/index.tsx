@@ -7,6 +7,8 @@ import LocalizationContext from '../../context/localizationContext';
 import { useIdToken } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase';
 import { OutletContext } from '../../shared/types/types';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 const LayoutWithErrorHandling = () => {
   const [user, loading] = useIdToken(auth);
@@ -14,11 +16,13 @@ const LayoutWithErrorHandling = () => {
   return (
     <LocalizationContext>
       <ErrorBoundary>
-        <Header isAuthenticated={isAuthenticated} loading={loading} />
-        <MainWrapper>
-          <Outlet context={{ isAuthenticated, loading } as OutletContext} />
-        </MainWrapper>
-        <Footer />
+        <Provider store={store}>
+          <Header isAuthenticated={isAuthenticated} loading={loading} />
+          <MainWrapper>
+            <Outlet context={{ isAuthenticated, loading } as OutletContext} />
+          </MainWrapper>
+          <Footer />
+        </Provider>
       </ErrorBoundary>
     </LocalizationContext>
   );
