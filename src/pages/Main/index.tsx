@@ -12,24 +12,42 @@ import {
 } from './styled';
 
 import { Input } from '../../shared/Input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DocumentationModal } from '../../components/DocumentationModal';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
 import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 import { Stack } from '@mui/material';
+import { baseUrl, changeBaseUrl, getQraphQLData } from '../../services/graphql';
+import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 
 const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [endpointValue, setEndpointValue] = useState('');
+  const [endpointValue, setEndpointValue] = useState(baseUrl);
+
+  const { data } = getQraphQLData.useGetSchemaQuery();
+
+  useEffect(() => {
+    if (data) console.log(data);
+  }, [data]);
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setEndpointValue(e.target.value);
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
+
+  const sendRequest = async () => {
+    setIsInputOpened(false);
+    const isCorrectEndpoint = await checkGraphQLSupport(endpointValue);
+    if (!isCorrectEndpoint) {
+      console.log('Your endpoint does not support Graph QL requests');
+    } else {
+      changeBaseUrl(endpointValue);
+    }
+  };
 
   return (
     <MainWrapper>
@@ -56,7 +74,7 @@ const Main = () => {
               )}
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
-              <PlayButton onClick={() => setIsInputOpened(false)} />
+              <PlayButton onClick={sendRequest} />
               <PrettifyButton />
             </Stack>
           </QueryButtons>
