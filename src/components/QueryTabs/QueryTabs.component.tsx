@@ -7,6 +7,9 @@ import { QueryFooterLinks } from './styled/QueryFooterLinks';
 import { QueryFooterWindow } from './styled/QueryFooterWindow';
 import { Box, Tabs, Collapse } from '@mui/material';
 import { TabPanel } from './styled';
+import { inputSelector } from '../../store/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setHeadersValue, setVariablesValue } from '../../store/slices';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,10 +42,19 @@ function a11yProps(index: number) {
 }
 
 const QueryTabs = () => {
+  const dispatch = useAppDispatch();
+  const { headers, variables } = useAppSelector(inputSelector);
+
   const [currentTab, setCurrentTab] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
 
   const queryTabRef = useRef<HTMLTextAreaElement>(null);
+
+  const changeHeadersHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    dispatch(setHeadersValue(e.target.value));
+
+  const changeVariablesHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    dispatch(setVariablesValue(e.target.value));
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -84,19 +96,15 @@ const QueryTabs = () => {
         <CustomTabPanel value={currentTab} index={0}>
           <QueryFooterWindow
             ref={queryTabRef}
-            defaultValue={`{
-    "header1": "header",
-    "header2": "corsign"
-}`}
+            value={variables}
+            onChange={changeVariablesHandle}
           ></QueryFooterWindow>
         </CustomTabPanel>
         <CustomTabPanel value={currentTab} index={1}>
           <QueryFooterWindow
             ref={queryTabRef}
-            defaultValue={`{
-    "header3": "header",
-    "header4": "corsign"
-}`}
+            value={headers}
+            onChange={changeHeadersHandle}
           ></QueryFooterWindow>
         </CustomTabPanel>
       </Collapse>

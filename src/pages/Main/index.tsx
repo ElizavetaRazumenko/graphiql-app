@@ -24,11 +24,11 @@ import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
-import { setEndpointValue } from '../../store/slices';
+import { setEndpointValue, setQueryValue } from '../../store/slices';
 
 const Main = () => {
   const dispatch = useAppDispatch();
-  const { endpoint } = useAppSelector(inputSelector);
+  const { endpoint, query, result } = useAppSelector(inputSelector);
 
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +36,6 @@ const Main = () => {
   const [error, setError] = useState('');
 
   const { data } = getQraphQLData.useGetSchemaQuery();
-  console.log(endpoint);
 
   useEffect(() => {
     if (data) console.log(data);
@@ -44,6 +43,9 @@ const Main = () => {
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatch(setEndpointValue(e.target.value));
+
+  const changeQueryHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    dispatch(setQueryValue(e.target.value));
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
@@ -87,59 +89,12 @@ const Main = () => {
               <PrettifyButton />
             </Stack>
           </QueryButtons>
-          <QueryTextarea
-            defaultValue={`# Welcome to GraphiQL
-#
-# GraphiQL is an in-browser tool for writing, validating, and
-# testing GraphQL queries.
-#
-# Type queries into this side of the screen, and you will see intelligent
-# typeaheads aware of the current GraphQL type schema and live syntax and
-# validation errors highlighted within the text.
-#
-# GraphQL queries typically start with a "{" character. Lines that start
-# with a # are ignored.
-#
-# An example GraphQL query might look like:
-#
-#     {
-#       field(arg: "value") {
-#         subField
-#       }
-#     }
-#
-# Keyboard shortcuts:
-#
-#   Prettify query:  Shift-Ctrl-P (or press the prettify button)
-#
-#  Merge fragments:  Shift-Ctrl-M (or press the merge button)
-#
-#        Run Query:  Ctrl-Enter (or press the play button)
-#
-#    Auto Complete:  Ctrl-Space (or just start typing)
-#
-`}
-          />
+          <QueryTextarea value={query} onChange={changeQueryHandle} />
         </QueryEditor>
         <QueryTabs />
       </QueryEditorWrapper>
       <QueryResultContainer>
-        <QueryTextarea
-          readOnly
-          defaultValue={`{
-  "errors": [
-    {
-      "message": "Syntax Error: Unexpected <EOF>",
-      "locations": [
-        {
-          "line": 32,
-          "column": 1
-        }
-      ]
-    }
-  ]
-}`}
-        ></QueryTextarea>
+        <QueryTextarea value={result} readOnly></QueryTextarea>
         <DocumentationButton onClick={() => setIsModalOpen(true)} />
       </QueryResultContainer>
       <DocumentationModal
