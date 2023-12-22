@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { baseUrl } from '../../../services/graphql';
 
 type InputState = {
   endpoint: string;
@@ -9,7 +10,7 @@ type InputState = {
 };
 
 const initialState: InputState = {
-  endpoint: '',
+  endpoint: baseUrl,
   query: '',
   result: '',
   headers: '',
@@ -21,7 +22,7 @@ const inputSlice = createSlice({
   initialState,
   reducers: {
     setEndpointValue(state, action) {
-      state.query = action.payload;
+      state.endpoint = action.payload;
     },
     setQueryValue(state, action) {
       state.query = action.payload;

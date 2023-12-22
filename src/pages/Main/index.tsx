@@ -19,37 +19,42 @@ import { Endpoint } from './styled/Endpoint';
 import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 import { Stack } from '@mui/material';
-import { baseUrl, changeBaseUrl, getQraphQLData } from '../../services/graphql';
+import { changeBaseUrl, getQraphQLData } from '../../services/graphql';
 import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { inputSelector } from '../../store/selectors';
+import { setEndpointValue } from '../../store/slices';
 
 const Main = () => {
+  const dispatch = useAppDispatch();
+  const { endpoint } = useAppSelector(inputSelector);
+
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [error, setError] = useState('');
 
-  const [endpointValue, setEndpointValue] = useState(baseUrl);
-
   const { data } = getQraphQLData.useGetSchemaQuery();
+  console.log(endpoint);
 
   useEffect(() => {
     if (data) console.log(data);
   }, [data]);
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setEndpointValue(e.target.value);
+    dispatch(setEndpointValue(e.target.value));
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
   const sendRequest = async () => {
     setIsInputOpened(false);
     setError('');
-    const isCorrectEndpoint = await checkGraphQLSupport(endpointValue);
+    const isCorrectEndpoint = await checkGraphQLSupport(endpoint);
     if (!isCorrectEndpoint) {
       setError('Your endpoint does not support Graph QL requests');
     } else {
-      changeBaseUrl(endpointValue);
+      changeBaseUrl(endpoint);
     }
   };
 
@@ -69,12 +74,12 @@ const Main = () => {
               {isInputOpened ? (
                 <Input
                   placeholder="Your endpoint"
-                  value={endpointValue}
+                  value={endpoint}
                   onChange={changeEndpointHandle}
                   icon="endpoint"
                 />
               ) : (
-                <Endpoint title={endpointValue}>{endpointValue}</Endpoint>
+                <Endpoint title={endpoint}>{endpoint}</Endpoint>
               )}
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
