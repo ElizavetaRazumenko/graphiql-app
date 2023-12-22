@@ -21,10 +21,13 @@ import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.componen
 import { Stack } from '@mui/material';
 import { baseUrl, changeBaseUrl, getQraphQLData } from '../../services/graphql';
 import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
+import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 
 const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [error, setError] = useState('');
 
   const [endpointValue, setEndpointValue] = useState(baseUrl);
 
@@ -41,9 +44,10 @@ const Main = () => {
 
   const sendRequest = async () => {
     setIsInputOpened(false);
+    setError('');
     const isCorrectEndpoint = await checkGraphQLSupport(endpointValue);
     if (!isCorrectEndpoint) {
-      console.log('Your endpoint does not support Graph QL requests');
+      setError('Your endpoint does not support Graph QL requests');
     } else {
       changeBaseUrl(endpointValue);
     }
@@ -137,6 +141,8 @@ const Main = () => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
+
+      <ErrorSnackbar open={Boolean(error)} message={error} />
     </MainWrapper>
   );
 };
