@@ -1,15 +1,15 @@
 import Tab from '@mui/material/Tab';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ArrowButton } from './styled/ArrowButton';
 import { QueryFooter } from './styled/QueryFooter';
 import { QueryFooterLinks } from './styled/QueryFooterLinks';
-import { QueryFooterWindow } from './styled/QueryFooterWindow';
 import { Box, Tabs, Collapse } from '@mui/material';
 import { TabPanel } from './styled';
 import { inputSelector } from '../../store/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setHeadersValue, setVariablesValue } from '../../store/slices';
+import QueryTextarea from '../QueryTextarea/QueryTextarea.component';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,8 +48,6 @@ const QueryTabs = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
 
-  const queryTabRef = useRef<HTMLTextAreaElement>(null);
-
   const changeHeadersHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     dispatch(setHeadersValue(e.target.value));
 
@@ -67,13 +65,6 @@ const QueryTabs = () => {
       setIsOpen(true);
     }
   };
-
-  useEffect(() => {
-    if (queryTabRef.current) {
-      queryTabRef.current.style.height =
-        queryTabRef.current.scrollHeight + 'px';
-    }
-  }, [queryTabRef.current, isOpen]);
 
   return (
     <QueryFooter>
@@ -94,18 +85,16 @@ const QueryTabs = () => {
       </QueryFooterLinks>
       <Collapse in={isOpen}>
         <CustomTabPanel value={currentTab} index={0}>
-          <QueryFooterWindow
-            ref={queryTabRef}
+          <QueryTextarea
             value={variables}
             onChange={changeVariablesHandle}
-          ></QueryFooterWindow>
+          ></QueryTextarea>
         </CustomTabPanel>
         <CustomTabPanel value={currentTab} index={1}>
-          <QueryFooterWindow
-            ref={queryTabRef}
+          <QueryTextarea
             value={headers}
             onChange={changeHeadersHandle}
-          ></QueryFooterWindow>
+          ></QueryTextarea>
         </CustomTabPanel>
       </Collapse>
     </QueryFooter>
