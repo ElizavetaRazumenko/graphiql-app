@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react';
 import { QueryContent } from './styled';
 
 type QueryTextareaProps = {
-  defaultValue: string;
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+  value: string;
   readOnly?: boolean;
 };
 
-const QueryTextarea = ({ defaultValue, readOnly }: QueryTextareaProps) => {
+const QueryTextarea = ({ readOnly, value, onChange }: QueryTextareaProps) => {
   const queryRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -17,9 +18,10 @@ const QueryTextarea = ({ defaultValue, readOnly }: QueryTextareaProps) => {
 
   return (
     <QueryContent
+      onChange={onChange}
+      value={value}
       readOnly={readOnly}
       ref={queryRef}
-      defaultValue={defaultValue}
     ></QueryContent>
   );
 };

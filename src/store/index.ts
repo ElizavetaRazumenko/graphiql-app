@@ -4,8 +4,10 @@ import {
   configureStore,
 } from '@reduxjs/toolkit';
 import { getQraphQLData } from '../services/graphql';
+import inputReducer from './slices/InputSlice';
 
 const rootReducer = combineReducers({
+  input: inputReducer,
   [getQraphQLData.reducerPath]: getQraphQLData.reducer,
 });
 
