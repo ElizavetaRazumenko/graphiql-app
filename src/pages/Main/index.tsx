@@ -26,9 +26,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
 import {
   setEndpointValue,
+  setHeadersValue,
   setQueryValue,
   setResultValue,
+  setVariablesValue,
 } from '../../store/slices';
+import prettifyGraphQL from '../../utils/prettifyGraphQL';
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -96,7 +99,13 @@ const Main = () => {
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
               <PlayButton onClick={sendRequest} />
-              <PrettifyButton />
+              <PrettifyButton
+                onClick={() => {
+                  dispatch(setQueryValue(prettifyGraphQL(query)));
+                  dispatch(setHeadersValue(prettifyGraphQL(headers)));
+                  dispatch(setVariablesValue(prettifyGraphQL(variables)));
+                }}
+              />
             </Stack>
           </QueryButtons>
           <QueryTextarea value={query} onChange={changeQueryHandle} />

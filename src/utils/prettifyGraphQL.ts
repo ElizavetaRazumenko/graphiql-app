@@ -1,24 +1,23 @@
-export default function prettifyGraphQL(code: string) {
-  const indentSize = 2;
+export default function prettifyGraphQL(query: string) {
+  const lines = query.split('\n');
+  const indents: number[] = [];
 
-  const lines = code.split('\n');
+  lines.forEach((line, index) => {
+    const openingBraces = (line.match(/{/g) || []).length;
+    const closingBraces = (line.match(/}/g) || []).length;
 
-  const trimmedLines = lines.map((line) => line.trim());
+    const previousIndent = index > 0 ? indents[index - 1] : 0;
 
-  const minIndent = trimmedLines.reduce((min, line) => {
-    if (!line) return min;
-    const leadingWhitespace = line.match(/^\s*/)[0];
-    return Math.min(min, leadingWhitespace.length);
-  }, Infinity);
+    const currentIndent = previousIndent + openingBraces - closingBraces;
+    indents.push(currentIndent);
+  });
 
-  const prettifiedCode = trimmedLines
-    .map((line) => {
-      if (!line) return line;
-      return (
-        ' '.repeat(line.match(/^\s*/)[0].length - minIndent + indentSize) + line
-      );
+  const formattedQuery = lines
+    .map((line, index) => {
+      const indent = ' '.repeat(indents[index] * 2);
+      return (index === 0 ? '' : indent) + line.trim();
     })
     .join('\n');
 
-  return prettifiedCode;
+  return formattedQuery;
 }
