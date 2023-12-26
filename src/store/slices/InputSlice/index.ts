@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { baseUrl } from '../../../services/graphql';
 
 type InputState = {
   endpoint: string;
@@ -10,7 +9,7 @@ type InputState = {
 };
 
 const initialState: InputState = {
-  endpoint: baseUrl,
+  endpoint: 'https://rickandmortyapi.com/graphql',
   query: `# Welcome to GraphiQL
 #
 # GraphiQL is an in-browser tool for writing, validating, and
@@ -44,13 +43,9 @@ const initialState: InputState = {
 `,
   result: '',
   headers: `{
-    "header1": "header",
-    "header2": "corsign"
-}`,
-  variables: `{
-    "header3": "header",
-    "header4": "corsign"
-}`,
+    "Content-Type": "application/json"
+ }`,
+  variables: ``,
 };
 
 const inputSlice = createSlice({
@@ -69,6 +64,9 @@ const inputSlice = createSlice({
     setVariablesValue(state, action) {
       state.variables = action.payload;
     },
+    setResultValue(state, action) {
+      state.result = action.payload;
+    },
   },
 });
 
@@ -77,6 +75,7 @@ export const {
   setQueryValue,
   setHeadersValue,
   setVariablesValue,
+  setResultValue,
 } = inputSlice.actions;
 
 export default inputSlice.reducer;

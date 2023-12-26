@@ -3,18 +3,18 @@ import {
   combineReducers,
   configureStore,
 } from '@reduxjs/toolkit';
-import { getQraphQLData } from '../services/graphql';
+import { getGraphQLData } from '../services/graphql';
 import inputReducer from './slices/InputSlice';
 
 const rootReducer = combineReducers({
   input: inputReducer,
-  [getQraphQLData.reducerPath]: getQraphQLData.reducer,
+  [getGraphQLData.reducerPath]: getGraphQLData.reducer,
 });
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(getQraphQLData.middleware),
+    getDefaultMiddleware().concat(getGraphQLData.middleware),
 });
 
 export function setupStore(
@@ -23,7 +23,7 @@ export function setupStore(
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(getQraphQLData.middleware),
+      getDefaultMiddleware().concat(getGraphQLData.middleware),
     preloadedState,
   });
 }

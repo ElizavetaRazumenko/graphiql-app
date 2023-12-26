@@ -1,11 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-export let baseUrl = 'https://rickandmortyapi.com/graphql';
-
-export const changeBaseUrl = (newUrl: string) => {
-  baseUrl = newUrl;
-};
-
+interface RequestData {
+  url: string;
+  body: string;
+  headers: string;
+  variables?: string;
+}
 const schemaQuery = `
 query {
   __schema {
@@ -16,14 +16,21 @@ query {
 }
 `;
 
-const graphqlbasequery =
-  ({ baseUrl }: { baseUrl: string }) =>
-  async ({ body }: { body: string }) => {
+const defaultHeader = `{
+  "Content-Type": "application/json"
+}`;
+
+const graphqlbaseQuery =
+  () =>
+  async ({ url, body, headers, variables }: RequestData) => {
     try {
-      const result = await fetch(baseUrl, {
+      const result = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: body }),
+        headers: JSON.parse(headers || defaultHeader),
+        body: JSON.stringify({
+          query: body,
+          variables: JSON.parse(variables || '{}'),
+        }),
       });
       const data = await result.json();
       return { data };
@@ -40,17 +47,22 @@ const graphqlbasequery =
     }
   };
 
-export const getQraphQLData = createApi({
-  baseQuery: graphqlbasequery({ baseUrl }),
+export const getGraphQLData = createApi({
+  baseQuery: graphqlbaseQuery(),
   endpoints: (builder) => ({
     getSchema: builder.query({
-      query: () => ({
+      query: ({ url, headers }: Omit<RequestData, 'body'>) => ({
+        url,
         body: schemaQuery,
+        headers,
       }),
     }),
     getData: builder.query({
-      query: (queryBody: string) => ({
-        body: queryBody,
+      query: ({ url, body, headers, variables }: RequestData) => ({
+        url,
+        body,
+        headers,
+        variables,
       }),
     }),
   }),
