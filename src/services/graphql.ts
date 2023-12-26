@@ -25,12 +25,10 @@ const graphqlbaseQuery =
         headers: JSON.parse(headers),
         body: JSON.stringify({
           query: body,
-          variables: JSON.parse(variables || '{}') || {},
+          variables: JSON.parse(variables || '{}'),
         }),
       });
       const data = await result.json();
-      console.log('data:');
-      console.log(data);
       return { data };
     } catch (error) {
       if (error instanceof Error) {
