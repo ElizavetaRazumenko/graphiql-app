@@ -1,11 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-export let baseUrl = 'https://rickandmortyapi.com/graphql';
-
-export const changeBaseUrl = (newUrl: string) => {
-  baseUrl = newUrl;
-};
-
 const schemaQuery = `
 query {
   __schema {
@@ -17,15 +11,17 @@ query {
 `;
 
 const graphqlbasequery =
-  ({ baseUrl }: { baseUrl: string }) =>
-  async ({ body }: { body: string }) => {
+  () =>
+  async ({ url, body }: { url: string; body: string }) => {
     try {
-      const result = await fetch(baseUrl, {
+      const result = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: body }),
       });
       const data = await result.json();
+      console.log('data:');
+      console.log(data);
       return { data };
     } catch (error) {
       if (error instanceof Error) {
@@ -41,15 +37,17 @@ const graphqlbasequery =
   };
 
 export const getQraphQLData = createApi({
-  baseQuery: graphqlbasequery({ baseUrl }),
+  baseQuery: graphqlbasequery(),
   endpoints: (builder) => ({
     getSchema: builder.query({
-      query: () => ({
+      query: (url: string) => ({
+        url,
         body: schemaQuery,
       }),
     }),
     getData: builder.query({
-      query: (queryBody: string) => ({
+      query: ({ url, queryBody }: { url: string; queryBody: string }) => ({
+        url,
         body: queryBody,
       }),
     }),

@@ -19,12 +19,16 @@ import { Endpoint } from './styled/Endpoint';
 import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 import { Stack } from '@mui/material';
-import { changeBaseUrl, getQraphQLData } from '../../services/graphql';
+import { getQraphQLData } from '../../services/graphql';
 import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
-import { setEndpointValue, setQueryValue } from '../../store/slices';
+import {
+  setEndpointValue,
+  setQueryValue,
+  setResultValue,
+} from '../../store/slices';
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -35,11 +39,21 @@ const Main = () => {
 
   const [error, setError] = useState('');
 
-  const { data } = getQraphQLData.useGetSchemaQuery();
+  const { data: schema } = getQraphQLData.useGetSchemaQuery(endpoint);
+  const { data: responseData } = getQraphQLData.useGetDataQuery({
+    url: endpoint,
+    queryBody: query,
+  });
 
   useEffect(() => {
-    if (data) console.log(data);
-  }, [data]);
+    if (schema) console.log(schema);
+  }, [schema]);
+
+  useEffect(() => {
+    if (responseData) {
+      dispatch(setResultValue(JSON.stringify(responseData)));
+    }
+  }, [responseData]);
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatch(setEndpointValue(e.target.value));
@@ -55,8 +69,6 @@ const Main = () => {
     const isCorrectEndpoint = await checkGraphQLSupport(endpoint);
     if (!isCorrectEndpoint) {
       setError('Your endpoint does not support Graph QL requests');
-    } else {
-      changeBaseUrl(endpoint);
     }
   };
 
