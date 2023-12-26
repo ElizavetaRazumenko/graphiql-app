@@ -19,7 +19,7 @@ import { Endpoint } from './styled/Endpoint';
 import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 import { Stack } from '@mui/material';
-import { getQraphQLData } from '../../services/graphql';
+import { getGraphQLData } from '../../services/graphql';
 import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -40,17 +40,12 @@ const Main = () => {
 
   const [error, setError] = useState('');
 
-  const { data: schema } = getQraphQLData.useGetSchemaQuery(endpoint);
-  const { data: responseData } = getQraphQLData.useGetDataQuery({
+  const { data: responseData } = getGraphQLData.useGetDataQuery({
     url: endpoint,
     body: query,
     headers,
     variables,
   });
-
-  useEffect(() => {
-    if (schema) console.log(schema);
-  }, [schema]);
 
   useEffect(() => {
     if (responseData) {
