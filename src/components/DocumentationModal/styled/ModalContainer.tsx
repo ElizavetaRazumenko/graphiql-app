@@ -6,10 +6,10 @@ export const ModalContainer = styled(MaterialBox)<
 >(({ theme, opened }: { theme: Theme; opened: string }) => ({
   borderRadius: '30px',
   background: theme.palette.primary.main,
-  padding: '100px 25px 80px 65px',
+  padding: '60px 15px 30px 30px',
   boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-
-  maxWidth: '450px',
+  width: '50vw',
+  maxWidth: '550px',
   height: '90vh',
   zIndex: 100,
   position: 'fixed',
@@ -23,5 +23,7 @@ export const ModalContainer = styled(MaterialBox)<
     display: opened === 'true' ? 'block' : 'none',
     position: 'static',
     transform: `translate(0, 0)`,
+    width: '85vw',
+    maxWidth: '85vw',
   },
 }));
