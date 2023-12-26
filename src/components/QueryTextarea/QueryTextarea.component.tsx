@@ -12,8 +12,7 @@ const QueryTextarea = ({ readOnly, value, onChange }: QueryTextareaProps) => {
 
   useEffect(() => {
     if (queryRef.current) {
-      // queryRef.current.style.height = queryRef.current.scrollHeight + 'px';
-      queryRef.current.style.height = '450px';
+      queryRef.current.style.height = queryRef.current.scrollHeight + 'px';
     }
   }, [queryRef.current]);
 
