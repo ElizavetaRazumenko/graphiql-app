@@ -52,7 +52,7 @@ const getDocumentationTree = (docItem: unknown): JSX.Element => {
       </>
     );
 
-  return <Typography>{(docItem as string) || '-'}</Typography>;
+  return <Typography>{String(docItem) || '-'}</Typography>;
 };
 
 const DocumentationModal = ({
