@@ -1,5 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
+interface RequestData {
+  url: string;
+  body: string;
+  headers?: string;
+  variables?: string;
+}
 const schemaQuery = `
 query {
   __schema {
@@ -10,13 +16,13 @@ query {
 }
 `;
 
-const graphqlbasequery =
+const graphqlbaseQuery =
   () =>
-  async ({ url, body }: { url: string; body: string }) => {
+  async ({ url, body, headers = '' }: RequestData) => {
     try {
       const result = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: JSON.parse(headers),
         body: JSON.stringify({ query: body }),
       });
       const data = await result.json();
@@ -37,7 +43,7 @@ const graphqlbasequery =
   };
 
 export const getQraphQLData = createApi({
-  baseQuery: graphqlbasequery(),
+  baseQuery: graphqlbaseQuery(),
   endpoints: (builder) => ({
     getSchema: builder.query({
       query: (url: string) => ({
@@ -46,9 +52,11 @@ export const getQraphQLData = createApi({
       }),
     }),
     getData: builder.query({
-      query: ({ url, queryBody }: { url: string; queryBody: string }) => ({
+      query: ({ url, body, headers, variables }: RequestData) => ({
         url,
-        body: queryBody,
+        body,
+        headers,
+        variables,
       }),
     }),
   }),

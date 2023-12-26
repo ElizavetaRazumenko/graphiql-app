@@ -32,7 +32,8 @@ import {
 
 const Main = () => {
   const dispatch = useAppDispatch();
-  const { endpoint, query, result } = useAppSelector(inputSelector);
+  const { endpoint, query, result, headers, variables } =
+    useAppSelector(inputSelector);
 
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +43,9 @@ const Main = () => {
   const { data: schema } = getQraphQLData.useGetSchemaQuery(endpoint);
   const { data: responseData } = getQraphQLData.useGetDataQuery({
     url: endpoint,
-    queryBody: query,
+    body: query,
+    headers,
+    variables,
   });
 
   useEffect(() => {
@@ -51,7 +54,7 @@ const Main = () => {
 
   useEffect(() => {
     if (responseData) {
-      dispatch(setResultValue(JSON.stringify(responseData)));
+      dispatch(setResultValue(JSON.stringify(responseData, null, 2)));
     }
   }, [responseData]);
 

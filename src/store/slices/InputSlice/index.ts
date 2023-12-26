@@ -43,13 +43,9 @@ const initialState: InputState = {
 `,
   result: '',
   headers: `{
-    "header1": "header",
-    "header2": "corsign"
-}`,
-  variables: `{
-    "header3": "header",
-    "header4": "corsign"
-}`,
+    "Content-Type": "application/json"
+ }`,
+  variables: ``,
 };
 
 const inputSlice = createSlice({
