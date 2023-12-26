@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { getQraphQLData } from '../../services/graphql';
+import { getGraphQLData } from '../../services/graphql';
 import { Spinner } from '../../shared/Spinner';
 import { CloseModalButton, ModalContainer, ModalList } from './styled';
 import { Box, Typography } from '@mui/material';
 import { AccordionItem } from '../../shared/AccordionItem';
-import getGraphQLDocumentationSchema, {
-  schemaParts,
-} from '../../utils/getGraphQLDocumentationSchema';
+import { schemaParts } from '../../utils/getGraphQLDocumentationSchema';
+import { useAppSelector } from '../../hooks';
+import { inputSelector } from '../../store/selectors';
 
 type DocumentationModalProps = {
   isModalOpen: boolean;
@@ -59,12 +59,18 @@ const DocumentationModal = ({
   isModalOpen,
   setIsModalOpen,
 }: DocumentationModalProps) => {
-  const [trigger, result] = getQraphQLData.useLazyGetSchemaQuery();
+  const [trigger, result] = getGraphQLData.useLazyGetDocumentationSchemaQuery();
   const { data, isLoading } = result;
   const schema: Record<string, unknown> = data?.data.__schema;
 
+  const { endpoint, headers } = useAppSelector(inputSelector);
+
   useEffect(() => {
-    if (isModalOpen) trigger(getGraphQLDocumentationSchema());
+    if (isModalOpen)
+      trigger({
+        url: endpoint,
+        headers,
+      });
   }, [isModalOpen]);
 
   return (

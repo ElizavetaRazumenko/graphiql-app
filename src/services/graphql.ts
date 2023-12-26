@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import setHeaders from '../utils/setHeaders';
+import getGraphQLDocumentationSchema from '../utils/getGraphQLDocumentationSchema';
 
 interface RequestData {
   url: string;
@@ -60,6 +61,13 @@ export const getGraphQLData = createApi({
         body,
         headers,
         variables,
+      }),
+    }),
+    getDocumentationSchema: builder.query({
+      query: ({ url, headers }: Omit<RequestData, 'body'>) => ({
+        url,
+        body: getGraphQLDocumentationSchema(),
+        headers,
       }),
     }),
   }),
