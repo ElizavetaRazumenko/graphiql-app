@@ -1,4 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import setHeaders from '../utils/setHeaders';
 
 interface RequestData {
   url: string;
@@ -16,17 +17,13 @@ query {
 }
 `;
 
-const defaultHeader = `{
-  "Content-Type": "application/json"
-}`;
-
 const graphqlbaseQuery =
   () =>
   async ({ url, body, headers, variables }: RequestData) => {
     try {
       const result = await fetch(url, {
         method: 'POST',
-        headers: JSON.parse(headers || defaultHeader),
+        headers: setHeaders(headers),
         body: JSON.stringify({
           query: body,
           variables: JSON.parse(variables || '{}'),
