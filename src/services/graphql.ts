@@ -18,12 +18,15 @@ query {
 
 const graphqlbaseQuery =
   () =>
-  async ({ url, body, headers = '' }: RequestData) => {
+  async ({ url, body, headers = '', variables }: RequestData) => {
     try {
       const result = await fetch(url, {
         method: 'POST',
         headers: JSON.parse(headers),
-        body: JSON.stringify({ query: body }),
+        body: JSON.stringify({
+          query: body,
+          variables: JSON.parse(variables || '{}') || {},
+        }),
       });
       const data = await result.json();
       console.log('data:');
