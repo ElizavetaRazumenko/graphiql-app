@@ -23,6 +23,12 @@ const checkCORSpolicySupport = async (currentEndpoint: string) => {
       (header) => header[0] === 'access-control-allow-headers',
     );
 
+    const accessControlAllowOrigin = headers.find(
+      (header) => header[0] === 'access-control-allow-origin',
+    );
+
+    console.log(accessControlAllowOrigin);
+
     if (accessControlAllowHeaders && accessControlAllowHeaders[1]) {
       const availableHeaders = accessControlAllowHeaders[1].split(', ');
       checkedEndpoints.push({ route: currentEndpoint, availableHeaders });
