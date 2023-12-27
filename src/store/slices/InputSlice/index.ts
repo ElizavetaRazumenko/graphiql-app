@@ -42,9 +42,7 @@ const initialState: InputState = {
 #
 `,
   result: '',
-  headers: `{
-    "Content-Type": "application/json"
- }`,
+  headers: ``,
   variables: ``,
 };
 
