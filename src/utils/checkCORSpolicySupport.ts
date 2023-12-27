@@ -1,12 +1,21 @@
-const checkedEndpoints: string[] = [];
+interface EndpointData {
+  route: string;
+  availableHeaders: string[];
+}
+
+export const checkedEndpoints: EndpointData[] = [];
 
 const checkCORSpolicySupport = async (currentEndpoint: string) => {
-  if (checkedEndpoints.find((endpoint) => endpoint === currentEndpoint)) {
+  if (checkedEndpoints.find((endpoint) => endpoint.route === currentEndpoint)) {
     return true;
   }
   try {
     const response = await fetch(currentEndpoint, {
       method: 'OPTIONS',
+      headers: {
+        'Access-Control-Request-Method': 'POST',
+        'Access-Control-Request-Headers': 'X-PINGOTHER, Content-Type',
+      },
     });
 
     const headers = [...response.headers];
@@ -14,16 +23,9 @@ const checkCORSpolicySupport = async (currentEndpoint: string) => {
       (header) => header[0] === 'access-control-allow-headers',
     );
 
-    const accessControlAllowMethods = headers.find(
-      (header) => header[0] === 'access-control-allow-methods',
-    );
-    if (
-      accessControlAllowHeaders &&
-      accessControlAllowMethods &&
-      accessControlAllowMethods[1] &&
-      accessControlAllowMethods[1].includes('POST')
-    ) {
-      checkedEndpoints.push(currentEndpoint);
+    if (accessControlAllowHeaders && accessControlAllowHeaders[1]) {
+      const availableHeaders = accessControlAllowHeaders[1].split(', ');
+      checkedEndpoints.push({ route: currentEndpoint, availableHeaders });
       return true;
     }
     return false;
