@@ -17,7 +17,12 @@ const checkCORSpolicySupport = async (currentEndpoint: string) => {
     const accessControlAllowMethods = headers.find(
       (header) => header[0] === 'access-control-allow-methods',
     );
-    if (accessControlAllowHeaders && accessControlAllowMethods) {
+    if (
+      accessControlAllowHeaders &&
+      accessControlAllowMethods &&
+      accessControlAllowMethods[1] &&
+      accessControlAllowMethods[1].includes('POST')
+    ) {
       checkedEndpoints.push(currentEndpoint);
       return true;
     }
