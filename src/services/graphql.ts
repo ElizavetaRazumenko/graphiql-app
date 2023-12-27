@@ -1,4 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import removeCommentLines from '../utils/removeCommentLines';
 
 interface RequestData {
   url: string;
@@ -60,7 +61,7 @@ export const getGraphQLData = createApi({
     getData: builder.query({
       query: ({ url, body, headers, variables }: RequestData) => ({
         url,
-        body,
+        body: removeCommentLines(body),
         headers,
         variables,
       }),

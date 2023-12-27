@@ -30,16 +30,6 @@ const initialState: InputState = {
 #       }
 #     }
 #
-# Keyboard shortcuts:
-#
-#   Prettify query:  Shift-Ctrl-P (or press the prettify button)
-#
-#  Merge fragments:  Shift-Ctrl-M (or press the merge button)
-#
-#        Run Query:  Ctrl-Enter (or press the play button)
-#
-#    Auto Complete:  Ctrl-Space (or just start typing)
-#
 `,
   result: '',
   headers: `{
