@@ -26,6 +26,11 @@ const QueryTextarea = ({
 
   return (
     <QueryContent
+      onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+        }
+      }}
       onChange={onChange}
       value={value}
       readOnly={readOnly}
