@@ -8,7 +8,12 @@ query {
 }
 `;
 
+const checkedEndpoints: string[] = [];
+
 const checkGraphQLSupport = async (graphqlEndpoint: string) => {
+  if (checkedEndpoints.find((endpoint) => endpoint === graphqlEndpoint)) {
+    return true;
+  }
   try {
     const response = await fetch(graphqlEndpoint, {
       method: 'POST',
@@ -25,6 +30,7 @@ const checkGraphQLSupport = async (graphqlEndpoint: string) => {
       responseJSON.data.__schema &&
       responseJSON.data.__schema.types
     ) {
+      checkedEndpoints.push(graphqlEndpoint);
       return true;
     }
     return false;
