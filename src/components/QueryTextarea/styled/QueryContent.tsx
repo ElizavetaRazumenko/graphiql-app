@@ -2,6 +2,7 @@ import { Theme, styled } from '@mui/material/styles';
 
 export const QueryContent = styled('textarea')(
   ({ theme }: { theme: Theme }) => ({
+    cursor: 'pointer',
     border: 'none',
     background: 'none',
     color: theme.palette.primary.main,
