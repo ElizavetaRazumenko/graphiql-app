@@ -15,7 +15,12 @@ export type AccordionItemProps = AccordionProps & {
 const AccordionItem = (props: AccordionItemProps) => {
   const { summary, children } = props;
   return (
-    <Accordion {...props} disableGutters sx={{ boxShadow: 'none' }}>
+    <Accordion
+      {...props}
+      disableGutters
+      sx={{ boxShadow: 'none' }}
+      TransitionProps={{ unmountOnExit: true }}
+    >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         {summary}
       </AccordionSummary>
