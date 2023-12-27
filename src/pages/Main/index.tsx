@@ -104,7 +104,7 @@ const Main = () => {
         <QueryTabs />
       </QueryEditorWrapper>
       <QueryResultContainer>
-        <QueryTextarea value={result} readOnly></QueryTextarea>
+        <QueryTextarea isResult value={result} readOnly></QueryTextarea>
         <DocumentationButton onClick={() => setIsModalOpen(true)} />
       </QueryResultContainer>
       <DocumentationModal
