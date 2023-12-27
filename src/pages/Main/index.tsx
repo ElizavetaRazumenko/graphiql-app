@@ -38,7 +38,12 @@ const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [currentEndpoint, setCurrentEndpointValue] = useState(endpoint);
+  const [currentQuery, setCurrentQueryValue] = useState(query);
+
   const [error, setError] = useState('');
+
+  const [isRequestSending, setIsRequestSending] = useState(false);
 
   const { data: responseData } = getGraphQLData.useGetDataQuery({
     url: endpoint,
@@ -54,10 +59,10 @@ const Main = () => {
   }, [responseData]);
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    dispatch(setEndpointValue(e.target.value));
+    setCurrentEndpointValue(e.target.value);
 
   const changeQueryHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    dispatch(setQueryValue(e.target.value));
+    setCurrentQueryValue(e.target.value);
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
@@ -67,6 +72,10 @@ const Main = () => {
     const isCorrectEndpoint = await checkGraphQLSupport(endpoint);
     if (!isCorrectEndpoint) {
       setError('Your endpoint does not support Graph QL requests');
+    } else {
+      setIsRequestSending(true);
+      dispatch(setQueryValue(currentQuery));
+      dispatch(setEndpointValue(currentEndpoint));
     }
   };
 
@@ -86,12 +95,12 @@ const Main = () => {
               {isInputOpened ? (
                 <Input
                   placeholder="Your endpoint"
-                  value={endpoint}
+                  value={currentEndpoint}
                   onChange={changeEndpointHandle}
                   icon="endpoint"
                 />
               ) : (
-                <Endpoint title={endpoint}>{endpoint}</Endpoint>
+                <Endpoint title={endpoint}>{currentEndpoint}</Endpoint>
               )}
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
@@ -99,9 +108,9 @@ const Main = () => {
               <PrettifyButton />
             </Stack>
           </QueryButtons>
-          <QueryTextarea value={query} onChange={changeQueryHandle} />
+          <QueryTextarea value={currentQuery} onChange={changeQueryHandle} />
         </QueryEditor>
-        <QueryTabs />
+        <QueryTabs isRequestSending={isRequestSending} />
       </QueryEditorWrapper>
       <QueryResultContainer>
         <QueryTextarea value={result} readOnly></QueryTextarea>

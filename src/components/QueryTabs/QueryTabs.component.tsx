@@ -1,5 +1,5 @@
 import Tab from '@mui/material/Tab';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ArrowButton } from './styled/ArrowButton';
 import { QueryFooter } from './styled/QueryFooter';
@@ -41,18 +41,33 @@ function a11yProps(index: number) {
   };
 }
 
-const QueryTabs = () => {
+interface QueryTabsProps {
+  isRequestSending: boolean;
+}
+
+const QueryTabs = ({ isRequestSending }: QueryTabsProps) => {
   const dispatch = useAppDispatch();
+
   const { headers, variables } = useAppSelector(inputSelector);
 
   const [currentTab, setCurrentTab] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
 
+  const [currentHeaders, setCurrentHeadersValue] = useState(headers);
+  const [currentVariables, setCurrentVariablesValue] = useState(variables);
+
+  useEffect(() => {
+    if (isRequestSending) {
+      dispatch(setHeadersValue(currentHeaders));
+      dispatch(setVariablesValue(currentVariables));
+    }
+  }, [isRequestSending]);
+
   const changeHeadersHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    dispatch(setHeadersValue(e.target.value));
+    setCurrentHeadersValue(e.target.value);
 
   const changeVariablesHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    dispatch(setVariablesValue(e.target.value));
+    setCurrentVariablesValue(e.target.value);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -86,13 +101,13 @@ const QueryTabs = () => {
       <Collapse in={isOpen}>
         <CustomTabPanel value={currentTab} index={0}>
           <QueryTextarea
-            value={variables}
+            value={currentVariables}
             onChange={changeVariablesHandle}
           ></QueryTextarea>
         </CustomTabPanel>
         <CustomTabPanel value={currentTab} index={1}>
           <QueryTextarea
-            value={headers}
+            value={currentHeaders}
             onChange={changeHeadersHandle}
           ></QueryTextarea>
         </CustomTabPanel>
