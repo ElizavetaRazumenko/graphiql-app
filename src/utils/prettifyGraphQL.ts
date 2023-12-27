@@ -1,4 +1,6 @@
-export default function prettifyGraphQL(str: string) {
+export default function prettifyGraphQL(query: string) {
+  const str = query.split('\n').join('').replace(/\s+/g, ' ');
+
   let result = '';
   let indentation = 0;
 
