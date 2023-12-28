@@ -8,7 +8,15 @@ query {
 }
 `;
 
-const checkGraphQLSupport = async (graphqlEndpoint: string) => {
+const checkedEndpoints: string[] = [];
+
+const checkGraphQLSupport = async (
+  graphqlEndpoint: string,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+) => {
+  if (checkedEndpoints.find((endpoint) => endpoint === graphqlEndpoint)) {
+    return true;
+  }
   try {
     const response = await fetch(graphqlEndpoint, {
       method: 'POST',
@@ -25,11 +33,14 @@ const checkGraphQLSupport = async (graphqlEndpoint: string) => {
       responseJSON.data.__schema &&
       responseJSON.data.__schema.types
     ) {
+      checkedEndpoints.push(graphqlEndpoint);
       return true;
     }
     return false;
-  } catch (error) {
-    console.error('An error occurred while checking GraphQL support:', error);
+  } catch {
+    setErrorMessage(
+      `An error occurred while checking GraphQL support, please try again`,
+    );
   }
 };
 

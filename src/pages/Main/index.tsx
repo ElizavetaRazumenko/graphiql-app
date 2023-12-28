@@ -20,7 +20,6 @@ import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 import { Stack } from '@mui/material';
 import { getGraphQLData } from '../../services/graphql';
-import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
@@ -31,6 +30,7 @@ import {
   setResultValue,
   setVariablesValue,
 } from '../../store/slices';
+import checkEndpoint from '../../utils/checkEndpoint';
 import prettifyGraphQL from '../../utils/prettifyGraphQL';
 
 const Main = () => {
@@ -66,11 +66,7 @@ const Main = () => {
 
   const sendRequest = async () => {
     setIsInputOpened(false);
-    setError('');
-    const isCorrectEndpoint = await checkGraphQLSupport(endpoint);
-    if (!isCorrectEndpoint) {
-      setError('Your endpoint does not support Graph QL requests');
-    }
+    await checkEndpoint(endpoint, setError);
   };
 
   return (
