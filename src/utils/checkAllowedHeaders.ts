@@ -4,7 +4,7 @@ const checkAllowedHeaders = (
   endpoint: string,
   headers: string,
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-) => {
+): boolean => {
   try {
     const parseHeadersEntries = JSON.parse(headers) as Record<string, string>;
     const parseHeaders = Object.keys(parseHeadersEntries);
@@ -21,13 +21,12 @@ const checkAllowedHeaders = (
         return false;
       }
       return true;
-    } else {
-      setErrorMessage('Something went wrong, please try again');
-      return false;
     }
   } catch {
     setErrorMessage('Please provide headers in JSON format');
   }
+  setErrorMessage('Something went wrong, please try again');
+  return false;
 };
 
 export default checkAllowedHeaders;
