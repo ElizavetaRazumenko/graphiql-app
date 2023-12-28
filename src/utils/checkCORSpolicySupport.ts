@@ -1,14 +1,13 @@
-interface EndpointData {
-  route: string;
-  availableHeaders: string[];
-}
+type EndpointData = Record<string, Array<string>>;
 
-export const checkedEndpoints: EndpointData[] = [];
+export const checkedEndpointsWithHeaders: EndpointData = {};
 
-const checkCORSpolicySupport = async (currentEndpoint: string) => {
-  if (checkedEndpoints.find((endpoint) => endpoint.route === currentEndpoint)) {
-    return true;
-  }
+const checkCORSpolicySupport = async (
+  currentEndpoint: string,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+) => {
+  if (checkedEndpointsWithHeaders[currentEndpoint]) return true;
+
   try {
     const response = await fetch(currentEndpoint, {
       method: 'OPTIONS',
@@ -27,16 +26,27 @@ const checkCORSpolicySupport = async (currentEndpoint: string) => {
       (header) => header[0] === 'access-control-allow-origin',
     );
 
-    console.log(accessControlAllowOrigin);
-
-    if (accessControlAllowHeaders && accessControlAllowHeaders[1]) {
+    if (
+      accessControlAllowOrigin &&
+      accessControlAllowOrigin[1] &&
+      accessControlAllowHeaders &&
+      accessControlAllowHeaders[1]
+    ) {
       const availableHeaders = accessControlAllowHeaders[1].split(', ');
-      checkedEndpoints.push({ route: currentEndpoint, availableHeaders });
-      return true;
+      checkedEndpointsWithHeaders[currentEndpoint] = availableHeaders;
+
+      if (
+        accessControlAllowOrigin[1] === '*' ||
+        accessControlAllowOrigin[1] === window.location.origin
+      ) {
+        return true;
+      }
     }
     return false;
-  } catch (error) {
-    console.error('An error occurred while checking CORS support:', error);
+  } catch {
+    setErrorMessage(
+      `An error occurred while checking CORS support, please try again`,
+    );
   }
 };
 

@@ -3,18 +3,27 @@ import checkGraphQLSupport from './checkGraphqlSupport';
 
 const checkEndpoint = async (
   endpoint: string,
-  setErrorMessage: (value: React.SetStateAction<string>) => void,
-) => {
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+): Promise<boolean> => {
   setErrorMessage('');
-  const isEndpointSupportCORS = await checkCORSpolicySupport(endpoint);
+  const isEndpointSupportCORS = await checkCORSpolicySupport(
+    endpoint,
+    setErrorMessage,
+  );
   if (!isEndpointSupportCORS) {
-    setErrorMessage('Your endpoint does not support CORS');
+    setErrorMessage('Entered endpoint does not support CORS');
+    return false;
   } else {
-    const isEndpointSupportGraphQL = await checkGraphQLSupport(endpoint);
+    const isEndpointSupportGraphQL = await checkGraphQLSupport(
+      endpoint,
+      setErrorMessage,
+    );
     if (!isEndpointSupportGraphQL) {
-      setErrorMessage('Your endpoint does not support Graph QL requests');
+      setErrorMessage('Entered endpoint does not support Graph QL requests');
+      return false;
     }
   }
+  return true;
 };
 
 export default checkEndpoint;
