@@ -32,6 +32,7 @@ import {
 } from '../../store/slices';
 import checkEndpoint from '../../utils/checkEndpoint';
 import prettifyGraphQL from '../../utils/prettifyGraphQL';
+import checkAllowedHeaders from '../../utils/checkAllowedHeaders';
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -71,11 +72,13 @@ const Main = () => {
 
   const sendRequest = async () => {
     setIsInputOpened(false);
-    setError('');
     const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
-    if (!isCorrectEndpoint) {
-      setError('Your endpoint does not support Graph QL requests');
-    } else {
+    const isAllowedHeaders = checkAllowedHeaders(
+      endpoint,
+      currentHeaders,
+      setError,
+    );
+    if (isCorrectEndpoint && isAllowedHeaders) {
       dispatch(setEndpointValue(currentEndpoint));
       dispatch(setQueryValue(currentQuery));
       dispatch(setHeadersValue(currentHeaders));
