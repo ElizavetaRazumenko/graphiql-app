@@ -20,7 +20,6 @@ import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
 import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
 import { Stack } from '@mui/material';
 import { getGraphQLData } from '../../services/graphql';
-import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
@@ -31,6 +30,8 @@ import {
   setResultValue,
   setVariablesValue,
 } from '../../store/slices';
+import checkEndpoint from '../../utils/checkEndpoint';
+import prettifyGraphQL from '../../utils/prettifyGraphQL';
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -71,7 +72,7 @@ const Main = () => {
   const sendRequest = async () => {
     setIsInputOpened(false);
     setError('');
-    const isCorrectEndpoint = await checkGraphQLSupport(endpoint);
+    const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
     if (!isCorrectEndpoint) {
       setError('Your endpoint does not support Graph QL requests');
     } else {
@@ -108,7 +109,13 @@ const Main = () => {
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
               <PlayButton onClick={sendRequest} />
-              <PrettifyButton />
+              <PrettifyButton
+                onClick={() => {
+                  dispatch(setQueryValue(prettifyGraphQL(query)));
+                  dispatch(setHeadersValue(prettifyGraphQL(headers)));
+                  dispatch(setVariablesValue(prettifyGraphQL(variables)));
+                }}
+              />
             </Stack>
           </QueryButtons>
           <QueryTextarea value={currentQuery} onChange={changeQueryHandle} />
@@ -123,7 +130,7 @@ const Main = () => {
         />
       </QueryEditorWrapper>
       <QueryResultContainer>
-        <QueryTextarea value={result} readOnly></QueryTextarea>
+        <QueryTextarea isResult value={result} readOnly></QueryTextarea>
         <DocumentationButton onClick={() => setIsModalOpen(true)} />
       </QueryResultContainer>
       <DocumentationModal

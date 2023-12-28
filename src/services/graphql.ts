@@ -1,4 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import removeCommentLines from '../utils/removeCommentLines';
+import setHeaders from '../utils/setHeaders';
+import getGraphQLDocumentationSchema from '../utils/getGraphQLDocumentationSchema';
 
 interface RequestData {
   url: string;
@@ -16,17 +19,13 @@ query {
 }
 `;
 
-const defaultHeader = `{
-  "Content-Type": "application/json"
-}`;
-
 const graphqlbaseQuery =
   () =>
   async ({ url, body, headers, variables }: RequestData) => {
     try {
       const result = await fetch(url, {
         method: 'POST',
-        headers: JSON.parse(headers || defaultHeader),
+        headers: setHeaders(headers),
         body: JSON.stringify({
           query: body,
           variables: JSON.parse(variables || '{}'),
@@ -60,9 +59,16 @@ export const getGraphQLData = createApi({
     getData: builder.query({
       query: ({ url, body, headers, variables }: RequestData) => ({
         url,
-        body,
+        body: removeCommentLines(body),
         headers,
         variables,
+      }),
+    }),
+    getDocumentationSchema: builder.query({
+      query: ({ url, headers }: Omit<RequestData, 'body'>) => ({
+        url,
+        body: getGraphQLDocumentationSchema(),
+        headers,
       }),
     }),
   }),
