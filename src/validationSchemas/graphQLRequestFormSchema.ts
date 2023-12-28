@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import { graphQLRequestFormFields } from '../pages/Main';
+import removeCommentLines from '../utils/removeCommentLines';
 
 const graphQLRequestFormSchema: yup.ObjectSchema<graphQLRequestFormFields> = yup
   .object()
@@ -12,7 +13,8 @@ const graphQLRequestFormSchema: yup.ObjectSchema<graphQLRequestFormFields> = yup
       .test(
         'is-every-bracked-paired',
         'Query is invalid',
-        (value: string): boolean => {
+        (_value: string): boolean => {
+          const value: string = removeCommentLines(_value);
           const brackets: Array<string> = ['{', '}', '(', ')'];
           const bracketCount: Record<string, number> = {};
 
