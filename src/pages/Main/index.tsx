@@ -41,6 +41,11 @@ const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [currentEndpoint, setCurrentEndpointValue] = useState(endpoint);
+  const [currentQuery, setCurrentQueryValue] = useState(query);
+  const [currentHeaders, setCurrentHeadersValue] = useState(headers);
+  const [currentVariables, setCurrentVariablesValue] = useState(variables);
+
   const [error, setError] = useState('');
 
   const { data: responseData } = getGraphQLData.useGetDataQuery({
@@ -57,16 +62,25 @@ const Main = () => {
   }, [responseData]);
 
   const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    dispatch(setEndpointValue(e.target.value));
+    setCurrentEndpointValue(e.target.value);
 
   const changeQueryHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    dispatch(setQueryValue(e.target.value));
+    setCurrentQueryValue(e.target.value);
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
   const sendRequest = async () => {
     setIsInputOpened(false);
-    await checkEndpoint(endpoint, setError);
+    setError('');
+    const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
+    if (!isCorrectEndpoint) {
+      setError('Your endpoint does not support Graph QL requests');
+    } else {
+      dispatch(setEndpointValue(currentEndpoint));
+      dispatch(setQueryValue(currentQuery));
+      dispatch(setHeadersValue(currentHeaders));
+      dispatch(setVariablesValue(currentVariables));
+    }
   };
 
   return (
@@ -85,12 +99,12 @@ const Main = () => {
               {isInputOpened ? (
                 <Input
                   placeholder="Your endpoint"
-                  value={endpoint}
+                  value={currentEndpoint}
                   onChange={changeEndpointHandle}
                   icon="endpoint"
                 />
               ) : (
-                <Endpoint title={endpoint}>{endpoint}</Endpoint>
+                <Endpoint title={endpoint}>{currentEndpoint}</Endpoint>
               )}
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
@@ -104,9 +118,16 @@ const Main = () => {
               />
             </Stack>
           </QueryButtons>
-          <QueryTextarea value={query} onChange={changeQueryHandle} />
+          <QueryTextarea value={currentQuery} onChange={changeQueryHandle} />
         </QueryEditor>
-        <QueryTabs />
+        <QueryTabs
+          {...{
+            currentHeaders,
+            setCurrentHeadersValue,
+            currentVariables,
+            setCurrentVariablesValue,
+          }}
+        />
       </QueryEditorWrapper>
       <QueryResultContainer>
         <QueryTextarea isResult value={result} readOnly></QueryTextarea>
