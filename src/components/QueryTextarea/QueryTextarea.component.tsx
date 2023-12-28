@@ -1,42 +1,36 @@
-import { useEffect, useRef } from 'react';
+import { TextFieldProps } from '@mui/material';
+import { ForwardedRef, forwardRef } from 'react';
 import { QueryContent } from './styled';
 
-type QueryTextareaProps = {
-  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
-  value: string;
+type QueryTextareaProps = TextFieldProps & {
   readOnly?: boolean;
-  isResult?: boolean;
 };
 
-const QueryTextarea = ({
-  readOnly,
-  value,
-  onChange,
-  isResult,
-}: QueryTextareaProps) => {
-  const queryRef = useRef<HTMLTextAreaElement>(null);
+const QueryTextarea = forwardRef(
+  (props: QueryTextareaProps, ref: ForwardedRef<HTMLInputElement>) => {
+    const { readOnly, defaultValue } = props;
+    const minRows: number = 10;
+    const rowsInValue: number = defaultValue
+      ? String(defaultValue).split('\n').length + 5
+      : 0;
+    const maxRows: number = rowsInValue > minRows ? rowsInValue : minRows;
 
-  useEffect(() => {
-    if (queryRef.current) {
-      queryRef.current.style.height = isResult
-        ? '100%'
-        : queryRef.current.scrollHeight + 'px';
-    }
-  }, [queryRef.current]);
-
-  return (
-    <QueryContent
-      onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === 'Tab') {
-          e.preventDefault();
-        }
-      }}
-      onChange={onChange}
-      value={value}
-      readOnly={readOnly}
-      ref={queryRef}
-    ></QueryContent>
-  );
-};
+    return (
+      <QueryContent
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Tab') {
+            e.preventDefault();
+          }
+        }}
+        ref={ref}
+        multiline
+        minRows={minRows}
+        maxRows={maxRows}
+        InputProps={{ readOnly }}
+        {...props}
+      ></QueryContent>
+    );
+  },
+);
 
 export default QueryTextarea;
