@@ -5,7 +5,6 @@ const checkAllowedHeaders = (
   headers: string,
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
 ) => {
-  console.log(headers);
   try {
     const parseHeadersEntries = JSON.parse(headers) as Record<string, string>;
     const parseHeaders = Object.keys(parseHeadersEntries);
