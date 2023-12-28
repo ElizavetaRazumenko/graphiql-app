@@ -1,6 +1,7 @@
 import { Snackbar, SnackbarProps, Alert } from '@mui/material';
 import { styled, Theme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
+import { snackbarVisibilityDuration } from '../constants';
 
 const ErrSnackbar = (props: SnackbarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -15,7 +16,7 @@ const ErrSnackbar = (props: SnackbarProps) => {
     <Snackbar
       open={isOpen}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      autoHideDuration={6000}
+      autoHideDuration={snackbarVisibilityDuration}
       onClose={handleClose}
       {...props}
     >
