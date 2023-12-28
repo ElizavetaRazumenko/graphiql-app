@@ -1,14 +1,11 @@
 import Tab from '@mui/material/Tab';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ArrowButton } from './styled/ArrowButton';
 import { QueryFooter } from './styled/QueryFooter';
 import { QueryFooterLinks } from './styled/QueryFooterLinks';
 import { Box, Tabs, Collapse } from '@mui/material';
 import { TabPanel } from './styled';
-import { inputSelector } from '../../store/selectors';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setHeadersValue, setVariablesValue } from '../../store/slices';
 import QueryTextarea from '../QueryTextarea/QueryTextarea.component';
 
 interface TabPanelProps {
@@ -42,26 +39,20 @@ function a11yProps(index: number) {
 }
 
 interface QueryTabsProps {
-  isRequestSending: boolean;
+  currentHeaders: string;
+  currentVariables: string;
+  setCurrentHeadersValue: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentVariablesValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const QueryTabs = ({ isRequestSending }: QueryTabsProps) => {
-  const dispatch = useAppDispatch();
-
-  const { headers, variables } = useAppSelector(inputSelector);
-
+const QueryTabs = ({
+  currentHeaders,
+  currentVariables,
+  setCurrentHeadersValue,
+  setCurrentVariablesValue,
+}: QueryTabsProps) => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
-
-  const [currentHeaders, setCurrentHeadersValue] = useState(headers);
-  const [currentVariables, setCurrentVariablesValue] = useState(variables);
-
-  useEffect(() => {
-    if (isRequestSending) {
-      dispatch(setHeadersValue(currentHeaders));
-      dispatch(setVariablesValue(currentVariables));
-    }
-  }, [isRequestSending]);
 
   const changeHeadersHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setCurrentHeadersValue(e.target.value);

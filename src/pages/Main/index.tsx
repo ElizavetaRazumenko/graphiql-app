@@ -26,8 +26,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
 import {
   setEndpointValue,
+  setHeadersValue,
   setQueryValue,
   setResultValue,
+  setVariablesValue,
 } from '../../store/slices';
 
 const Main = () => {
@@ -40,10 +42,10 @@ const Main = () => {
 
   const [currentEndpoint, setCurrentEndpointValue] = useState(endpoint);
   const [currentQuery, setCurrentQueryValue] = useState(query);
+  const [currentHeaders, setCurrentHeadersValue] = useState(headers);
+  const [currentVariables, setCurrentVariablesValue] = useState(variables);
 
   const [error, setError] = useState('');
-
-  const [isRequestSending, setIsRequestSending] = useState(false);
 
   const { data: responseData } = getGraphQLData.useGetDataQuery({
     url: endpoint,
@@ -73,9 +75,10 @@ const Main = () => {
     if (!isCorrectEndpoint) {
       setError('Your endpoint does not support Graph QL requests');
     } else {
-      setIsRequestSending(true);
-      dispatch(setQueryValue(currentQuery));
       dispatch(setEndpointValue(currentEndpoint));
+      dispatch(setQueryValue(currentQuery));
+      dispatch(setHeadersValue(currentHeaders));
+      dispatch(setVariablesValue(currentVariables));
     }
   };
 
@@ -110,7 +113,14 @@ const Main = () => {
           </QueryButtons>
           <QueryTextarea value={currentQuery} onChange={changeQueryHandle} />
         </QueryEditor>
-        <QueryTabs isRequestSending={isRequestSending} />
+        <QueryTabs
+          {...{
+            currentHeaders,
+            setCurrentHeadersValue,
+            currentVariables,
+            setCurrentVariablesValue,
+          }}
+        />
       </QueryEditorWrapper>
       <QueryResultContainer>
         <QueryTextarea value={result} readOnly></QueryTextarea>
