@@ -107,7 +107,7 @@ const Registration = () => {
         </Box>
       </AuthDialog>
       <Spinner open={loading} />
-      <ErrorSnackbar open={Boolean(error)} message={error?.message} />
+      <ErrorSnackbar message={error?.message} />
     </>
   );
 };

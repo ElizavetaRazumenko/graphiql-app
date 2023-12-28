@@ -117,7 +117,7 @@ const Main = () => {
         setIsModalOpen={setIsModalOpen}
       />
 
-      <ErrorSnackbar open={Boolean(error)} message={error} />
+      <ErrorSnackbar message={error} />
     </MainWrapper>
   );
 };
