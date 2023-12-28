@@ -25,10 +25,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { inputSelector } from '../../store/selectors';
 import {
   setEndpointValue,
+  setHeadersValue,
   setQueryValue,
   setResultValue,
+  setVariablesValue,
 } from '../../store/slices';
 import checkEndpoint from '../../utils/checkEndpoint';
+import prettifyGraphQL from '../../utils/prettifyGraphQL';
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -92,7 +95,13 @@ const Main = () => {
             </ChangeEndpointContainer>
             <Stack direction="row" spacing="20px">
               <PlayButton onClick={sendRequest} />
-              <PrettifyButton />
+              <PrettifyButton
+                onClick={() => {
+                  dispatch(setQueryValue(prettifyGraphQL(query)));
+                  dispatch(setHeadersValue(prettifyGraphQL(headers)));
+                  dispatch(setVariablesValue(prettifyGraphQL(variables)));
+                }}
+              />
             </Stack>
           </QueryButtons>
           <QueryTextarea value={query} onChange={changeQueryHandle} />
@@ -100,7 +109,7 @@ const Main = () => {
         <QueryTabs />
       </QueryEditorWrapper>
       <QueryResultContainer>
-        <QueryTextarea value={result} readOnly></QueryTextarea>
+        <QueryTextarea isResult value={result} readOnly></QueryTextarea>
         <DocumentationButton onClick={() => setIsModalOpen(true)} />
       </QueryResultContainer>
       <DocumentationModal
