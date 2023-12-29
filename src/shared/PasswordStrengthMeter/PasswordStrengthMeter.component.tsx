@@ -2,6 +2,7 @@ import { Stack, Typography } from '@mui/material';
 import ProgressBar from './styled/ProgressBar';
 import { useEffect, useState } from 'react';
 import getPasswordStrength from '../../utils/getPasswordStrength';
+import { percentsPerGrade } from '../constants';
 
 export type PasswordStrengthMeterProps = {
   password: string;
@@ -32,7 +33,7 @@ const PasswordStrengthMeter = ({
       </Typography>
       <ProgressBar
         variant="determinate"
-        value={20 * passwordStrength}
+        value={percentsPerGrade * passwordStrength}
         strength={passwordStrength}
       />
     </Stack>
