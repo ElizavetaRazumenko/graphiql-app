@@ -1,21 +1,26 @@
+import { TextField, TextFieldProps } from '@mui/material';
 import { Theme, styled } from '@mui/material/styles';
 
-export const QueryContent = styled('textarea')(
+export const QueryContent = styled(TextField)<TextFieldProps>(
   ({ theme }: { theme: Theme }) => ({
-    cursor: 'pointer',
-    border: 'none',
-    background: 'none',
-    color: theme.palette.primary.main,
-    fontSize: '20px',
     width: '100%',
-    outline: 'none',
     resize: 'none',
     flex: '1 0 auto',
-    [theme.breakpoints.down('md')]: {
-      fontSize: '15px',
+    '& textarea': {
+      cursor: 'pointer',
     },
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '14px',
+    '& .MuiInputBase-root': {
+      color: theme.palette.primary.main,
+      fontSize: '16px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '15px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+      },
+    },
+    '& fieldset': {
+      border: 'none',
     },
   }),
 );

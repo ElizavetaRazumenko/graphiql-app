@@ -9,6 +9,6 @@ export const QueryTitle = styled(MaterialTypography)<MaterialTypographyProps>(
     fontSize: '24px',
     fontStyle: 'normal',
     fontWeight: '400',
-    marginBottom: '10px',
+    marginBottom: '20px',
   }),
 );

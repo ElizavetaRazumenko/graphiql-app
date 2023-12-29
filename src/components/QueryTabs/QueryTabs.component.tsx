@@ -6,7 +6,6 @@ import { QueryFooter } from './styled/QueryFooter';
 import { QueryFooterLinks } from './styled/QueryFooterLinks';
 import { Box, Tabs, Collapse } from '@mui/material';
 import { TabPanel } from './styled';
-import QueryTextarea from '../QueryTextarea/QueryTextarea.component';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -18,47 +17,19 @@ function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <TabPanel
-      opened="true"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3, height: '100%' }}>{children}</Box>}
+    <TabPanel opened="true" role="tabpanel" hidden={value !== index} {...other}>
+      {value === index && <Box sx={{ p: 1, height: '100%' }}>{children}</Box>}
     </TabPanel>
   );
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 interface QueryTabsProps {
-  currentHeaders: string;
-  currentVariables: string;
-  setCurrentHeadersValue: React.Dispatch<React.SetStateAction<string>>;
-  setCurrentVariablesValue: React.Dispatch<React.SetStateAction<string>>;
+  children: React.ReactNode;
 }
 
-const QueryTabs = ({
-  currentHeaders,
-  currentVariables,
-  setCurrentHeadersValue,
-  setCurrentVariablesValue,
-}: QueryTabsProps) => {
+const QueryTabs = ({ children }: QueryTabsProps) => {
   const [currentTab, setCurrentTab] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
-
-  const changeHeadersHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setCurrentHeadersValue(e.target.value);
-
-  const changeVariablesHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setCurrentVariablesValue(e.target.value);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -76,12 +47,8 @@ const QueryTabs = ({
     <QueryFooter>
       <QueryFooterLinks direction="row">
         <Tabs value={currentTab} onChange={handleChange}>
-          <Tab
-            label="Variables"
-            {...a11yProps(0)}
-            onClick={() => tabClick(0)}
-          />
-          <Tab label="Headers" {...a11yProps(1)} onClick={() => tabClick(1)} />
+          <Tab label="Variables" onClick={() => tabClick(0)} />
+          <Tab label="Headers" onClick={() => tabClick(1)} />
         </Tabs>
 
         <ArrowButton
@@ -91,16 +58,10 @@ const QueryTabs = ({
       </QueryFooterLinks>
       <Collapse in={isOpen}>
         <CustomTabPanel value={currentTab} index={0}>
-          <QueryTextarea
-            value={currentVariables}
-            onChange={changeVariablesHandle}
-          ></QueryTextarea>
+          {(children as Array<React.JSX.Element>)[0]}
         </CustomTabPanel>
         <CustomTabPanel value={currentTab} index={1}>
-          <QueryTextarea
-            value={currentHeaders}
-            onChange={changeHeadersHandle}
-          ></QueryTextarea>
+          {(children as Array<React.JSX.Element>)[1]}
         </CustomTabPanel>
       </Collapse>
     </QueryFooter>

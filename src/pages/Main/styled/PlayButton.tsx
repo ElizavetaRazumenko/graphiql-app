@@ -4,8 +4,8 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { styled } from '@mui/material/styles';
 
 const ButtonWithIcon = (props: IconButtonProps) => (
-  <IconButton {...props}>
-    <PlayCircleIcon sx={{ fontSize: 40, color: '#fff' }} />
+  <IconButton {...props} color="primary">
+    <PlayCircleIcon sx={{ fontSize: 40 }} />
   </IconButton>
 );
 
