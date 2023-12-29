@@ -1,11 +1,12 @@
-import { Typography } from '@mui/material';
-import { Wrapper } from '../../components/Wrapper';
+import { Error404, ErrorContainer, ErrorMessage, WelcomeLink } from './styled';
 
 const NotFound = () => {
   return (
-    <Wrapper>
-      <Typography variant="h1">404</Typography>
-    </Wrapper>
+    <ErrorContainer spacing={2}>
+      <Error404>404</Error404>
+      <ErrorMessage>Page not found</ErrorMessage>
+      <WelcomeLink to={'/'}>Go to the welcome page ?</WelcomeLink>
+    </ErrorContainer>
   );
 };
 
