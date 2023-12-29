@@ -96,15 +96,15 @@ const Main = () => {
     if (isCorrectEndpoint) {
       const isAllowedHeaders = checkAllowedHeaders(
         endpoint,
-        currentHeaders,
+        data.headers ?? '',
         setError,
       );
 
       if (isAllowedHeaders) {
-        dispatch(setEndpointValue(currentEndpoint));
-        dispatch(setQueryValue(currentQuery));
-        dispatch(setHeadersValue(currentHeaders));
-        dispatch(setVariablesValue(currentVariables));
+        dispatch(setEndpointValue(data.url));
+        dispatch(setQueryValue(data.query));
+        dispatch(setHeadersValue(data.headers ?? ''));
+        dispatch(setVariablesValue(data.variables ?? ''));
       }
     }
   };
