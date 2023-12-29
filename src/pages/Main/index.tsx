@@ -73,16 +73,20 @@ const Main = () => {
   const sendRequest = async () => {
     setIsInputOpened(false);
     const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
-    const isAllowedHeaders = checkAllowedHeaders(
-      endpoint,
-      currentHeaders,
-      setError,
-    );
-    if (isCorrectEndpoint && isAllowedHeaders) {
-      dispatch(setEndpointValue(currentEndpoint));
-      dispatch(setQueryValue(currentQuery));
-      dispatch(setHeadersValue(currentHeaders));
-      dispatch(setVariablesValue(currentVariables));
+
+    if (isCorrectEndpoint) {
+      const isAllowedHeaders = checkAllowedHeaders(
+        endpoint,
+        currentHeaders,
+        setError,
+      );
+
+      if (isAllowedHeaders) {
+        dispatch(setEndpointValue(currentEndpoint));
+        dispatch(setQueryValue(currentQuery));
+        dispatch(setHeadersValue(currentHeaders));
+        dispatch(setVariablesValue(currentVariables));
+      }
     }
   };
 

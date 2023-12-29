@@ -1,4 +1,4 @@
-export type EndpointData = Record<string, Array<string>>;
+type EndpointData = Record<string, Array<string>>;
 
 export const checkedEndpointsWithHeaders: EndpointData = {};
 
@@ -34,7 +34,6 @@ const checkCORSpolicySupport = async (
     ) {
       const availableHeaders = accessControlAllowHeaders[1].split(', ');
       checkedEndpointsWithHeaders[currentEndpoint] = availableHeaders;
-      console.log(availableHeaders);
 
       if (
         accessControlAllowOrigin[1] === '*' ||
