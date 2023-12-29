@@ -32,6 +32,7 @@ import {
 } from '../../store/slices';
 import checkEndpoint from '../../utils/checkEndpoint';
 import prettifyGraphQL from '../../utils/prettifyGraphQL';
+import checkAllowedHeaders from '../../utils/checkAllowedHeaders';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import graphQLRequestFormSchema from '../../validationSchemas/graphQLRequestFormSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -90,15 +91,21 @@ const Main = () => {
     data: graphQLRequestFormFields,
   ): Promise<void> => {
     setIsInputOpened(false);
-    setError('');
     const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
-    if (!isCorrectEndpoint) {
-      setError('Your endpoint does not support Graph QL requests');
-    } else {
-      dispatch(setEndpointValue(data.url));
-      dispatch(setQueryValue(data.query));
-      dispatch(setHeadersValue(data.headers ?? ''));
-      dispatch(setVariablesValue(data.variables ?? ''));
+
+    if (isCorrectEndpoint) {
+      const isAllowedHeaders = checkAllowedHeaders(
+        endpoint,
+        currentHeaders,
+        setError,
+      );
+
+      if (isAllowedHeaders) {
+        dispatch(setEndpointValue(currentEndpoint));
+        dispatch(setQueryValue(currentQuery));
+        dispatch(setHeadersValue(currentHeaders));
+        dispatch(setVariablesValue(currentVariables));
+      }
     }
   };
 
