@@ -16,9 +16,9 @@ import { useEffect, useState } from 'react';
 import { DocumentationModal } from '../../components/DocumentationModal';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
-import QueryTabs from '../../components/QueryTabs/QueryTabs.component';
-import QueryTextarea from '../../components/QueryTextarea/QueryTextarea.component';
-import { Stack } from '@mui/material';
+import { QueryTabs } from '../../components/QueryTabs';
+import { QueryTextarea } from '../../components/QueryTextarea';
+import { Box, Stack } from '@mui/material';
 import { getGraphQLData } from '../../services/graphql';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -33,6 +33,16 @@ import {
 import checkEndpoint from '../../utils/checkEndpoint';
 import prettifyGraphQL from '../../utils/prettifyGraphQL';
 import checkAllowedHeaders from '../../utils/checkAllowedHeaders';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import graphQLRequestFormSchema from '../../validationSchemas/graphQLRequestFormSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+export type graphQLRequestFormFields = {
+  url: string;
+  query: string;
+  headers?: string;
+  variables?: string;
+};
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -42,10 +52,23 @@ const Main = () => {
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [currentEndpoint, setCurrentEndpointValue] = useState(endpoint);
-  const [currentQuery, setCurrentQueryValue] = useState(query);
-  const [currentHeaders, setCurrentHeadersValue] = useState(headers);
-  const [currentVariables, setCurrentVariablesValue] = useState(variables);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<graphQLRequestFormFields>({
+    mode: 'onChange',
+    resolver: yupResolver(graphQLRequestFormSchema),
+    defaultValues: {
+      url: endpoint,
+      query: query,
+      headers: headers,
+      variables: variables,
+    },
+  });
+
+  const endpointURL: string = watch('url');
 
   const [error, setError] = useState('');
 
@@ -62,15 +85,11 @@ const Main = () => {
     }
   }, [responseData]);
 
-  const changeEndpointHandle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setCurrentEndpointValue(e.target.value);
-
-  const changeQueryHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setCurrentQueryValue(e.target.value);
-
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
-  const sendRequest = async () => {
+  const onSubmit: SubmitHandler<graphQLRequestFormFields> = async (
+    data: graphQLRequestFormFields,
+  ): Promise<void> => {
     setIsInputOpened(false);
     const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
 
@@ -93,51 +112,67 @@ const Main = () => {
   return (
     <MainWrapper>
       <QueryEditorWrapper>
-        <QueryEditor>
-          <QueryTitle>Query editor</QueryTitle>
-          <QueryButtons direction="row">
-            <ChangeEndpoint
-              variant="contained"
-              onClick={changeInputOpenedHandle}
-            >
-              {isInputOpened ? 'Hide Endpoint' : 'Change endpoint'}
-            </ChangeEndpoint>
-            <ChangeEndpointContainer direction="row" spacing="20px">
-              {isInputOpened ? (
-                <Input
-                  placeholder="Your endpoint"
-                  value={currentEndpoint}
-                  onChange={changeEndpointHandle}
-                  icon="endpoint"
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <QueryEditor>
+            <QueryTitle>Query editor</QueryTitle>
+            <QueryButtons direction="row">
+              <ChangeEndpoint
+                variant="contained"
+                onClick={changeInputOpenedHandle}
+                disabled={Boolean(errors.url)}
+              >
+                {isInputOpened ? 'Accept Endpoint' : 'Change Endpoint'}
+              </ChangeEndpoint>
+              <ChangeEndpointContainer>
+                {isInputOpened ? (
+                  <Input
+                    placeholder="Your endpoint"
+                    defaultValue={endpoint}
+                    icon="endpoint"
+                    {...register('url')}
+                    error={Boolean(errors.url)}
+                    helperText={errors.url?.message ?? '\u00A0'}
+                  />
+                ) : (
+                  <Endpoint title={endpointURL}>{endpointURL}</Endpoint>
+                )}
+              </ChangeEndpointContainer>
+              <Stack direction="row" spacing="20px">
+                <PlayButton type="submit" disabled={!isValid} />
+                <PrettifyButton
+                  onClick={() => {
+                    dispatch(setQueryValue(prettifyGraphQL(query)));
+                    dispatch(setHeadersValue(prettifyGraphQL(headers)));
+                    dispatch(setVariablesValue(prettifyGraphQL(variables)));
+                  }}
                 />
-              ) : (
-                <Endpoint title={endpoint}>{currentEndpoint}</Endpoint>
-              )}
-            </ChangeEndpointContainer>
-            <Stack direction="row" spacing="20px">
-              <PlayButton onClick={sendRequest} />
-              <PrettifyButton
-                onClick={() => {
-                  dispatch(setQueryValue(prettifyGraphQL(query)));
-                  dispatch(setHeadersValue(prettifyGraphQL(headers)));
-                  dispatch(setVariablesValue(prettifyGraphQL(variables)));
-                }}
-              />
-            </Stack>
-          </QueryButtons>
-          <QueryTextarea value={currentQuery} onChange={changeQueryHandle} />
-        </QueryEditor>
-        <QueryTabs
-          {...{
-            currentHeaders,
-            setCurrentHeadersValue,
-            currentVariables,
-            setCurrentVariablesValue,
-          }}
-        />
+              </Stack>
+            </QueryButtons>
+            <QueryTextarea
+              defaultValue={query}
+              {...register('query')}
+              error={Boolean(errors.query)}
+              helperText={errors.query?.message ?? '\u00A0'}
+            />
+          </QueryEditor>
+          <QueryTabs>
+            <QueryTextarea
+              defaultValue={variables}
+              {...register('variables')}
+              error={Boolean(errors.variables)}
+              helperText={errors.variables?.message ?? '\u00A0'}
+            ></QueryTextarea>
+            <QueryTextarea
+              defaultValue={headers}
+              {...register('headers')}
+              error={Boolean(errors.headers)}
+              helperText={errors.headers?.message ?? '\u00A0'}
+            ></QueryTextarea>
+          </QueryTabs>
+        </Box>
       </QueryEditorWrapper>
       <QueryResultContainer>
-        <QueryTextarea isResult value={result} readOnly></QueryTextarea>
+        <QueryTextarea defaultValue={result} readOnly></QueryTextarea>
         <DocumentationButton onClick={() => setIsModalOpen(true)} />
       </QueryResultContainer>
       <DocumentationModal

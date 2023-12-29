@@ -9,7 +9,13 @@ const registrationFormSchema: yup.ObjectSchema<RegisterFormFields> = yup
       .required('Name is required')
       .matches(/^[A-Z]+/, 'Must have first letter uppercased'),
 
-    email: yup.string().required('Email is required').email(),
+    email: yup
+      .string()
+      .required('Email is required')
+      .matches(
+        /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,6}$/,
+        'Please enter correct email',
+      ),
 
     password: yup
       .string()

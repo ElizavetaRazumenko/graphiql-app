@@ -1,13 +1,15 @@
-import MaterialBox, { BoxProps as MaterialBoxProps } from '@mui/material/Box';
+import MaterialStack, {
+  StackProps as MaterialStackProps,
+} from '@mui/material/Stack';
 import { Theme, styled } from '@mui/material/styles';
 
-export const QueryEditor = styled(MaterialBox)<MaterialBoxProps>(
+export const QueryEditor = styled(MaterialStack)<MaterialStackProps>(
   ({ theme }: { theme: Theme }) => ({
-    padding: '16px 72px 80px 50px',
+    padding: '16px 52px 20px 42px',
     borderBottom: `5px solid ${theme.palette.primary.main}`,
 
     [theme.breakpoints.down('md')]: {
-      padding: '10px',
+      padding: '20px',
     },
   }),
 );

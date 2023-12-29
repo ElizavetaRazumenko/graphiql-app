@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { Spinner } from '../../shared/Spinner';
 import { ErrorSnackbar } from '../../shared/ErrorSnackbar';
 import { useEffect } from 'react';
+import { PasswordStrengthMeter } from '../../shared/PasswordStrengthMeter';
 
 export type RegisterFormFields = {
   name: string;
@@ -47,6 +48,7 @@ const Registration = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isValid },
   } = useForm<RegisterFormFields>({
     mode: 'onChange',
@@ -59,17 +61,19 @@ const Registration = () => {
     },
   });
 
+  const curPassword: string = watch('password');
+
   const onSubmitHandler: SubmitHandler<RegisterFormFields> = (
     data: RegisterFormFields,
   ): void => {
-    registerWithEmailAndPassword(data.name, data.email, data.password);
+    registerWithEmailAndPassword(data.name, data.email, data.password.trim());
   };
 
   return (
     <>
       <AuthDialog title={title}>
         <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
-          <Stack gap={3}>
+          <Stack gap={2}>
             <Input
               placeholder={name}
               icon="user"
@@ -84,6 +88,7 @@ const Registration = () => {
               error={Boolean(errors.email)}
               helperText={errors.email?.message ?? '\u00A0'}
             />
+            <PasswordStrengthMeter password={curPassword} />
             <Input
               placeholder={password}
               type="password"
