@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Welcome from './pages/Welcome';
-import PrivateRoute from './routes/PrivateRoute';
-import Main from './pages/Main';
-import NotFound from './pages/NotFound';
-import LayoutWithErrorHandling from './components/LayoutWithErrorHandling';
-import AuthPage from './pages/AuthPage';
-import PublicRoute from './routes/PublicRoute';
+import Welcome from '../pages/Welcome';
+import PrivateRoute from '../routes/PrivateRoute';
+import Main from '../pages/Main';
+import NotFound from '../pages/NotFound';
+import LayoutWithErrorHandling from '../components/LayoutWithErrorHandling';
+import AuthPage from '../pages/AuthPage';
+import PublicRoute from '../routes/PublicRoute';
 
 const router = createBrowserRouter([
   {
