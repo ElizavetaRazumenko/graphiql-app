@@ -11,7 +11,7 @@ export const AuthDialogWrapper = styled(Stack)<MaterialStackProps>(
       gap: '32px',
     },
     [theme.breakpoints.up('sm')]: {
-      paddingTop: '100px',
+      paddingTop: '70px',
       gap: '48px',
     },
     '& h1': {
