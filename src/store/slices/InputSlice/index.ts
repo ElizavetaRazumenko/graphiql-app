@@ -9,7 +9,7 @@ type InputState = {
 };
 
 const initialState: InputState = {
-  endpoint: 'https://rickandmortyapi.com/graphql',
+  endpoint: '',
   query: '',
   result: '',
   headers: ``,
