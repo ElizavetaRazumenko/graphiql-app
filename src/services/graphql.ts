@@ -2,6 +2,8 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import removeCommentLines from '../utils/removeCommentLines';
 import setHeaders from '../utils/setHeaders';
 import getGraphQLDocumentationSchema from '../utils/getGraphQLDocumentationSchema';
+import { auth } from '../firebase';
+import { getIdToken } from 'firebase/auth';
 
 interface RequestData {
   url: string;
@@ -22,6 +24,23 @@ query {
 const graphqlbaseQuery =
   () =>
   async ({ url, body, headers, variables }: RequestData) => {
+    if (!auth.currentUser) {
+      return {
+        error: { name: 'Auth Error', message: 'User is not authorized' },
+      };
+    }
+
+    // force refresh the user's ID token to make sure the user is still valid
+    const token: string = await getIdToken(auth.currentUser, true);
+    if (!token) {
+      return {
+        error: {
+          name: 'Auth Error',
+          message: 'Failed to retrieve a token for the user',
+        },
+      };
+    }
+
     try {
       const result = await fetch(url, {
         method: 'POST',
