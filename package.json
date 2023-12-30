@@ -13,8 +13,8 @@
     "precommit": "npm run lint && npm run type",
     "preview": "vite preview",
     "prepare": "husky install",
-    "coverage": "vitest run --coverage.enabled --coverage.all",
-    "test": "vitest"
+    "test-live": "vitest",
+    "test": "vitest run --coverage.enabled --coverage.all"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
