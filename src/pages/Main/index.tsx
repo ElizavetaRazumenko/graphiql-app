@@ -56,6 +56,8 @@ const Main = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
+    getValues,
     formState: { errors, isValid },
   } = useForm<graphQLRequestFormFields>({
     mode: 'onChange',
@@ -141,9 +143,15 @@ const Main = () => {
                 <PlayButton type="submit" disabled={!isValid} />
                 <PrettifyButton
                   onClick={() => {
-                    dispatch(setQueryValue(prettifyGraphQL(query)));
-                    dispatch(setHeadersValue(prettifyGraphQL(headers)));
-                    dispatch(setVariablesValue(prettifyGraphQL(variables)));
+                    setValue('query', prettifyGraphQL(getValues('query')));
+                    setValue(
+                      'headers',
+                      prettifyGraphQL(getValues('headers') || ''),
+                    );
+                    setValue(
+                      'variables',
+                      prettifyGraphQL(getValues('variables') || ''),
+                    );
                   }}
                 />
               </Stack>
