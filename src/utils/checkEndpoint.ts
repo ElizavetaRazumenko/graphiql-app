@@ -11,7 +11,6 @@ const checkEndpoint = async (
     setErrorMessage,
   );
   if (!isEndpointSupportCORS) {
-    setErrorMessage('Entered endpoint does not support CORS');
     return false;
   } else {
     const isEndpointSupportGraphQL = await checkGraphQLSupport(
@@ -19,7 +18,6 @@ const checkEndpoint = async (
       setErrorMessage,
     );
     if (!isEndpointSupportGraphQL) {
-      setErrorMessage('Entered endpoint does not support Graph QL requests');
       return false;
     }
   }

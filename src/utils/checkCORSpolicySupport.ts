@@ -42,11 +42,17 @@ const checkCORSpolicySupport = async (
         return true;
       }
     }
+    setErrorMessage('Entered endpoint does not support CORS');
     return false;
-  } catch {
-    setErrorMessage(
-      `An error occurred while checking CORS support, please try again`,
-    );
+  } catch (err) {
+    if (err instanceof Error) {
+      setErrorMessage(
+        `An error occurred while checking CORS support: ${err?.message ?? ''}`,
+      );
+    } else {
+      setErrorMessage(`An unknown error occurred while checking CORS support.`);
+    }
+    return false;
   }
 };
 
