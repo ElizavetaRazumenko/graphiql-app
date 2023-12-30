@@ -1,5 +1,4 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import removeCommentLines from '../utils/removeCommentLines';
 import setHeaders from '../utils/setHeaders';
 import getGraphQLDocumentationSchema from '../utils/getGraphQLDocumentationSchema';
 import { auth } from '../firebase';
@@ -78,7 +77,7 @@ export const getGraphQLData = createApi({
     getData: builder.query({
       query: ({ url, body, headers, variables }: RequestData) => ({
         url,
-        body: removeCommentLines(body),
+        body: body,
         headers,
         variables,
       }),
