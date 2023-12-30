@@ -2,7 +2,6 @@ import { PreloadedStateShapeFromReducersMapObject } from '@reduxjs/toolkit';
 import { RenderOptions, render, renderHook } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import type { AppStore, RootState } from '../store';
 import { setupStore } from '../store';
 import { appTheme } from '../theme';
@@ -36,9 +35,7 @@ export function renderWithProviders(
         <LocalizationContext>
           <ErrorBoundary>
             <Provider store={store}>
-              <MainWrapper>
-                <MemoryRouter>{children}</MemoryRouter>
-              </MainWrapper>
+              <MainWrapper>{children}</MainWrapper>
             </Provider>
           </ErrorBoundary>
         </LocalizationContext>
@@ -65,9 +62,7 @@ export function renderHookWithProviders<Result, Props = undefined>(
         <LocalizationContext>
           <ErrorBoundary>
             <Provider store={store}>
-              <MainWrapper>
-                <MemoryRouter>{children}</MemoryRouter>
-              </MainWrapper>
+              <MainWrapper>{children}</MainWrapper>
             </Provider>
           </ErrorBoundary>
         </LocalizationContext>
