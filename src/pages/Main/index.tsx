@@ -74,18 +74,25 @@ const Main = () => {
 
   const [error, setError] = useState('');
 
-  const { data: responseData } = getGraphQLData.useGetDataQuery({
-    url: endpoint,
-    body: query,
-    headers,
-    variables,
-  });
+  const { data: responseData, error: responseError } =
+    getGraphQLData.useGetDataQuery({
+      url: endpoint,
+      body: query,
+      headers,
+      variables,
+    });
 
   useEffect(() => {
+    if (responseError && responseError.message) {
+      setError(responseError.message);
+    }
+    if (responseData && responseData.errors && responseData.errors.length > 0) {
+      setError(responseData.errors[0].message);
+    }
     if (responseData) {
       dispatch(setResultValue(JSON.stringify(responseData, null, 2)));
     }
-  }, [responseData]);
+  }, [responseData, responseError]);
 
   const changeInputOpenedHandle = () => setIsInputOpened(!isInputOpened);
 
@@ -93,11 +100,11 @@ const Main = () => {
     data: graphQLRequestFormFields,
   ): Promise<void> => {
     setIsInputOpened(false);
-    const isCorrectEndpoint = await checkEndpoint(endpoint, setError);
+    const isCorrectEndpoint = await checkEndpoint(data.url, setError);
 
     if (isCorrectEndpoint) {
       const isAllowedHeaders = checkAllowedHeaders(
-        endpoint,
+        data.url,
         data.headers ?? '',
         setError,
       );

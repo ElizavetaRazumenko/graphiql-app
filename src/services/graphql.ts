@@ -56,7 +56,7 @@ const graphqlbaseQuery =
       if (error instanceof Error) {
         if (error.name) {
           return {
-            error: { name: error, message: error.message },
+            error: { name: error.name, message: error.message },
           };
         }
       }

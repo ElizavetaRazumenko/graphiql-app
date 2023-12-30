@@ -36,11 +36,22 @@ const checkGraphQLSupport = async (
       checkedEndpoints.push(graphqlEndpoint);
       return true;
     }
+
+    setErrorMessage('Entered endpoint does not support Graph QL requests');
     return false;
-  } catch {
-    setErrorMessage(
-      `An error occurred while checking GraphQL support, please try again`,
-    );
+  } catch (err) {
+    if (err instanceof Error) {
+      setErrorMessage(
+        `An error occurred while checking GraphQL support: ${
+          err?.message ?? ''
+        }`,
+      );
+    } else {
+      setErrorMessage(
+        `An unknown error occurred while checking GraphQL support.`,
+      );
+    }
+    return false;
   }
 };
 
