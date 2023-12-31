@@ -73,14 +73,18 @@ const Main = () => {
   const endpointURL: string = watch('url');
 
   const [error, setError] = useState('');
+  const [skip, setSkip] = useState(true);
 
   const { data: responseData, error: responseError } =
-    getGraphQLData.useGetDataQuery({
-      url: endpoint,
-      body: query,
-      headers,
-      variables,
-    });
+    getGraphQLData.useGetDataQuery(
+      {
+        url: endpoint,
+        body: query,
+        headers,
+        variables,
+      },
+      { skip },
+    );
 
   useEffect(() => {
     if (responseError && responseError.message) {
@@ -114,6 +118,8 @@ const Main = () => {
         dispatch(setQueryValue(data.query));
         dispatch(setHeadersValue(data.headers ?? ''));
         dispatch(setVariablesValue(data.variables ?? ''));
+
+        setSkip(false);
       }
     }
   };
