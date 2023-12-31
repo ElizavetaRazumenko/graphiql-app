@@ -147,8 +147,9 @@ const Main = () => {
                 )}
               </ChangeEndpointContainer>
               <Stack direction="row" spacing="20px">
-                <PlayButton type="submit" disabled={!isValid} />
+                <PlayButton title="submit" type="submit" disabled={!isValid} />
                 <PrettifyButton
+                  title="Prettify"
                   onClick={() => {
                     setValue('query', prettifyGraphQL(getValues('query')));
                     setValue(

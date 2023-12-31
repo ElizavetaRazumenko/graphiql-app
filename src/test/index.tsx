@@ -58,7 +58,6 @@ export function renderHookWithProviders<Result, Props = undefined>(
     return (
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
-
         <LocalizationContext>
           <ErrorBoundary>
             <Provider store={store}>
