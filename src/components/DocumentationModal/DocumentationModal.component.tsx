@@ -84,7 +84,7 @@ const DocumentationModal = ({
 
   return (
     <>
-      {!isFetching && !isError && !data?.error && (
+      {!isFetching && !isError && !data?.error && isModalOpen && (
         <ModalContainer opened={isModalOpen.toString()}>
           <CloseModalButton
             onClick={() => setIsModalOpen(!isModalOpen)}
