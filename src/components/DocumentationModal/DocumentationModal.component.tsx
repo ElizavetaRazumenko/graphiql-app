@@ -5,12 +5,12 @@ import { CloseModalButton, ModalContainer, ModalList } from './styled';
 import { Box, Typography } from '@mui/material';
 import { AccordionItem } from '../../shared/AccordionItem';
 import { schemaParts } from '../../utils/getGraphQLDocumentationSchema';
-import { useAppSelector } from '../../hooks';
-import { inputSelector } from '../../store/selectors';
 
 type DocumentationModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  endpointURL: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const getDocumentationTree = (docItem: unknown): JSX.Element => {
@@ -58,24 +58,33 @@ const getDocumentationTree = (docItem: unknown): JSX.Element => {
 const DocumentationModal = ({
   isModalOpen,
   setIsModalOpen,
+  endpointURL,
+  setError,
 }: DocumentationModalProps) => {
   const [trigger, result] = getGraphQLData.useLazyGetDocumentationSchemaQuery();
-  const { data, isLoading } = result;
-  const schema: Record<string, unknown> = data?.data.__schema;
-
-  const { endpoint, headers } = useAppSelector(inputSelector);
+  const { data, isFetching, isError, error } = result;
 
   useEffect(() => {
     if (isModalOpen)
-      trigger({
-        url: endpoint,
-        headers,
+      trigger({ url: endpointURL }).then(({ data }) => {
+        const errorMsg: string = (data?.error && data?.message) ?? '';
+        if (errorMsg) {
+          setError(errorMsg);
+          setIsModalOpen(false);
+        }
       });
-  }, [isModalOpen]);
+  }, [isModalOpen, endpointURL]);
+
+  useEffect(() => {
+    if (isError && error?.message) {
+      setError(error.message);
+      setIsModalOpen(false);
+    }
+  }, [isError, error?.message]);
 
   return (
     <>
-      {!isLoading && (
+      {!isFetching && !isError && !data?.error && isModalOpen && (
         <ModalContainer opened={isModalOpen.toString()}>
           <CloseModalButton
             onClick={() => setIsModalOpen(!isModalOpen)}
@@ -87,13 +96,13 @@ const DocumentationModal = ({
             {!!data &&
               schemaParts.map((part: Record<string, string>, index: number) => (
                 <AccordionItem key={index} summary={part.title}>
-                  {getDocumentationTree(schema[part.name])}
+                  {getDocumentationTree(data?.data.__schema[part.name])}
                 </AccordionItem>
               ))}
           </ModalList>
         </ModalContainer>
       )}
-      <Spinner open={isLoading} />
+      <Spinner open={isFetching} />
     </>
   );
 };

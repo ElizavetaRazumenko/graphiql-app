@@ -7,7 +7,7 @@ import { getIdToken } from 'firebase/auth';
 interface RequestData {
   url: string;
   body: string;
-  headers: string;
+  headers?: string;
   variables?: string;
 }
 const schemaQuery = `
@@ -43,7 +43,7 @@ const graphqlbaseQuery =
     try {
       const result = await fetch(url, {
         method: 'POST',
-        headers: setHeaders(headers),
+        headers: setHeaders(headers ?? ''),
         body: JSON.stringify({
           query: body,
           variables: JSON.parse(variables || '{}'),
@@ -83,10 +83,9 @@ export const getGraphQLData = createApi({
       }),
     }),
     getDocumentationSchema: builder.query({
-      query: ({ url, headers }: Omit<RequestData, 'body'>) => ({
+      query: ({ url }: Omit<RequestData, 'body' | 'headers'>) => ({
         url,
         body: getGraphQLDocumentationSchema(),
-        headers,
       }),
     }),
   }),

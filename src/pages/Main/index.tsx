@@ -195,11 +195,20 @@ const Main = () => {
       </QueryEditorWrapper>
       <QueryResultContainer>
         <QueryTextarea defaultValue={result} readOnly></QueryTextarea>
-        <DocumentationButton onClick={() => setIsModalOpen(true)} />
+        {!!endpointURL && (
+          <DocumentationButton
+            onClick={() => {
+              setError('');
+              setIsModalOpen(true);
+            }}
+          />
+        )}
       </QueryResultContainer>
       <DocumentationModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+        endpointURL={endpointURL}
+        setError={setError}
       />
 
       <ErrorSnackbar message={error} />
