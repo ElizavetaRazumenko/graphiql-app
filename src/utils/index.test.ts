@@ -6,6 +6,13 @@ import checkAllowedHeaders from './checkAllowedHeaders';
 import checkCORSpolicySupport from './checkCORSpolicySupport';
 import checkEndpoint from './checkEndpoint';
 import checkGraphQLSupport from './checkGraphqlSupport';
+import {
+  noop,
+  testCORSNoGQLURL,
+  testInvalidURL,
+  testNoCORSURL,
+  testURL,
+} from '../../setupTests';
 
 describe('prettifyGraphQL', () => {
   it('should prettify user value', () => {
@@ -20,6 +27,7 @@ describe('prettifyGraphQL', () => {
 
     expect(prettifyGraphQL(userValue)).toBe(expectedValue);
   });
+
   it('should prettify user value if comma exists', () => {
     const userValue = `{episodes {info {count,pages,next,prev}}}`;
     const expectedValue = `{
@@ -46,69 +54,72 @@ describe('setHeaders', () => {
 
     expect(setHeaders(userValue)).toStrictEqual(expectedValue);
   });
+
   it('should setHeaders value from user headers', () => {
-    const userValue = `{"Access-Control-Allow-Headers": "*"}`;
+    const userValue = `{"X-Custom-Header": "12345"}`;
     const expectedValue = {
-      'Access-Control-Allow-Headers': '*',
+      'X-Custom-Header': '12345',
       'Content-Type': 'application/json',
     };
 
     expect(setHeaders(userValue)).toStrictEqual(expectedValue);
   });
 });
-describe('checkAllowedHeaders', () => {
-  it("should return false if headers don't allow", () => {
-    const headers = `{"Access-Control-Allow-Headers": "*"}`;
 
-    expect(
-      checkAllowedHeaders(
-        'https://rickandmortyapi.com/graphql',
-        headers,
-        () => {},
-      ),
-    ).toBe(false);
-  });
-  it('should return true if headers empty', () => {
-    expect(
-      checkAllowedHeaders('https://rickandmortyapi.com/graphql', '', () => {}),
-    ).toBe(true);
-  });
-});
 describe('checkCORSpolicySupport', () => {
   it('should return true if endpoint has CORS policy support', async () => {
-    const endpoint = 'https://rickandmortyapi.com/graphql';
-    expect(await checkCORSpolicySupport(endpoint, () => {})).toBe(true);
+    const endpoint = testURL;
+    expect(await checkCORSpolicySupport(endpoint, noop)).toBe(true);
   });
-  it("should return false if endpoint hasn't CORS policy support", async () => {
-    const endpoint = 'https://get.geojs.io/v1/ip/country.json?ip=8.8.8.8';
-    expect(await checkCORSpolicySupport(endpoint, () => {})).toBe(false);
+
+  it("should return false if endpoint doesn't have CORS policy support", async () => {
+    const endpoint = testNoCORSURL;
+    expect(await checkCORSpolicySupport(endpoint, noop)).toBe(false);
   });
+
   it('should return false if endpoint is invalid', async () => {
-    const endpoint = 'https://rickandmoyapi.com/graphql';
-    expect(await checkCORSpolicySupport(endpoint, () => {})).toBe(false);
+    const endpoint = testInvalidURL;
+    expect(await checkCORSpolicySupport(endpoint, noop)).toBe(false);
   });
 });
-describe('checkEndpoint', () => {
-  it('should return true if endpoint has CORS policy support and GraphQL support', async () => {
-    const endpoint = 'https://rickandmortyapi.com/graphql';
-    expect(await checkEndpoint(endpoint, () => {})).toBe(true);
+
+describe('checkAllowedHeaders', () => {
+  it('should return true as every header is allowed', () => {
+    const headers = `{"X-Custom-Header": "12345"}`;
+
+    expect(checkAllowedHeaders(testURL, headers, noop)).toBe(true);
   });
-  it("should return false if endpoint hasn't CORS policy support and GraphQL support", async () => {
-    const endpoint = 'https://get.geojs.io/v1/ip/country.json?ip=8.8.8.8';
-    expect(await checkEndpoint(endpoint, () => {})).toBe(false);
+
+  it('should return true if headers are empty', () => {
+    expect(checkAllowedHeaders(testURL, '', noop)).toBe(true);
   });
 });
+
 describe('checkGraphQLSupport', () => {
   it('should return true if endpoint has GraphQL support', async () => {
-    const endpoint = 'https://rickandmortyapi.com/graphql';
-    expect(await checkGraphQLSupport(endpoint, () => {})).toBe(true);
+    const endpoint = testURL;
+    expect(await checkGraphQLSupport(endpoint, noop)).toBe(true);
   });
-  it("should return false if endpoint hasn't GraphQL support", async () => {
-    const endpoint = 'https://get.geojs.io/v1/ip/country.json?ip=8.8.8.8';
-    expect(await checkGraphQLSupport(endpoint, () => {})).toBe(false);
+
+  it("should return false if endpoint doesn't have GraphQL support", async () => {
+    const endpoint = testCORSNoGQLURL;
+    expect(await checkGraphQLSupport(endpoint, noop)).toBe(false);
   });
+
   it('should return false if endpoint is invalid', async () => {
-    const endpoint = 'https://rickandmoyapi.com/graphql';
-    expect(await checkGraphQLSupport(endpoint, () => {})).toBe(false);
+    const endpoint = testInvalidURL;
+    expect(await checkGraphQLSupport(endpoint, noop)).toBe(false);
+  });
+});
+
+describe('checkEndpoint', () => {
+  it('should return true if endpoint has CORS policy support and GraphQL support', async () => {
+    const endpoint = testURL;
+    expect(await checkEndpoint(endpoint, noop)).toBe(true);
+  });
+
+  it("should return false if endpoint has CORS policy support and doesn't support GraphQL", async () => {
+    const endpoint = testCORSNoGQLURL;
+    expect(await checkEndpoint(endpoint, noop)).toBe(false);
   });
 });
