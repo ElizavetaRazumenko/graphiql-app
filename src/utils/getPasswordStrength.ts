@@ -1,9 +1,8 @@
 const getPasswordStrength = (password: string): number => {
   const validationRulesArray: Array<RegExp> = [
     /\d/,
-    /[A-Z]/,
-    /[a-z]/,
-    /[$&+,:;=?@#|'<>.^*()%!-]/,
+    /\p{L}/u,
+    /[\p{S}$&+,:;=?@#|'<>.^*()%!-]/u,
     /.{8,}/,
   ];
   const strength: number = validationRulesArray.reduce(

@@ -7,7 +7,6 @@ const ProgressBar = styled(LinearProgress)<
   const colorStages: Array<string> = [
     theme.palette.primary.main,
     theme.palette.error.main,
-    theme.palette.error.main,
     theme.palette.warning.main,
     theme.palette.info.main,
     theme.palette.success.main,
