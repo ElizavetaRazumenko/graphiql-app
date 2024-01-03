@@ -7,9 +7,11 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import { ReactElement, cloneElement, useContext } from 'react';
-import { ToolbarContainer } from './styled/ToolbarContainer';
-import { HeaderLinksContainer } from './styled/HeaderLinksContainer';
-import { ButtonLanguage } from './styled/ButtonLanguage';
+import {
+  ButtonLanguage,
+  HeaderLinksContainer,
+  ToolbarContainer,
+} from './styled';
 import { localizationContext } from '../../context/localizationContext';
 import { AvailableLanguages } from '../../context/types';
 import { useNavigate, useLocation } from 'react-router';

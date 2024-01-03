@@ -1,5 +1,5 @@
-const query = `
-query {
+const query: string = `
+query checkGraphQLSupport {
   __schema {
     types {
       name
