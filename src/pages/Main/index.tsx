@@ -12,8 +12,7 @@ import {
 } from './styled';
 
 import { Input } from '../../shared/Input';
-import { useEffect, useState } from 'react';
-import { DocumentationModal } from '../../components/DocumentationModal';
+import { lazy, useEffect, useState } from 'react';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
 import { QueryTabs } from '../../components/QueryTabs';
@@ -43,6 +42,11 @@ export type graphQLRequestFormFields = {
   headers?: string;
   variables?: string;
 };
+
+const DocumentationModal = lazy(
+  () =>
+    import('../../components/DocumentationModal/DocumentationModal.component'),
+);
 
 const Main = () => {
   const dispatch = useAppDispatch();
