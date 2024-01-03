@@ -130,7 +130,7 @@ const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
                       onClick={onClickMain}
                       hidden={isMainPage}
                     >
-                      Main
+                      Main Page
                     </Link>
                     <Link href="#" color="inherit" onClick={onClickLogout}>
                       Logout
