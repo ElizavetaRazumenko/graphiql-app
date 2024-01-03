@@ -118,6 +118,11 @@ describe('checkEndpoint', () => {
     expect(await checkEndpoint(endpoint, noop)).toBe(true);
   });
 
+  it("should return false if endpoint doesn't support CORS policy support", async () => {
+    const endpoint = testNoCORSURL;
+    expect(await checkEndpoint(endpoint, noop)).toBe(false);
+  });
+
   it("should return false if endpoint has CORS policy support and doesn't support GraphQL", async () => {
     const endpoint = testCORSNoGQLURL;
     expect(await checkEndpoint(endpoint, noop)).toBe(false);

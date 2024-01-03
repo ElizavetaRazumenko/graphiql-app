@@ -10,15 +10,6 @@ interface RequestData {
   headers?: string;
   variables?: string;
 }
-const schemaQuery = `
-query {
-  __schema {
-    types {
-      name
-    }
-  }
-}
-`;
 
 const graphqlbaseQuery =
   () =>
@@ -67,13 +58,6 @@ const graphqlbaseQuery =
 export const getGraphQLData = createApi({
   baseQuery: graphqlbaseQuery(),
   endpoints: (builder) => ({
-    getSchema: builder.query({
-      query: ({ url, headers }: Omit<RequestData, 'body'>) => ({
-        url,
-        body: schemaQuery,
-        headers,
-      }),
-    }),
     getData: builder.query({
       query: ({ url, body, headers, variables }: RequestData) => ({
         url,
