@@ -8,12 +8,15 @@ export interface PageTextData {
   loginPage: LoginPageData;
   registrationPage: RegistrationPage;
   mainPage: MainPage;
+  documentation: Documentation;
   errorBoundary: ErrorBoundary;
 }
 
 interface Header {
   login: string;
   registration: string;
+  mainPage: string;
+  logoutText: string;
 }
 
 interface WelcomePage {
@@ -36,19 +39,49 @@ interface LoginPageData {
   email: string;
   password: string;
   submit: string;
+  requiredEmail: string;
+  incorrectEmail: string;
+  requiredPass: string;
 }
 
-interface RegistrationPage extends LoginPageData {
+interface RegistrationPage extends LoginPageData, PasswordStrength {
   name: string;
   passwordRepeat: string;
 }
 
+interface PasswordStrength {
+  passwordStrengthText: string;
+  grades: string[];
+}
 interface MainPage {
   queryEditor: string;
+  changeEndpoint: string;
+  acceptEndpoint: string;
   variables: string;
   headers: string;
+  errorsMessages: MainPageErrors;
 }
 
+export interface MainPageErrors {
+  notSupportCORS: string;
+  errorWhileCheckingCORS: string;
+  unknownCORSerror: string;
+  notSupportGraphQL: string;
+  errorWhileCheckingGraphQL: string;
+  unknownGraphQLerror: string;
+  notAllowedHeaders: string;
+  somethingWentWrong: string;
+}
+
+interface Documentation {
+  title: string;
+  schemaParts: SchemaPart[];
+}
+
+interface SchemaPart {
+  name: string;
+  title: string;
+}
 interface ErrorBoundary {
   errorMessage: string;
 }

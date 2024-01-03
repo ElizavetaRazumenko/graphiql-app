@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { getGraphQLData } from '../../services/graphql';
 import { Spinner } from '../../shared/Spinner';
 import { CloseModalButton, ModalContainer, ModalList } from './styled';
 import { Box, Typography } from '@mui/material';
 import { AccordionItem } from '../../shared/AccordionItem';
-import { schemaParts } from '../../utils/getGraphQLDocumentationSchema';
+import { localizationContext } from '../../context/localizationContext';
 
 type DocumentationModalProps = {
   isModalOpen: boolean;
@@ -82,6 +82,12 @@ const DocumentationModal = ({
     }
   }, [isError, error?.message]);
 
+  const {
+    currentLocalization: {
+      documentation: { title, schemaParts },
+    },
+  } = useContext(localizationContext);
+
   return (
     <>
       {!isFetching && !isError && !data?.error && isModalOpen && (
@@ -90,11 +96,9 @@ const DocumentationModal = ({
             onClick={() => setIsModalOpen(!isModalOpen)}
           ></CloseModalButton>
           <ModalList>
-            <Typography>
-              A GraphQL schema provides a root type for each kind of operation.
-            </Typography>
+            <Typography>{title}</Typography>
             {!!data &&
-              schemaParts.map((part: Record<string, string>, index: number) => (
+              schemaParts.map((part, index: number) => (
                 <AccordionItem key={index} summary={part.title}>
                   {getDocumentationTree(data?.data.__schema[part.name])}
                 </AccordionItem>

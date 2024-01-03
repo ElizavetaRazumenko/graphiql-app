@@ -1,3 +1,5 @@
+import { MainPageErrors } from '../context/types';
+
 type EndpointData = Record<string, Array<string>>;
 
 export const checkedEndpointsWithHeaders: EndpointData = {};
@@ -5,6 +7,7 @@ export const checkedEndpointsWithHeaders: EndpointData = {};
 const checkCORSpolicySupport = async (
   currentEndpoint: string,
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  errorMessages: MainPageErrors,
 ) => {
   if (checkedEndpointsWithHeaders[currentEndpoint]) return true;
 
@@ -42,15 +45,15 @@ const checkCORSpolicySupport = async (
         return true;
       }
     }
-    setErrorMessage('Entered endpoint does not support CORS');
+    setErrorMessage(errorMessages.notSupportCORS);
     return false;
   } catch (err) {
     if (err instanceof Error) {
       setErrorMessage(
-        `An error occurred while checking CORS support: ${err?.message ?? ''}`,
+        `${errorMessages.errorWhileCheckingCORS} ${err?.message ?? ''}`,
       );
     } else {
-      setErrorMessage(`An unknown error occurred while checking CORS support.`);
+      setErrorMessage(errorMessages.unknownCORSerror);
     }
     return false;
   }

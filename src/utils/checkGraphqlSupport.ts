@@ -1,3 +1,5 @@
+import { MainPageErrors } from '../context/types';
+
 const query: string = `
 query checkGraphQLSupport {
   __schema {
@@ -13,6 +15,7 @@ const checkedEndpoints: string[] = [];
 const checkGraphQLSupport = async (
   graphqlEndpoint: string,
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  errorMessages: MainPageErrors,
 ) => {
   if (checkedEndpoints.find((endpoint) => endpoint === graphqlEndpoint)) {
     return true;
@@ -37,19 +40,15 @@ const checkGraphQLSupport = async (
       return true;
     }
 
-    setErrorMessage('Entered endpoint does not support Graph QL requests');
+    setErrorMessage(errorMessages.notSupportGraphQL);
     return false;
   } catch (err) {
     if (err instanceof Error) {
       setErrorMessage(
-        `An error occurred while checking GraphQL support: ${
-          err?.message ?? ''
-        }`,
+        `${errorMessages.errorWhileCheckingGraphQL} ${err?.message ?? ''}`,
       );
     } else {
-      setErrorMessage(
-        `An unknown error occurred while checking GraphQL support.`,
-      );
+      setErrorMessage(errorMessages.unknownGraphQLerror);
     }
     return false;
   }

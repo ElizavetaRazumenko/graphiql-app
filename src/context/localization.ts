@@ -5,6 +5,8 @@ const localization: Localization = {
     header: {
       login: 'Login',
       registration: 'Registration',
+      mainPage: 'Main Page',
+      logoutText: 'Logout',
     },
     welcomePage: {
       title: 'Welcome to our final project GraphiQL',
@@ -34,6 +36,9 @@ const localization: Localization = {
       email: 'Email',
       password: 'Password',
       submit: 'Submit',
+      requiredEmail: 'Email is required',
+      incorrectEmail: 'Please enter correct email',
+      requiredPass: 'Password is required',
     },
     registrationPage: {
       title: 'Registration',
@@ -42,11 +47,44 @@ const localization: Localization = {
       password: 'Password',
       passwordRepeat: 'Password repeat',
       submit: 'Submit',
+      requiredEmail: 'Email is required',
+      incorrectEmail: 'Please enter correct email',
+      requiredPass: 'Password is required',
+      passwordStrengthText: 'password strength',
+      grades: ['very weak', 'weak', 'medium', 'good', 'strong', 'very strong'],
     },
     mainPage: {
       queryEditor: 'Query editor',
+      changeEndpoint: 'Change Endpoint',
+      acceptEndpoint: 'Accept Endpoint',
       variables: 'Variables',
       headers: 'Headers',
+      errorsMessages: {
+        notSupportCORS: 'Entered endpoint does not support CORS',
+        errorWhileCheckingCORS:
+          'An error occurred while checking CORS support:',
+        unknownCORSerror:
+          'An unknown error occurred while checking CORS support',
+        notSupportGraphQL:
+          'Entered endpoint does not support Graph QL requests',
+        errorWhileCheckingGraphQL:
+          'An error occurred while checking GraphQL support:',
+        unknownGraphQLerror:
+          'An unknown error occurred while checking GraphQL support',
+        notAllowedHeaders: 'headers are not allowed for the specified endpoint',
+        somethingWentWrong: 'Something went wrong, please try again',
+      },
+    },
+    documentation: {
+      title:
+        'A GraphQL schema provides a root type for each kind of operation.',
+      schemaParts: [
+        { name: 'queryType', title: 'Query Type' },
+        { name: 'types', title: 'Types' },
+        { name: 'mutationType', title: 'Mutation Type' },
+        { name: 'subscriptionType', title: 'Subscription Type' },
+        { name: 'directives', title: 'Directives' },
+      ],
     },
     errorBoundary: {
       errorMessage: 'Oops! Something went wrong',
@@ -56,6 +94,8 @@ const localization: Localization = {
     header: {
       login: 'Se connecter',
       registration: 'Inscription',
+      mainPage: "Page d'accueil",
+      logoutText: 'Se déconnecter',
     },
     welcomePage: {
       title: 'Bienvenue dans notre projet final Graphiql',
@@ -85,6 +125,9 @@ const localization: Localization = {
       email: 'E-mail',
       password: 'Password',
       submit: 'Soumettre',
+      requiredEmail: "L'e-mail est requis",
+      incorrectEmail: "Veuillez saisir l'e-mail correct",
+      requiredPass: 'Mot de passe requis',
     },
     registrationPage: {
       title: 'Inscription',
@@ -93,11 +136,53 @@ const localization: Localization = {
       password: 'Password',
       passwordRepeat: 'Répéter le mot de passe',
       submit: 'Soumettre',
+      requiredEmail: "L'e-mail est requis",
+      incorrectEmail: "Veuillez saisir l'e-mail correct",
+      requiredPass: 'Mot de passe requis',
+      passwordStrengthText: 'fiabilité du mot de passe',
+      grades: [
+        'très faible',
+        'faible',
+        'moyenne',
+        'bien',
+        'forte',
+        'très fort',
+      ],
     },
     mainPage: {
-      queryEditor: 'Query editor',
+      queryEditor: 'Éditeur de requêtes',
+      changeEndpoint: 'Modifier le point de terminaison',
+      acceptEndpoint: 'Accepter le point de terminaison',
       variables: 'Variables',
-      headers: 'Headers',
+      headers: 'En-têtes',
+      errorsMessages: {
+        notSupportCORS:
+          'Le point de terminaison saisi ne prend pas en charge CORS',
+        errorWhileCheckingCORS:
+          "Une erreur s'est produite lors de la vérification de la prise en charge de CORS :",
+        unknownCORSerror:
+          "Une erreur inconnue s'est produite lors de la vérification du support CORS",
+        notSupportGraphQL:
+          'Le point de terminaison saisi ne prend pas en charge les requêtes Graph QL',
+        errorWhileCheckingGraphQL:
+          "Une erreur s'est produite lors de la vérification de la prise en charge de GraphQL :",
+        unknownGraphQLerror:
+          "Une erreur inconnue s'est produite lors de la vérification de la prise en charge de GraphQL",
+        notAllowedHeaders:
+          'les en-têtes ne sont pas autorisés pour le point de terminaison spécifié',
+        somethingWentWrong: "Une erreur s'est produite. Veuillez réessayer",
+      },
+    },
+    documentation: {
+      title:
+        "Un schéma GraphQL fournit un type racine pour chaque type d'opération.",
+      schemaParts: [
+        { name: 'queryType', title: 'Type de requête' },
+        { name: 'types', title: 'Les types' },
+        { name: 'mutationType', title: 'Type de mutation' },
+        { name: 'subscriptionType', title: "Type d'abonnement" },
+        { name: 'directives', title: 'Directives' },
+      ],
     },
     errorBoundary: {
       errorMessage: "Oops! Quelque chose s'est mal passé",
