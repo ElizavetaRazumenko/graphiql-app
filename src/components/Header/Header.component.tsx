@@ -114,10 +114,20 @@ const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
               <HeaderLinksContainer alignItems={'flex-end'}>
                 {!isAuthenticated && !loading && (
                   <>
-                    <Link href="#" color="inherit" onClick={onClickLogin}>
+                    <Link
+                      textAlign="center"
+                      href="#"
+                      color="inherit"
+                      onClick={onClickLogin}
+                    >
                       {login}
                     </Link>
-                    <Link href="#" color="inherit" onClick={onClickRegister}>
+                    <Link
+                      textAlign="center"
+                      href="#"
+                      color="inherit"
+                      onClick={onClickRegister}
+                    >
                       {registration}
                     </Link>
                   </>
@@ -125,6 +135,7 @@ const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
                 {isAuthenticated && !loading && (
                   <>
                     <Link
+                      textAlign="center"
                       href="#"
                       color="inherit"
                       onClick={onClickMain}
@@ -132,7 +143,12 @@ const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
                     >
                       {mainPage}
                     </Link>
-                    <Link href="#" color="inherit" onClick={onClickLogout}>
+                    <Link
+                      textAlign="center"
+                      href="#"
+                      color="inherit"
+                      onClick={onClickLogout}
+                    >
                       {logoutText}
                     </Link>
                   </>
