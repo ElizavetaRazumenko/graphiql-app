@@ -30,6 +30,7 @@ const Login = () => {
   }, [user]);
 
   const {
+    currentLanguage,
     currentLocalization: {
       loginPage: { title, email, password, submit, schemaErrorMessages },
     },
@@ -38,6 +39,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    clearErrors,
     formState: { errors, isValid },
   } = useForm<LoginFormFields>({
     mode: 'onChange',
@@ -47,6 +49,10 @@ const Login = () => {
       password: '',
     },
   });
+
+  useEffect(() => {
+    clearErrors();
+  }, [currentLanguage]);
 
   const onSubmitHandler: SubmitHandler<LoginFormFields> = (
     data: LoginFormFields,

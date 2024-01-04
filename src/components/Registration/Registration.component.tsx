@@ -33,6 +33,7 @@ const Registration = () => {
   }, [user]);
 
   const {
+    currentLanguage,
     currentLocalization: {
       registrationPage: {
         title,
@@ -49,6 +50,7 @@ const Registration = () => {
   const {
     register,
     handleSubmit,
+    clearErrors,
     watch,
     formState: { errors, isValid },
   } = useForm<RegisterFormFields>({
@@ -61,6 +63,10 @@ const Registration = () => {
       passwordConfirm: '',
     },
   });
+
+  useEffect(() => {
+    clearErrors();
+  }, [currentLanguage]);
 
   const curPassword: string = watch('password');
 
