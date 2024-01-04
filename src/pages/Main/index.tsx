@@ -52,7 +52,13 @@ const Main = () => {
 
   const {
     currentLocalization: {
-      mainPage: { queryEditor, changeEndpoint, acceptEndpoint, errorsMessages },
+      mainPage: {
+        queryEditor,
+        changeEndpoint,
+        acceptEndpoint,
+        errorsMessages,
+        schemaErrorMessages,
+      },
     },
   } = useContext(localizationContext);
 
@@ -68,7 +74,7 @@ const Main = () => {
     formState: { errors, isValid },
   } = useForm<graphQLRequestFormFields>({
     mode: 'onChange',
-    resolver: yupResolver(graphQLRequestFormSchema),
+    resolver: yupResolver(graphQLRequestFormSchema(schemaErrorMessages)),
     defaultValues: {
       url: endpoint,
       query: query,

@@ -39,14 +39,32 @@ interface LoginPageData {
   email: string;
   password: string;
   submit: string;
+  schemaErrorMessages: LoginSchemaErrorMessages;
+}
+
+interface RegistrationPage
+  extends Omit<LoginPageData, 'schemaErrorMessages'>,
+    PasswordStrength {
+  name: string;
+  passwordRepeat: string;
+  schemaErrorMessages: RegisterSchemaErrorMessages;
+}
+
+export interface LoginSchemaErrorMessages {
   requiredEmail: string;
   incorrectEmail: string;
   requiredPass: string;
 }
 
-interface RegistrationPage extends LoginPageData, PasswordStrength {
-  name: string;
-  passwordRepeat: string;
+export interface RegisterSchemaErrorMessages extends LoginSchemaErrorMessages {
+  requiredName: string;
+  uppercaseFirstLetter: string;
+  oneNumInPass: string;
+  oneLetterInPass: string;
+  oneCharInPass: string;
+  minCharNum: string;
+  requiredConfirmPass: string;
+  passwordMismatch: string;
 }
 
 interface PasswordStrength {
@@ -60,6 +78,7 @@ interface MainPage {
   variables: string;
   headers: string;
   errorsMessages: MainPageErrors;
+  schemaErrorMessages: GraphQLSchemaErrorMessage;
 }
 
 export interface MainPageErrors {
@@ -71,6 +90,15 @@ export interface MainPageErrors {
   unknownGraphQLerror: string;
   notAllowedHeaders: string;
   somethingWentWrong: string;
+}
+
+export interface GraphQLSchemaErrorMessage {
+  requiredURL: string;
+  invalidURL: string;
+  requiredQuery: string;
+  invalidQuery: string;
+  invalidHeaders: string;
+  invalidVariables: string;
 }
 
 interface Documentation {

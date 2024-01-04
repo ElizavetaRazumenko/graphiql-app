@@ -31,15 +31,7 @@ const Login = () => {
 
   const {
     currentLocalization: {
-      loginPage: {
-        title,
-        email,
-        password,
-        submit,
-        requiredEmail,
-        incorrectEmail,
-        requiredPass,
-      },
+      loginPage: { title, email, password, submit, schemaErrorMessages },
     },
   } = useContext(localizationContext);
 
@@ -49,8 +41,7 @@ const Login = () => {
     formState: { errors, isValid },
   } = useForm<LoginFormFields>({
     mode: 'onChange',
-    resolver: yupResolver(loginFormSchema),
-    context: { requiredEmail, incorrectEmail, requiredPass },
+    resolver: yupResolver(loginFormSchema(schemaErrorMessages)),
     defaultValues: {
       email: '',
       password: '',

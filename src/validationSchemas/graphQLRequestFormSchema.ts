@@ -1,17 +1,22 @@
 import * as yup from 'yup';
 import { graphQLRequestFormFields } from '../pages/Main';
+import { GraphQLSchemaErrorMessage } from '../context/types';
 
-const graphQLRequestFormSchema: yup.ObjectSchema<graphQLRequestFormFields> = yup
-  .object()
-  .shape({
-    url: yup.string().required('URL is required').url('URL is invalid'),
+const graphQLRequestFormSchema = (
+  schemaErrorMessages: GraphQLSchemaErrorMessage,
+): yup.ObjectSchema<graphQLRequestFormFields> =>
+  yup.object().shape({
+    url: yup
+      .string()
+      .required(schemaErrorMessages.requiredURL)
+      .url(schemaErrorMessages.invalidURL),
 
     query: yup
       .string()
-      .required('Query is required')
+      .required(schemaErrorMessages.requiredQuery)
       .test(
         'is-every-bracked-paired',
-        'Query is invalid',
+        schemaErrorMessages.invalidQuery,
         (value: string): boolean => {
           const brackets: Array<string> = ['{', '}', '(', ')'];
           const bracketCount: Record<string, number> = {};
@@ -31,7 +36,7 @@ const graphQLRequestFormSchema: yup.ObjectSchema<graphQLRequestFormFields> = yup
       .string()
       .test(
         'is-headers-json',
-        'Headers are not valid',
+        schemaErrorMessages.invalidHeaders,
         (value: string | undefined): boolean => {
           if (!value) return true;
           try {
@@ -47,7 +52,7 @@ const graphQLRequestFormSchema: yup.ObjectSchema<graphQLRequestFormFields> = yup
       .string()
       .test(
         'is-variables-json',
-        'Variables are not valid',
+        schemaErrorMessages.invalidVariables,
         (value: string | undefined): boolean => {
           if (!value) return true;
           try {
