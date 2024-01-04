@@ -36,6 +36,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import graphQLRequestFormSchema from '../../validationSchemas/graphQLRequestFormSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { localizationContext } from '../../context/localizationContext';
+import { auth, logout } from '../../firebase';
+import { useIdToken } from 'react-firebase-hooks/auth';
 
 export type graphQLRequestFormFields = {
   url: string;
@@ -66,6 +68,20 @@ const Main = () => {
       },
     },
   } = useContext(localizationContext);
+
+  const [user] = useIdToken(auth);
+  const { stsTokenManager } = (user?.toJSON() ?? {}) as {
+    stsTokenManager?: Record<string, number>;
+  };
+
+  const expirationTime: number = stsTokenManager?.expirationTime ?? 0;
+  const isExpired: boolean = expirationTime < new Date().getTime();
+
+  useEffect(() => {
+    if (Boolean(user) && isExpired) {
+      logout();
+    }
+  }, [user, isExpired]);
 
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
