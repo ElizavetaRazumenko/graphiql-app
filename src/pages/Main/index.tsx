@@ -55,6 +55,7 @@ const Main = () => {
     useAppSelector(inputSelector);
 
   const {
+    currentLanguage,
     currentLocalization: {
       mainPage: {
         queryEditor,
@@ -73,6 +74,7 @@ const Main = () => {
   const {
     register,
     handleSubmit,
+    clearErrors,
     watch,
     setValue,
     getValues,
@@ -87,6 +89,10 @@ const Main = () => {
       variables: variables,
     },
   });
+
+  useEffect(() => {
+    clearErrors();
+  }, [currentLanguage]);
 
   const endpointURL: string = watch('url');
 
