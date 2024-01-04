@@ -5,6 +5,7 @@ import { styled, Theme } from '@mui/material/styles';
 
 export const ToolbarContainer = styled(MaterialToolbar)<MaterialToolbarProps>(
   ({ theme }: { theme: Theme }) => ({
+    gap: '10px',
     justifyContent: 'space-between',
     maxWidth: '1140px',
     [theme.breakpoints.down('sm')]: {
