@@ -64,7 +64,7 @@ const localization: Localization = {
       },
 
       passwordStrengthText: 'password strength',
-      grades: ['very weak', 'weak', 'medium', 'good', 'strong', 'very strong'],
+      grades: ['very weak', 'weak', 'medium', 'strong', 'very strong'],
     },
     mainPage: {
       queryEditor: 'Query editor',
@@ -175,14 +175,7 @@ const localization: Localization = {
       },
 
       passwordStrengthText: 'fiabilité du mot de passe',
-      grades: [
-        'très faible',
-        'faible',
-        'moyenne',
-        'bien',
-        'forte',
-        'très fort',
-      ],
+      grades: ['très faible', 'faible', 'moyenne', 'forte', 'très fort'],
     },
     mainPage: {
       queryEditor: 'Éditeur de requêtes',
