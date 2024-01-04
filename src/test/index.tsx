@@ -1,6 +1,6 @@
 import { PreloadedStateShapeFromReducersMapObject } from '@reduxjs/toolkit';
 import { RenderOptions, render, renderHook } from '@testing-library/react';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import type { AppStore, RootState } from '../store';
 import { setupStore } from '../store';
@@ -10,6 +10,7 @@ import { CssBaseline } from '@mui/material';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { MainWrapper } from '../pages/Main/styled';
 import LocalizationContext from '../context/localizationContext';
+import { Spinner } from '../shared/Spinner';
 
 const defaultState: PreloadedStateShapeFromReducersMapObject<RootState> =
   {} as PreloadedStateShapeFromReducersMapObject<RootState>;
@@ -31,14 +32,15 @@ export function renderWithProviders(
     return (
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
-
-        <LocalizationContext>
-          <ErrorBoundary>
-            <Provider store={store}>
-              <MainWrapper>{children}</MainWrapper>
-            </Provider>
-          </ErrorBoundary>
-        </LocalizationContext>
+        <Suspense fallback={<Spinner open />}>
+          <LocalizationContext>
+            <ErrorBoundary>
+              <Provider store={store}>
+                <MainWrapper>{children}</MainWrapper>
+              </Provider>
+            </ErrorBoundary>
+          </LocalizationContext>
+        </Suspense>
       </ThemeProvider>
     );
   }
@@ -58,13 +60,15 @@ export function renderHookWithProviders<Result, Props = undefined>(
     return (
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
-        <LocalizationContext>
-          <ErrorBoundary>
-            <Provider store={store}>
-              <MainWrapper>{children}</MainWrapper>
-            </Provider>
-          </ErrorBoundary>
-        </LocalizationContext>
+        <Suspense fallback={<Spinner open />}>
+          <LocalizationContext>
+            <ErrorBoundary>
+              <Provider store={store}>
+                <MainWrapper>{children}</MainWrapper>
+              </Provider>
+            </ErrorBoundary>
+          </LocalizationContext>
+        </Suspense>
       </ThemeProvider>
     );
   }

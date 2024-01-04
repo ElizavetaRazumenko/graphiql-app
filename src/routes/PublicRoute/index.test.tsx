@@ -7,9 +7,9 @@ import {
   RouterProvider,
   createMemoryRouter,
 } from 'react-router-dom';
-import { OutletContext } from '../../shared/types/types';
 import PublicRoute from '.';
 import PrivateRoute from '../PrivateRoute';
+import { OutletContext } from '../../components/LayoutWithErrorHandling';
 
 describe('Public Route', () => {
   const TestApp = () => {

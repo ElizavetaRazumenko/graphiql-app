@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest';
-
 import { renderWithProviders } from '../../test';
-
 import Main from '.';
 import { fireEvent, screen } from '@testing-library/react';
 
@@ -14,44 +12,44 @@ describe('Main', () => {
     expect(editor).toBeInTheDocument();
   });
 
-  it('should click Prettify button', async () => {
+  it('should prettify a query when click Prettify button', async () => {
     renderWithProviders(<Main />);
 
     const prettifyButton = await screen.findByTitle('Prettify');
 
     expect(prettifyButton).toBeInTheDocument();
 
+    const textareas = screen.getAllByRole('textbox');
+
+    expect(textareas[0]).toBeInTheDocument();
+
+    fireEvent.change(textareas[0], { target: { value: '{{{}}}' } });
+    expect(textareas[0]).toHaveValue('{{{}}}');
+
     fireEvent.click(prettifyButton);
+
+    expect(textareas[0]).toHaveValue(`{
+  {
+    {
+      
+    }
+  }
+}`);
   });
-  it('should click Show endpoint button', async () => {
+
+  it('should switch state of the Change/Accept Endpoint button on click', async () => {
     renderWithProviders(<Main />);
 
-    const showEndpoint = await screen.findByText('Change Endpoint');
+    const toggleEndpoint = await screen.findByText('Change Endpoint');
 
-    expect(showEndpoint).toBeInTheDocument();
+    expect(toggleEndpoint).toBeInTheDocument();
 
-    expect(showEndpoint).toHaveTextContent('Change Endpoint');
+    fireEvent.click(toggleEndpoint);
 
-    fireEvent.click(showEndpoint);
+    expect(toggleEndpoint).toHaveTextContent('Accept Endpoint');
 
-    expect(showEndpoint).toHaveTextContent('Accept Endpoint');
-  });
-  it('should click Submit button', async () => {
-    renderWithProviders(<Main />);
+    fireEvent.click(toggleEndpoint);
 
-    const showEndpoint = await screen.findByText('Change Endpoint');
-    fireEvent.click(showEndpoint);
-
-    expect(showEndpoint).toHaveTextContent('Accept Endpoint');
-
-    const endpointInput = await screen.findByPlaceholderText('Your endpoint');
-    fireEvent.change(endpointInput, {
-      target: { value: 'https://rickandmortyapi.com/graphql' },
-    });
-    const submitButton = await screen.findByTitle('submit');
-
-    expect(submitButton).toBeInTheDocument();
-
-    fireEvent.click(submitButton);
+    expect(toggleEndpoint).toHaveTextContent('Change Endpoint');
   });
 });

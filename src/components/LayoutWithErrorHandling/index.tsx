@@ -6,11 +6,15 @@ import { Header } from '../Header';
 import LocalizationContext from '../../context/localizationContext';
 import { useIdToken } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase';
-import { OutletContext } from '../../shared/types/types';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import { Suspense } from 'react';
 import { Spinner } from '../../shared/Spinner';
+
+export type OutletContext = {
+  isAuthenticated: boolean;
+  loading: boolean;
+};
 
 const LayoutWithErrorHandling = () => {
   const [user, loading] = useIdToken(auth);

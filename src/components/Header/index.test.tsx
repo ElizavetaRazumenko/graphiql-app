@@ -10,13 +10,12 @@ import {
   createMemoryRouter,
 } from 'react-router-dom';
 import * as reactRouterDom from 'react-router-dom';
-import { OutletContext } from '../../shared/types/types';
 import AuthPage from '../../pages/AuthPage';
 import { noop } from '../../../setupTests';
 import PublicRoute from '../../routes/PublicRoute';
 import PrivateRoute from '../../routes/PrivateRoute';
-import Main from '../../pages/Main';
 import * as firebaseAuth from 'firebase/auth';
+import { OutletContext } from '../LayoutWithErrorHandling';
 
 describe('Header', () => {
   it('should render Header', async () => {
@@ -162,7 +161,7 @@ describe('Header', () => {
       children: [
         {
           path: 'main',
-          element: <PrivateRoute page={<Main />} />,
+          element: <PrivateRoute page={<>Test Main Page</>} />,
         },
       ],
     },
@@ -175,7 +174,7 @@ describe('Header', () => {
     renderWithProviders(<RouterProvider router={testRouterAuth} />);
 
     const linkMain = await screen.findByRole('link', {
-      name: 'Main',
+      name: 'Main Page',
     });
     expect(linkMain).toBeInTheDocument();
 
@@ -183,7 +182,7 @@ describe('Header', () => {
 
     expect(testRouterAuth.state.location.pathname).toBe('/main');
 
-    const editorTitle = await screen.findByText('Query editor');
+    const editorTitle = await screen.findByText('Test Main Page');
     expect(editorTitle).toBeInTheDocument();
   });
 
