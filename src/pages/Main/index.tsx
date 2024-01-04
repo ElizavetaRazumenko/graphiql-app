@@ -12,9 +12,7 @@ import {
 } from './styled';
 
 import { Input } from '../../shared/Input';
-import { useContext, useEffect, useState } from 'react';
-import { DocumentationModal } from '../../components/DocumentationModal';
-import { lazy, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, lazy } from 'react';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
 import { QueryTabs } from '../../components/QueryTabs';
