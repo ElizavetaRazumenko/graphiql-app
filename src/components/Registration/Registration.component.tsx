@@ -41,6 +41,7 @@ const Registration = () => {
         password,
         passwordRepeat,
         submit,
+        schemaErrorMessages,
       },
     },
   } = useContext(localizationContext);
@@ -52,7 +53,7 @@ const Registration = () => {
     formState: { errors, isValid },
   } = useForm<RegisterFormFields>({
     mode: 'onChange',
-    resolver: yupResolver(registrationFormSchema),
+    resolver: yupResolver(registrationFormSchema(schemaErrorMessages)),
     defaultValues: {
       name: '',
       email: '',

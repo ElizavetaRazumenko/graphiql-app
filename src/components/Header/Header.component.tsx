@@ -57,7 +57,7 @@ const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
     currentLanguage,
     setCurrentLanguage,
     currentLocalization: {
-      header: { login, registration },
+      header: { login, registration, mainPage, logoutText },
     },
   } = useContext(localizationContext);
 
@@ -130,10 +130,10 @@ const Header = ({ isAuthenticated, loading }: HeaderProps): JSX.Element => {
                       onClick={onClickMain}
                       hidden={isMainPage}
                     >
-                      Main Page
+                      {mainPage}
                     </Link>
                     <Link href="#" color="inherit" onClick={onClickLogout}>
-                      Logout
+                      {logoutText}
                     </Link>
                   </>
                 )}

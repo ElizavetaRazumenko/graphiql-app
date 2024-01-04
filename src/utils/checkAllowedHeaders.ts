@@ -1,9 +1,11 @@
+import { MainPageErrors } from '../context/types';
 import { checkedEndpointsWithHeaders } from './checkCORSpolicySupport';
 
 const checkAllowedHeaders = (
   endpoint: string,
   headers: string,
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  errorMessages: MainPageErrors,
 ): boolean => {
   if (!headers) return true;
 
@@ -18,14 +20,14 @@ const checkAllowedHeaders = (
     );
     if (unacceptableHeaders.length) {
       setErrorMessage(
-        `${unacceptableHeaders} headers are not allowed for the specified endpoint`,
+        `${unacceptableHeaders} ${errorMessages.notAllowedHeaders}`,
       );
       return false;
     }
     return true;
   }
 
-  setErrorMessage('Something went wrong, please try again');
+  setErrorMessage(errorMessages.somethingWentWrong);
   return false;
 };
 

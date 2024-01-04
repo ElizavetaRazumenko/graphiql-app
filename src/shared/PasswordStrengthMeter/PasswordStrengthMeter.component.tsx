@@ -1,21 +1,13 @@
 import { Stack, Typography } from '@mui/material';
 import ProgressBar from './styled/ProgressBar';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import getPasswordStrength from '../../utils/getPasswordStrength';
 import { percentsPerGrade } from '../constants';
+import { localizationContext } from '../../context/localizationContext';
 
 export type PasswordStrengthMeterProps = {
   password: string;
 };
-
-const grades: Array<string> = [
-  'very weak',
-  'weak',
-  'medium',
-  'good',
-  'strong',
-  'very strong',
-];
 
 const PasswordStrengthMeter = ({
   password,
@@ -26,10 +18,16 @@ const PasswordStrengthMeter = ({
     setPasswordStrength(getPasswordStrength(password.trim()));
   }, [password]);
 
+  const {
+    currentLocalization: {
+      registrationPage: { passwordStrengthText, grades },
+    },
+  } = useContext(localizationContext);
+
   return (
     <Stack gap={0.5} marginTop={'-10px'}>
       <Typography fontSize={'12px'}>
-        password strength: {grades[passwordStrength]}
+        {passwordStrengthText}: {grades[passwordStrength]}
       </Typography>
       <ProgressBar
         variant="determinate"

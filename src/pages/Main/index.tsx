@@ -12,7 +12,7 @@ import {
 } from './styled';
 
 import { Input } from '../../shared/Input';
-import { lazy, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, lazy } from 'react';
 import { QueryResultContainer } from './styled/QueryResultContainer';
 import { Endpoint } from './styled/Endpoint';
 import { QueryTabs } from '../../components/QueryTabs';
@@ -35,6 +35,7 @@ import checkAllowedHeaders from '../../utils/checkAllowedHeaders';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import graphQLRequestFormSchema from '../../validationSchemas/graphQLRequestFormSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { localizationContext } from '../../context/localizationContext';
 
 export type graphQLRequestFormFields = {
   url: string;
@@ -53,6 +54,19 @@ const Main = () => {
   const { endpoint, query, result, headers, variables } =
     useAppSelector(inputSelector);
 
+  const {
+    currentLocalization: {
+      mainPage: {
+        queryEditor,
+        changeEndpoint,
+        acceptEndpoint,
+        errorsMessages,
+        schemaErrorMessages,
+        queryPlaceholder,
+      },
+    },
+  } = useContext(localizationContext);
+
   const [isInputOpened, setIsInputOpened] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -65,7 +79,7 @@ const Main = () => {
     formState: { errors, isValid },
   } = useForm<graphQLRequestFormFields>({
     mode: 'onChange',
-    resolver: yupResolver(graphQLRequestFormSchema),
+    resolver: yupResolver(graphQLRequestFormSchema(schemaErrorMessages)),
     defaultValues: {
       url: endpoint,
       query: query,
@@ -108,13 +122,18 @@ const Main = () => {
     data: graphQLRequestFormFields,
   ): Promise<void> => {
     setIsInputOpened(false);
-    const isCorrectEndpoint = await checkEndpoint(data.url, setError);
+    const isCorrectEndpoint = await checkEndpoint(
+      data.url,
+      setError,
+      errorsMessages,
+    );
 
     if (isCorrectEndpoint) {
       const isAllowedHeaders = checkAllowedHeaders(
         data.url,
         data.headers ?? '',
         setError,
+        errorsMessages,
       );
 
       if (isAllowedHeaders) {
@@ -133,19 +152,19 @@ const Main = () => {
       <QueryEditorWrapper>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <QueryEditor>
-            <QueryTitle>Query editor</QueryTitle>
+            <QueryTitle>{queryEditor}</QueryTitle>
             <QueryButtons direction="row">
               <ChangeEndpoint
                 variant="contained"
                 onClick={changeInputOpenedHandle}
                 disabled={Boolean(errors.url)}
               >
-                {isInputOpened ? 'Accept Endpoint' : 'Change Endpoint'}
+                {isInputOpened ? acceptEndpoint : changeEndpoint}
               </ChangeEndpoint>
               <ChangeEndpointContainer>
                 {isInputOpened ? (
                   <Input
-                    placeholder="Your endpoint"
+                    placeholder={queryPlaceholder}
                     defaultValue={endpoint}
                     icon="endpoint"
                     {...register('url')}

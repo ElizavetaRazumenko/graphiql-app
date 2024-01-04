@@ -1,37 +1,36 @@
 import * as yup from 'yup';
 import { RegisterFormFields } from '../components/Registration';
+import { RegisterSchemaErrorMessages } from '../context/types';
 
-const registrationFormSchema: yup.ObjectSchema<RegisterFormFields> = yup
-  .object()
-  .shape({
+const registrationFormSchema = (
+  schemaErrorMessages: RegisterSchemaErrorMessages,
+): yup.ObjectSchema<RegisterFormFields> =>
+  yup.object().shape({
     name: yup
       .string()
-      .required('Name is required')
-      .matches(/^[A-Z]+/, 'Must have first letter uppercased'),
+      .required(schemaErrorMessages.requiredName)
+      .matches(/^[A-Z]+/, schemaErrorMessages.uppercaseFirstLetter),
 
     email: yup
       .string()
-      .required('Email is required')
+      .required(schemaErrorMessages.requiredEmail)
       .matches(
         /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,6}$/,
-        'Please enter correct email',
+        schemaErrorMessages.incorrectEmail,
       ),
 
     password: yup
       .string()
-      .required('Password is required')
-      .matches(/\d/, 'Should have at least one number')
-      .matches(/[A-Za-z]/, 'Should have at least one letter')
-      .matches(
-        /[$&+,:;=?@#|'<>.^*()%!-]/,
-        'Should have at least one special character',
-      )
-      .min(8, 'Must be at least ${min} characters'),
+      .required(schemaErrorMessages.requiredPass)
+      .matches(/\d/, schemaErrorMessages.oneNumInPass)
+      .matches(/[A-Za-z]/, schemaErrorMessages.oneLetterInPass)
+      .matches(/[$&+,:;=?@#|'<>.^*()%!-]/, schemaErrorMessages.oneCharInPass)
+      .min(8, `${schemaErrorMessages.minCharNum}` + '${min}'),
 
     passwordConfirm: yup
       .string()
-      .required('Confirm Password is required')
-      .oneOf([yup.ref('password'), ''], 'Should match the entered password'),
+      .required(schemaErrorMessages.requiredConfirmPass)
+      .oneOf([yup.ref('password'), ''], schemaErrorMessages.passwordMismatch),
   });
 
 export default registrationFormSchema;

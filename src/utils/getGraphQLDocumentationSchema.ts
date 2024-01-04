@@ -102,14 +102,6 @@ fragment TypeRef on __Type {
 }
 `;
 
-export const schemaParts: Array<Record<string, string>> = [
-  { name: 'queryType', title: 'Query Type' },
-  { name: 'types', title: 'Types' },
-  { name: 'mutationType', title: 'Mutation Type' },
-  { name: 'subscriptionType', title: 'Subscription Type' },
-  { name: 'directives', title: 'Directives' },
-];
-
 const getGraphQLDocumentationSchema = (): string => schemaQuery;
 
 export default getGraphQLDocumentationSchema;

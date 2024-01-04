@@ -1,11 +1,12 @@
 import Tab from '@mui/material/Tab';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { ArrowButton } from './styled/ArrowButton';
 import { QueryFooter } from './styled/QueryFooter';
 import { QueryFooterLinks } from './styled/QueryFooterLinks';
 import { Box, Tabs, Collapse } from '@mui/material';
 import { TabPanel } from './styled';
+import { localizationContext } from '../../context/localizationContext';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -43,12 +44,18 @@ const QueryTabs = ({ children }: QueryTabsProps) => {
     }
   };
 
+  const {
+    currentLocalization: {
+      mainPage: { variables, headers },
+    },
+  } = useContext(localizationContext);
+
   return (
     <QueryFooter>
       <QueryFooterLinks direction="row">
         <Tabs value={currentTab} onChange={handleChange}>
-          <Tab label="Variables" onClick={() => tabClick(0)} />
-          <Tab label="Headers" onClick={() => tabClick(1)} />
+          <Tab label={variables} onClick={() => tabClick(0)} />
+          <Tab label={headers} onClick={() => tabClick(1)} />
         </Tabs>
 
         <ArrowButton
