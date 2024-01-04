@@ -23,8 +23,11 @@ const registrationFormSchema = (
       .string()
       .required(schemaErrorMessages.requiredPass)
       .matches(/\d/, schemaErrorMessages.oneNumInPass)
-      .matches(/[A-Za-z]/, schemaErrorMessages.oneLetterInPass)
-      .matches(/[$&+,:;=?@#|'<>.^*()%!-]/, schemaErrorMessages.oneCharInPass)
+      .matches(/\p{L}/u, schemaErrorMessages.oneLetterInPass)
+      .matches(
+        /[\p{S}$&+,:;=?@#|'<>.^*()%!-]/,
+        schemaErrorMessages.oneCharInPass,
+      )
       .min(8, `${schemaErrorMessages.minCharNum}` + '${min}'),
 
     passwordConfirm: yup
