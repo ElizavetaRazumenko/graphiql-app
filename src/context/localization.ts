@@ -68,6 +68,7 @@ const localization: Localization = {
     },
     mainPage: {
       queryEditor: 'Query editor',
+      queryPlaceholder: 'Your endpoint',
       changeEndpoint: 'Change Endpoint',
       acceptEndpoint: 'Accept Endpoint',
       variables: 'Variables',
@@ -185,6 +186,7 @@ const localization: Localization = {
     },
     mainPage: {
       queryEditor: 'Éditeur de requêtes',
+      queryPlaceholder: 'Votre point de terminaison',
       changeEndpoint: 'Modifier le point de terminaison',
       acceptEndpoint: 'Accepter le point de terminaison',
       variables: 'Variables',

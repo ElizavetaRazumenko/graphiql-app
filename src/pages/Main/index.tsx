@@ -62,6 +62,7 @@ const Main = () => {
         acceptEndpoint,
         errorsMessages,
         schemaErrorMessages,
+        queryPlaceholder,
       },
     },
   } = useContext(localizationContext);
@@ -163,7 +164,7 @@ const Main = () => {
               <ChangeEndpointContainer>
                 {isInputOpened ? (
                   <Input
-                    placeholder="Your endpoint"
+                    placeholder={queryPlaceholder}
                     defaultValue={endpoint}
                     icon="endpoint"
                     {...register('url')}

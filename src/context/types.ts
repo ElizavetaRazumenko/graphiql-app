@@ -73,6 +73,7 @@ interface PasswordStrength {
 }
 interface MainPage {
   queryEditor: string;
+  queryPlaceholder: string;
   changeEndpoint: string;
   acceptEndpoint: string;
   variables: string;
