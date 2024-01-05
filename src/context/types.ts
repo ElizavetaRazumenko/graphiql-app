@@ -83,14 +83,10 @@ interface MainPage {
 }
 
 export interface MainPageErrors {
-  notSupportCORS: string;
-  errorWhileCheckingCORS: string;
-  unknownCORSerror: string;
   notSupportGraphQL: string;
   errorWhileCheckingGraphQL: string;
   unknownGraphQLerror: string;
   notAllowedHeaders: string;
-  somethingWentWrong: string;
 }
 
 export interface GraphQLSchemaErrorMessage {

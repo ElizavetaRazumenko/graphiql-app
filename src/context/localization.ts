@@ -74,19 +74,13 @@ const localization: Localization = {
       variables: 'Variables',
       headers: 'Headers',
       errorsMessages: {
-        notSupportCORS: 'Entered endpoint does not support CORS',
-        errorWhileCheckingCORS:
-          'An error occurred while checking CORS support:',
-        unknownCORSerror:
-          'An unknown error occurred while checking CORS support',
         notSupportGraphQL:
           'Entered endpoint does not support Graph QL requests',
         errorWhileCheckingGraphQL:
           'An error occurred while checking GraphQL support:',
         unknownGraphQLerror:
           'An unknown error occurred while checking GraphQL support',
-        notAllowedHeaders: 'headers are not allowed for the specified endpoint',
-        somethingWentWrong: 'Something went wrong, please try again',
+        notAllowedHeaders: 'This header is prohibited by CORS policy:',
       },
       schemaErrorMessages: {
         requiredURL: 'URL is required',
@@ -185,21 +179,13 @@ const localization: Localization = {
       variables: 'Variables',
       headers: 'En-têtes',
       errorsMessages: {
-        notSupportCORS:
-          'Le point de terminaison saisi ne prend pas en charge CORS',
-        errorWhileCheckingCORS:
-          "Une erreur s'est produite lors de la vérification de la prise en charge de CORS :",
-        unknownCORSerror:
-          "Une erreur inconnue s'est produite lors de la vérification du support CORS",
         notSupportGraphQL:
           'Le point de terminaison saisi ne prend pas en charge les requêtes Graph QL',
         errorWhileCheckingGraphQL:
           "Une erreur s'est produite lors de la vérification de la prise en charge de GraphQL :",
         unknownGraphQLerror:
           "Une erreur inconnue s'est produite lors de la vérification de la prise en charge de GraphQL",
-        notAllowedHeaders:
-          'les en-têtes ne sont pas autorisés pour le point de terminaison spécifié',
-        somethingWentWrong: "Une erreur s'est produite. Veuillez réessayer",
+        notAllowedHeaders: 'Cet en-tête est interdit par la politique CORS :',
       },
       schemaErrorMessages: {
         requiredURL: "L'URL est obligatoire",

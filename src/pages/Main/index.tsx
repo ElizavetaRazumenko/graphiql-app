@@ -29,15 +29,15 @@ import {
   setResultValue,
   setVariablesValue,
 } from '../../store/slices';
-import checkEndpoint from '../../utils/checkEndpoint';
 import prettifyGraphQL from '../../utils/prettifyGraphQL';
-import checkAllowedHeaders from '../../utils/checkAllowedHeaders';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import graphQLRequestFormSchema from '../../validationSchemas/graphQLRequestFormSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { localizationContext } from '../../context/localizationContext';
 import { auth, logout } from '../../firebase';
 import { useIdToken } from 'react-firebase-hooks/auth';
+import checkUserHeaders from '../../utils/checkUserHeaders';
+import checkGraphQLSupport from '../../utils/checkGraphqlSupport';
 
 export type graphQLRequestFormFields = {
   url: string;
@@ -144,15 +144,14 @@ const Main = () => {
     data: graphQLRequestFormFields,
   ): Promise<void> => {
     setIsInputOpened(false);
-    const isCorrectEndpoint = await checkEndpoint(
+    const isEndpointSupportGraphQL = await checkGraphQLSupport(
       data.url,
       setError,
       errorsMessages,
     );
 
-    if (isCorrectEndpoint) {
-      const isAllowedHeaders = checkAllowedHeaders(
-        data.url,
+    if (isEndpointSupportGraphQL) {
+      const isAllowedHeaders = checkUserHeaders(
         data.headers ?? '',
         setError,
         errorsMessages,
