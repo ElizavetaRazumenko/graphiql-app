@@ -249,12 +249,14 @@ const Main = () => {
           />
         )}
       </QueryResultContainer>
-      <DocumentationModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        endpointURL={endpointURL}
-        setError={setError}
-      />
+      {isModalOpen && (
+        <DocumentationModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          endpointURL={endpointURL}
+          setError={setError}
+        />
+      )}
 
       <ErrorSnackbar message={error} />
     </MainWrapper>

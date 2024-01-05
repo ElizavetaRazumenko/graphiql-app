@@ -1,6 +1,6 @@
 import { Navigate, useOutletContext } from 'react-router-dom';
-import { OutletContext } from '../../shared/types/types';
 import { Spinner } from '../../shared/Spinner';
+import { OutletContext } from '../../components/LayoutWithErrorHandling';
 
 export type PrivateRouteProps = {
   page: JSX.Element;

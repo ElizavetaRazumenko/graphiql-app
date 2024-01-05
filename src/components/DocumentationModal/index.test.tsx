@@ -36,12 +36,14 @@ describe('DocumentationModal', () => {
       const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
       return (
         <>
-          <DocumentationModal
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            endpointURL={testURL}
-            setError={noop}
-          />
+          {isModalOpen && (
+            <DocumentationModal
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              endpointURL={testURL}
+              setError={noop}
+            />
+          )}
         </>
       );
     };

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getGraphQLData } from '../../services/graphql';
 import { Spinner } from '../../shared/Spinner';
 import { CloseModalButton, ModalContainer, ModalList } from './styled';
@@ -61,6 +61,7 @@ const DocumentationModal = ({
   endpointURL,
   setError,
 }: DocumentationModalProps) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [trigger, result] = getGraphQLData.useLazyGetDocumentationSchemaQuery();
   const { data, isFetching, isError, error } = result;
 
@@ -71,6 +72,10 @@ const DocumentationModal = ({
         if (errorMsg) {
           setError(errorMsg);
           setIsModalOpen(false);
+          setIsVisible(false);
+        }
+        if (data?.data.__schema) {
+          setIsVisible(true);
         }
       });
   }, [isModalOpen, endpointURL]);
@@ -79,6 +84,7 @@ const DocumentationModal = ({
     if (isError && error?.message) {
       setError(error.message);
       setIsModalOpen(false);
+      setIsVisible(false);
     }
   }, [isError, error?.message]);
 
@@ -90,7 +96,7 @@ const DocumentationModal = ({
 
   return (
     <>
-      {!isFetching && !isError && !data?.error && isModalOpen && (
+      {!isFetching && isVisible && (
         <ModalContainer>
           <CloseModalButton
             onClick={() => setIsModalOpen(!isModalOpen)}

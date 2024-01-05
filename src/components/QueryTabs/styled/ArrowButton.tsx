@@ -11,7 +11,7 @@ const ButtonWithIcon = (props: IconButtonProps) => (
 export const ArrowButton = styled(ButtonWithIcon)<
   IconButtonProps & { opened: string }
 >(({ theme, opened }: { theme: Theme; opened: string }) => ({
-  transform: `rotate(${opened === 'true' ? '0' : '180'}deg)`,
+  transform: `rotate(${Number(opened === 'false') * 180}deg)`,
   position: 'absolute',
   right: '0px',
   padding: '5px',
@@ -24,9 +24,9 @@ export const ArrowButton = styled(ButtonWithIcon)<
     transition: 'none',
     top: '-40px',
     padding: '0px',
-    left: `${opened === 'true' ? '0' : '50%'}`,
-    transform: `rotate(${opened === 'true' ? '0deg' : '180deg'}) translateX(${
-      opened === 'true' ? '0%' : '50%'
-    })`,
+    left: `${Number(opened === 'false') * 50}%`,
+    transform: `rotate(${Number(opened === 'false') * 180}deg) translateX(${
+      Number(opened === 'false') * 50
+    }%)`,
   },
 }));
