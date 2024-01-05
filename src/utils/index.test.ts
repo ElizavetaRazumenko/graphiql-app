@@ -11,6 +11,7 @@ import {
 } from '../../setupTests';
 import localization from '../context/localization';
 import { MainPageErrors } from '../context/types';
+import checkUserHeaders from './checkUserHeaders';
 
 const errorMessages: MainPageErrors =
   localization.english.mainPage.errorsMessages;
@@ -85,5 +86,35 @@ describe('checkGraphQLSupport', () => {
     expect(await checkGraphQLSupport(endpoint, noop, errorMessages)).toBe(
       false,
     );
+  });
+});
+
+describe('checkUserHeaders', () => {
+  it('should return true if the header matches the CORS policy', () => {
+    const userHeader = JSON.stringify({
+      'some-allowed-header': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(true);
+  });
+
+  it("should return false if the header start with 'proxy-'", () => {
+    const userHeader = JSON.stringify({
+      'proxy-header': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(false);
+  });
+
+  it("should return false if the header start with 'sec-'", () => {
+    const userHeader = JSON.stringify({
+      'sec-header': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(false);
+  });
+
+  it('should return false if the header contains in the prohibited headers list', async () => {
+    const userHeader = JSON.stringify({
+      'Accept-Charset': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(false);
   });
 });
