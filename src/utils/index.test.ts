@@ -2,19 +2,16 @@ import { describe, expect, it } from 'vitest';
 
 import prettifyGraphQL from './prettifyGraphQL';
 import setHeaders from './setHeaders';
-import checkAllowedHeaders from './checkAllowedHeaders';
-import checkCORSpolicySupport from './checkCORSpolicySupport';
-import checkEndpoint from './checkEndpoint';
 import checkGraphQLSupport from './checkGraphqlSupport';
 import {
   noop,
   testCORSNoGQLURL,
   testInvalidURL,
-  testNoCORSURL,
   testURL,
 } from '../../setupTests';
 import localization from '../context/localization';
 import { MainPageErrors } from '../context/types';
+import checkUserHeaders from './checkUserHeaders';
 
 const errorMessages: MainPageErrors =
   localization.english.mainPage.errorsMessages;
@@ -71,43 +68,6 @@ describe('setHeaders', () => {
   });
 });
 
-describe('checkCORSpolicySupport', () => {
-  it('should return true if endpoint has CORS policy support', async () => {
-    const endpoint = testURL;
-    expect(await checkCORSpolicySupport(endpoint, noop, errorMessages)).toBe(
-      true,
-    );
-  });
-
-  it("should return false if endpoint doesn't have CORS policy support", async () => {
-    const endpoint = testNoCORSURL;
-    expect(await checkCORSpolicySupport(endpoint, noop, errorMessages)).toBe(
-      false,
-    );
-  });
-
-  it('should return false if endpoint is invalid', async () => {
-    const endpoint = testInvalidURL;
-    expect(await checkCORSpolicySupport(endpoint, noop, errorMessages)).toBe(
-      false,
-    );
-  });
-});
-
-describe('checkAllowedHeaders', () => {
-  it('should return true as every header is allowed', () => {
-    const headers = `{"X-Custom-Header": "12345"}`;
-
-    expect(checkAllowedHeaders(testURL, headers, noop, errorMessages)).toBe(
-      true,
-    );
-  });
-
-  it('should return true if headers are empty', () => {
-    expect(checkAllowedHeaders(testURL, '', noop, errorMessages)).toBe(true);
-  });
-});
-
 describe('checkGraphQLSupport', () => {
   it('should return true if endpoint has GraphQL support', async () => {
     const endpoint = testURL;
@@ -129,19 +89,32 @@ describe('checkGraphQLSupport', () => {
   });
 });
 
-describe('checkEndpoint', () => {
-  it('should return true if endpoint has CORS policy support and GraphQL support', async () => {
-    const endpoint = testURL;
-    expect(await checkEndpoint(endpoint, noop, errorMessages)).toBe(true);
+describe('checkUserHeaders', () => {
+  it('should return true if the header matches the CORS policy', () => {
+    const userHeader = JSON.stringify({
+      'some-allowed-header': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(true);
   });
 
-  it("should return false if endpoint doesn't support CORS policy support", async () => {
-    const endpoint = testNoCORSURL;
-    expect(await checkEndpoint(endpoint, noop, errorMessages)).toBe(false);
+  it("should return false if the header start with 'proxy-'", () => {
+    const userHeader = JSON.stringify({
+      'proxy-header': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(false);
   });
 
-  it("should return false if endpoint has CORS policy support and doesn't support GraphQL", async () => {
-    const endpoint = testCORSNoGQLURL;
-    expect(await checkEndpoint(endpoint, noop, errorMessages)).toBe(false);
+  it("should return false if the header start with 'sec-'", () => {
+    const userHeader = JSON.stringify({
+      'sec-header': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(false);
+  });
+
+  it('should return false if the header contains in the prohibited headers list', async () => {
+    const userHeader = JSON.stringify({
+      'Accept-Charset': 'info',
+    });
+    expect(checkUserHeaders(userHeader, noop, errorMessages)).toBe(false);
   });
 });
