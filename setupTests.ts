@@ -15,29 +15,29 @@ export const testInvalidURL: string = 'https://rickandmoyapi.com/graphql';
 export const noop: () => void = () => {};
 
 const server: SetupServer = setupServer(
-  rest.options(testURL, (req, res, ctx) => {
+  rest.options(testURL, (_, res, ctx) => {
     return res(
       ctx.set('Access-Control-Allow-Origin', '*'),
       ctx.set('Access-Control-Allow-Headers', '*'),
     );
   }),
 
-  rest.options(testNoCORSURL, (req, res, ctx) => {
+  rest.options(testNoCORSURL, (_, res, ctx) => {
     return res(ctx.set('Access-Control-Allow-Origin', ''));
   }),
 
-  rest.options(testCORSNoGQLURL, (req, res, ctx) => {
+  rest.options(testCORSNoGQLURL, (_, res, ctx) => {
     return res(
       ctx.set('Access-Control-Allow-Origin', '*'),
       ctx.set('Access-Control-Allow-Headers', '*'),
     );
   }),
 
-  rest.options(testInvalidURL, (req, res, ctx) => {
+  rest.options(testInvalidURL, (_, res, ctx) => {
     return res(ctx.status(404), ctx.json({ message: 'Page Not Found' }));
   }),
 
-  graphql.link(testURL).query('checkGraphQLSupport', async (req, res, ctx) => {
+  graphql.link(testURL).query('checkGraphQLSupport', async (_, res, ctx) => {
     return res(
       ctx.data({
         __schema: {
@@ -59,17 +59,17 @@ const server: SetupServer = setupServer(
 
   graphql
     .link(testCORSNoGQLURL)
-    .query('checkGraphQLSupport', async (req, res, ctx) => {
+    .query('checkGraphQLSupport', async (_, res, ctx) => {
       return res(ctx.errors([{ message: 'There is nothing here.' }]));
     }),
 
   graphql
     .link(testInvalidURL)
-    .query('checkGraphQLSupport', async (req, res, ctx) => {
+    .query('checkGraphQLSupport', async (_, res, ctx) => {
       return res(ctx.status(404), ctx.errors([{ message: 'Page Not Found' }]));
     }),
 
-  graphql.link(testURL).query('IntrospectionQuery', async (req, res, ctx) => {
+  graphql.link(testURL).query('IntrospectionQuery', async (_, res, ctx) => {
     return res(ctx.data(mockDocumentationSchema));
   }),
 );
